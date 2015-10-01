@@ -58,4 +58,4 @@ extern const char* regsb[];
 #endif
 
 
-//the scope of define?
+//extrd:the scope of define? see git log
