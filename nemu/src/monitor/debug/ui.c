@@ -16,7 +16,7 @@ char* rl_gets() {
 	if (line_read) {
 		free(line_read);
 		line_read = NULL;
-	}
+	} 
 
 	line_read = readline("(nemu) ");
 
@@ -46,7 +46,7 @@ static struct {
 	{ "help", "Display informations about all supported commands", cmd_help },
 	{ "c", "Continue the execution of the program", cmd_c },
 	{ "q", "Exit NEMU", cmd_q },
-
+	//{ "si", "Implement single instruction n times", cpu_exec },
 	/* TODO: Add more commands */
 
 };
