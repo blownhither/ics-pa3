@@ -37,10 +37,19 @@ static int cmd_q(char *args) {
 }
 
 static int cmd_help(char *args);
-static int info_r(){
+static int info(char *args){
+	//info r
+	if(!strcmp(args,"r")){
 	//eax, ecx, edx, ebx, esp, ebp, esi, edi
 	printf("\neax\t\t%p\t%d",&cpu.eax,cpu.eax);
-	//TODO
+	printf("\necx\t\t%p\t%d",&cpu.ecx,cpu.ecx);
+	printf("\nedx\t\t%p\t%d",&cpu.edx,cpu.edx);
+	printf("\nebx\t\t%p\t%d",&cpu.ebx,cpu.ebx);
+	printf("\nesp\t\t%p\t%d",&cpu.esp,cpu.esp);
+	printf("\nebp\t\t%p\t%d",&cpu.ebp,cpu.ebp);
+	printf("\nesi\t\t%p\t%d",&cpu.esi,cpu.esi);
+	printf("\nedi\t\t%p\t%d",&cpu.edi,cpu.edi);
+	}
 	return 0;
 }
 
@@ -52,7 +61,7 @@ static struct {
 	{ "help", "Display informations about all supported commands", cmd_help },
 	{ "c", "Continue the execution of the program", cmd_c },
 	{ "q", "Exit NEMU", cmd_q },
-	{"info", "print registers", info_r},
+	{"info", "print information(e.g. info r)", info},
 	//????????????????????????????????????????????????????????????????????????????????????????
 	//{ "si", "Implement N single instructions and pause, N=1 as default", &cpu_exec },
 	//{ "si", "Implement single instruction n times", cpu_exec },
