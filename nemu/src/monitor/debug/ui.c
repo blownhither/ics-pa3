@@ -10,18 +10,18 @@
 void cpu_exec(uint32_t);
 
 static int int_cpu_exec(char *args){
-	//TODO : possible solution?
 	//convert char arg into int arg
+	//return int s.t. cmd_table can take
 	uint32_t ans=0;
 	int len=strlen(args);
-	if(len>10) {
+	if(len>10) { 
 		printf("invalid argument for cpu execution.\n");
 		return -1;
 	}
 	int i;
 	for(i=0;i<len;i++){
 		Assert('0'<=args[i]&&args[i]<='9',"invalid argument for cpu execution.");
-	//TODO maybe not assert?
+	//ToCheck maybe not assert?
 		ans=ans*10+args[i]-'0';
 	}
 	cpu_exec(ans);
@@ -34,14 +34,14 @@ static int int_cpu_exec(char *args){
 char* rl_gets() {
 	static char *line_read = NULL;
 
-	if (line_read) {
+	if (line_read ) {
 		free(line_read);
 		line_read = NULL;
 	} 
 
 	line_read = readline("(nemu) ");
 
-	if (line_read && *line_read) {
+	if (line_read  && *line_read) {
 		add_history(line_read);
 	}
 
@@ -62,15 +62,15 @@ static int info(char *args){
 	//info r
 	if(!strcmp(args,"r")){
 		//eax, ecx, edx, ebx, esp, ebp, esi, edi
-		printf("eax\t\t%p\t%32x( | |AH|AL)\n",&cpu.eax,cpu.eax);
-		printf("ebx\t\t%p\t%32x( | |BH|BL)\n",&cpu.ebx,cpu.ebx);
-		printf("ecx\t\t%p\t%32x( | |CH|CL)\n",&cpu.ecx,cpu.ecx);
-		printf("edx\t\t%p\t%32x( | |DH|DL)\n",&cpu.edx,cpu.edx);
-		printf("esp\t\t%p\t%32x( |SP)\n",&cpu.esp,cpu.esp);
-		printf("ebp\t\t%p\t%32x( |BP)\n",&cpu.ebp,cpu.ebp);
-		printf("esi\t\t%p\t%32x( |SI)\n",&cpu.esi,cpu.esi);
-		printf("edi\t\t%p\t%32x( |DI)\n",&cpu.edi,cpu.edi);
-		printf("eip\t\t%p\t%32x( |IP)\n\n",&cpu.eip,cpu.eip);
+		printf("eax\t\t%p\t%-8x ( | |AH|AL)\n",&cpu.eax,cpu.eax);
+		printf("ebx\t\t%p\t%-8x ( | |BH|BL)\n",&cpu.ebx,cpu.ebx);
+		printf("ecx\t\t%p\t%-8x ( | |CH|CL)\n",&cpu.ecx,cpu.ecx);
+		printf("edx\t\t%p\t%-8x ( | |DH|DL)\n",&cpu.edx,cpu.edx);
+		printf("esp\t\t%p\t%-8x ( | |SP   )\n",&cpu.esp,cpu.esp);
+		printf("ebp\t\t%p\t%-8x ( | |BP   )\n",&cpu.ebp,cpu.ebp);
+		printf("esi\t\t%p\t%-8x ( | |SI   )\n",&cpu.esi,cpu.esi);
+		printf("edi\t\t%p\t%-8x ( | |DI   )\n",&cpu.edi,cpu.edi);
+		printf("eip\t\t%p\t%-8x ( | |IP   )\n\n",&cpu.eip,cpu.eip);
 	}
 	return 0;
 }
