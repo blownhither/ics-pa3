@@ -37,15 +37,24 @@ static int cmd_q(char *args) {
 }
 
 static int cmd_help(char *args);
+static int info_r(){
+	//eax, ecx, edx, ebx, esp, ebp, esi, edi
+	printf("\neax\t\t%p\t%d",&cpu.eax,cpu.eax);
+	//TODO
+	return 0;
+}
 
 static struct {
 	char *name;
 	char *description;
-	int (*handler) (char *);
+	int (*handler) (char *);//hadler is a name of the pointers to func//it takes cahr* arg and return int
 } cmd_table [] = {
 	{ "help", "Display informations about all supported commands", cmd_help },
 	{ "c", "Continue the execution of the program", cmd_c },
 	{ "q", "Exit NEMU", cmd_q },
+	{"info", "print registers", info_r},
+	//????????????????????????????????????????????????????????????????????????????????????????
+	//{ "si", "Implement N single instructions and pause, N=1 as default", &cpu_exec },
 	//{ "si", "Implement single instruction n times", cpu_exec },
 	/* TODO: Add more commands */
 
@@ -62,22 +71,22 @@ static int cmd_help(char *args) {
 		/* no argument given */
 		for(i = 0; i < NR_CMD; i ++) {
 			printf("%s - %s\n", cmd_table[i].name, cmd_table[i].description);
-		}
-	}
+ 		}
+ 	}
 	else {
 		for(i = 0; i < NR_CMD; i ++) {
 			if(strcmp(arg, cmd_table[i].name) == 0) {
 				printf("%s - %s\n", cmd_table[i].name, cmd_table[i].description);
 				return 0;
-			}
-		}
+ 			}
+ 		}
 		printf("Unknown command '%s'\n", arg);
-	}
+ 	}
 	return 0;
 }
 
 void ui_mainloop() {
-	while(1) {
+ 	while(1) {
 		char *str = rl_gets();
 		char *str_end = str + strlen(str);
 
@@ -87,11 +96,11 @@ void ui_mainloop() {
 
 		/* treat the remaining string as the arguments,
 		 * which may need further parsing
-		 */
+ 		 */
 		char *args = cmd + strlen(cmd) + 1;
 		if(args >= str_end) {
 			args = NULL;
-		}
+ 		}
 
 #ifdef HAS_DEVICE
 		extern void sdl_clear_event_queue(void);
@@ -103,8 +112,8 @@ void ui_mainloop() {
 			if(strcmp(cmd, cmd_table[i].name) == 0) {
 				if(cmd_table[i].handler(args) < 0) { return; }
 				break;
-			}
-		}
+ 			}
+ 		}
 
 		if(i == NR_CMD) { printf("Unknown command '%s'\n", cmd); }
 	}
