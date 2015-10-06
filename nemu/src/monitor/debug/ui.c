@@ -59,7 +59,7 @@ static int cmd_q(char *args) {
 
 static int cmd_help(char *args);
 static int info(char *args){
-	//info r
+	//cmd: info r
 	if(!strcmp(args,"r")){
 		//eax, ecx, edx, ebx, esp, ebp, esi, edi
 		printf("eax\t\t%p\t%-8x ( | |AH|AL)\n",&cpu.eax,cpu.eax);
