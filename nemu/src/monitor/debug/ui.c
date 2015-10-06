@@ -9,6 +9,27 @@
 
 void cpu_exec(uint32_t);
 
+static int int_cpu_exec(char *args){
+	//TODO : possible solution?
+	//convert char arg into int arg
+	uint32_t ans=0;
+	int len=strlen(args);
+	if(len>10) {
+		printf("invalid argument for cpu execution.\n");
+		return -1;
+	}
+	int i;
+	for(i=0;i<len;i++){
+		Assert('0'<=args[i]&&args[i]<='9',"invalid argument for cpu execution.");
+	//TODO maybe not assert?
+		ans=ans*10+args[i]-'0';
+	}
+	cpu_exec(ans);
+	return 1;
+}
+
+
+
 /* We use the ``readline'' library to provide more flexibility to read from stdin. */
 char* rl_gets() {
 	static char *line_read = NULL;
@@ -40,15 +61,16 @@ static int cmd_help(char *args);
 static int info(char *args){
 	//info r
 	if(!strcmp(args,"r")){
-	//eax, ecx, edx, ebx, esp, ebp, esi, edi
-	printf("\neax\t\t%p\t%d",&cpu.eax,cpu.eax);
-	printf("\necx\t\t%p\t%d",&cpu.ecx,cpu.ecx);
-	printf("\nedx\t\t%p\t%d",&cpu.edx,cpu.edx);
-	printf("\nebx\t\t%p\t%d",&cpu.ebx,cpu.ebx);
-	printf("\nesp\t\t%p\t%d",&cpu.esp,cpu.esp);
-	printf("\nebp\t\t%p\t%d",&cpu.ebp,cpu.ebp);
-	printf("\nesi\t\t%p\t%d",&cpu.esi,cpu.esi);
-	printf("\nedi\t\t%p\t%d",&cpu.edi,cpu.edi);
+		//eax, ecx, edx, ebx, esp, ebp, esi, edi
+		printf("eax\t\t%p\t%32x( | |AH|AL)\n",&cpu.eax,cpu.eax);
+		printf("ebx\t\t%p\t%32x( | |BH|BL)\n",&cpu.ebx,cpu.ebx);
+		printf("ecx\t\t%p\t%32x( | |CH|CL)\n",&cpu.ecx,cpu.ecx);
+		printf("edx\t\t%p\t%32x( | |DH|DL)\n",&cpu.edx,cpu.edx);
+		printf("esp\t\t%p\t%32x( |SP)\n",&cpu.esp,cpu.esp);
+		printf("ebp\t\t%p\t%32x( |BP)\n",&cpu.ebp,cpu.ebp);
+		printf("esi\t\t%p\t%32x( |SI)\n",&cpu.esi,cpu.esi);
+		printf("edi\t\t%p\t%32x( |DI)\n",&cpu.edi,cpu.edi);
+		printf("eip\t\t%p\t%32x( |IP)\n\n",&cpu.eip,cpu.eip);
 	}
 	return 0;
 }
@@ -63,7 +85,7 @@ static struct {
 	{ "q", "Exit NEMU", cmd_q },
 	{"info", "print information(e.g. info r)", info},
 	//????????????????????????????????????????????????????????????????????????????????????????
-	//{ "si", "Implement N single instructions and pause, N=1 as default", &cpu_exec },
+	{ "si", "Implement N single instructions and then pause, N=1 as default", int_cpu_exec },
 	//{ "si", "Implement single instruction n times", cpu_exec },
 	/* TODO: Add more commands */
 
