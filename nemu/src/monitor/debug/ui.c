@@ -99,9 +99,9 @@ static int scan_ram(char *args){
 	int i=0;
 	printf("%x <addr>\t",addr);
 	for(i=1;i<n;i++){
-		if(i%8==7)printf("\n");
+		//if(i%8==0)printf("\n");
 		if(i%8==0&&i!=0)
-			printf("%x <addr+%d>\t",addr+i,i);
+			printf("\n%x <addr+%d>\t",addr+i,i);
 		//currently using "addr" sign
 		printf("0x%x\t",swaddr_read(addr+i,1));
 	}
