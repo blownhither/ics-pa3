@@ -92,7 +92,7 @@ static int scan_ram(char *args){
 
 	char *args2=strtok(NULL," ");
 	int addr;
-	Assert(args2==NULL,"too few arguments for RAM scan");
+	//Assert(args2==NULL,"too few arguments for RAM scan");
 	sscanf(args2,"0x%8x",&addr);
 	
 	//output
