@@ -17,13 +17,13 @@ static int int_cpu_exec(char *args){
 	if(len>10) { 
 		printf("invalid argument for cpu execution.\n");
 		return -1;
-	}
+	}  
 	int i;
-	for(i=0;i<len;i++){
+	for (i=0;i<len;i++){
 		Assert('0'<=args[i]&&args[i]<='9',"invalid argument for cpu execution.");
 	//ToCheck maybe not assert?
 		ans=ans*10+args[i]-'0';
-	}
+	} 
 	cpu_exec(ans);
 	return 1;
 }
@@ -37,13 +37,13 @@ char* rl_gets() {
 	if (line_read ) {
 		free(line_read);
 		line_read = NULL;
-	} 
+	}  
 
 	line_read = readline("(nemu) ");
 
 	if (line_read  && *line_read) {
 		add_history(line_read);
-	}
+	} 
 
 	return line_read;
 }
@@ -58,6 +58,7 @@ static int cmd_q(char *args) {
 }
 
 static int cmd_help(char *args);
+
 static int info(char *args){
 	//cmd: info r
 	if(!strcmp(args,"r")){
@@ -75,6 +76,40 @@ static int info(char *args){
 	return 0;
 }
 
+uint32_t swaddr_read(swaddr_t addr, size_t len);
+//size_t equals long unsigned int in 64x and unsigned in others
+
+static int scan_ram(char *args){
+	//currently args comes as "N 0x100000"
+	
+	//maybe use sscanf()?
+	char *args1=strtok(NULL," ");
+	//int len1=strlen(args1);
+	int n;
+	sscanf(args1,"%d",&n);
+	//for(i=0;i<len1&&args[i]!="";i++){
+	//	Assert('0'<=args1[i]&&args[i]<='9',"invalid argument for RAM scan");
+	//	n=n*10+args[i]-'0';
+	//}
+
+	char *args2=strtok(NULL," ");
+	int addr;
+	Assert(args2==NULL,"too few arguments for RAM scan");
+	sscanf(args2,"0x%8x",&addr);
+	
+	//output
+	int i=0;
+	printf("%x <addr>\t",addr);
+	for(i=1;i<n;i++){
+		if(i%8==7)printf("\n");
+		if(i%8==0&&i!=0)
+			printf("%x <addr+%d>\t",addr+i,i);
+		//currently using "addr" sign
+		printf("0x%x\t",swaddr_read(addr+i,1));
+	}
+	return 1;
+}
+
 static struct {
 	char *name;
 	char *description;
@@ -83,10 +118,9 @@ static struct {
 	{ "help", "Display informations about all supported commands", cmd_help },
 	{ "c", "Continue the execution of the program", cmd_c },
 	{ "q", "Exit NEMU", cmd_q },
-	{"info", "print information(e.g. info r)", info},
-	//????????????????????????????????????????????????????????????????????????????????????????
+	{"info", "Print status of the program", info},
 	{ "si", "Implement N single instructions and then pause, N=1 as default", int_cpu_exec },
-	//{ "si", "Implement single instruction n times", cpu_exec },
+	{"x","Scan RAM",scan_ram}
 	/* TODO: Add more commands */
 
 };
