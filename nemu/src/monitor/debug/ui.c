@@ -14,16 +14,19 @@ static int cmd_si(char *args){//int_cpu_exec
 	//return int s.t. cmd_table can take
 	uint32_t ans=0;
 	int len=strlen(args);
-	if(len>10) { 
+	if(!len)ans=1;
+	else{
+		if(len>10) { 
 		printf("invalid argument for cpu execution.\n");
 		return -1;
-	}  
-	int i;
-	for (i=0;i<len;i++){
+		}  
+		int i;
+		for (i=0;i<len;i++){
 		Assert('0'<=args[i]&&args[i]<='9',"invalid argument for cpu execution.");
-	//ToCheck maybe not assert?
+		//ToCheck maybe not assert?
 		ans=ans*10+args[i]-'0';
-	} 
+		} 
+	}
 	cpu_exec(ans);
 	return 1;
 }
@@ -94,14 +97,14 @@ static int cmd_x(char *args){
 	int addr;
 	//Assert(args2==NULL,"too few arguments for RAM scan");
 	sscanf(args2,"0x%8x",&addr);
-	
+
 	//output
 	int i=0;
-	printf("%x <addr>\t\t%x",addr,swaddr_read(addr,1));
+	printf("%x <addr>:\t\t%x\t",addr,swaddr_read(addr,1));
 	for(i=1;i<n;i++){
 		//if(i%8==0)printf("\n");
 		if(i%8==0&&i!=0){
-			printf("\n%2x <addr+%d>\t",addr+i,i);
+			printf("\n0x%x <addr+%d>:\t",addr+i,i);
 			if(i<10)printf("\t");
 		}
 		//currently using "addr" sign
