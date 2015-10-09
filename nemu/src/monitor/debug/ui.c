@@ -122,9 +122,9 @@ static struct {
 	{ "help", "Display informations about all supported commands", cmd_help },
 	{ "c", "Continue the execution of the program", cmd_c },
 	{ "q", "Exit NEMU", cmd_q },
-	{"info", "Print status of the program", cmd_info},
-	{ "si", "Implement N single instructions and then pause, N=1 as default", cmd_si },
-	{"x","Scan RAM",cmd_x}
+	{"info", "Generic command for showing things about the program being debugged", cmd_info},
+	{ "si", "Step N instruction exactly. Usage si [N]. (default N=1)", cmd_si },
+	{"x","Examine memory: x [N] ADDRESS",cmd_x}
 	/* TODO: Add more commands */
 
 };
