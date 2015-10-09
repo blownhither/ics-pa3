@@ -79,7 +79,7 @@ static int cmd_info(char *args){
 uint32_t swaddr_read(swaddr_t addr, size_t len);
 //size_t equals long unsigned int in 64x and unsigned in others
 
-static int scan_ram(char *args){
+static int cmd_x(char *args){
 	//currently args comes as "N 0x100000"
 	char *args1 =strtok(args," ");///safety
 	//char *args1=strtok(NULL," ");
@@ -107,6 +107,7 @@ static int scan_ram(char *args){
 		//currently using "addr" sign
 		printf("0x%x\t",swaddr_read(addr+i,1));
 	}
+	printf("\n");
 	return 1;
 }
 
@@ -120,7 +121,7 @@ static struct {
 	{ "q", "Exit NEMU", cmd_q },
 	{"info", "Print status of the program", cmd_info},
 	{ "si", "Implement N single instructions and then pause, N=1 as default", cmd_si },
-	{"x","Scan RAM",scan_ram}
+	{"x","Scan RAM",cmd_x}
 	/* TODO: Add more commands */
 
 };
