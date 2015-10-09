@@ -9,7 +9,7 @@
 
 void cpu_exec(uint32_t);
 
-static int int_cpu_exec(char *args){
+static int cmd_si(char *args){//int_cpu_exec
 	//convert char arg into int arg
 	//return int s.t. cmd_table can take
 	uint32_t ans=0;
@@ -59,7 +59,7 @@ static int cmd_q(char *args) {
 
 static int cmd_help(char *args);
 
-static int info(char *args){
+static int cmd_info(char *args){
 	//cmd: info r
 	if(!strcmp(args,"r")){
 		//eax, ecx, edx, ebx, esp, ebp, esi, edi
@@ -81,10 +81,10 @@ uint32_t swaddr_read(swaddr_t addr, size_t len);
 
 static int scan_ram(char *args){
 	//currently args comes as "N 0x100000"
-	
-	char *args1=strtok(NULL," ");
+	strtok(args," ");///safety
+	strtok(NULL," ");
 	int n;
-	sscanf(args1,"%d",&n);
+	sscanf(args,"%d",&n);///TODO confirm: try to use args here!
 	//for(i=0;i<len1&&args[i]!="";i++){
 	//	Assert('0'<=args1[i]&&args[i]<='9',"invalid argument for RAM scan");
 	//	n=n*10+args[i]-'0';
@@ -118,8 +118,8 @@ static struct {
 	{ "help", "Display informations about all supported commands", cmd_help },
 	{ "c", "Continue the execution of the program", cmd_c },
 	{ "q", "Exit NEMU", cmd_q },
-	{"info", "Print status of the program", info},
-	{ "si", "Implement N single instructions and then pause, N=1 as default", int_cpu_exec },
+	{"info", "Print status of the program", cmd_info},
+	{ "si", "Implement N single instructions and then pause, N=1 as default", cmd_si },
 	{"x","Scan RAM",scan_ram}
 	/* TODO: Add more commands */
 
