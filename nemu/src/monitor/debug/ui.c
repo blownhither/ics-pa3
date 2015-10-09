@@ -105,7 +105,7 @@ static int cmd_x(char *args){
 		//if(i%8==0)printf("\n");
 		if(i%8==0&&i!=0){
 			printf("\n0x%x <addr+%d>:\t",addr+i,i);
-			if(i<10)printf("\t");
+			//if(i<10)printf("\t");
 		}
 		//currently using "addr" sign
 		printf("0x%x\t",swaddr_read(addr+i,1));
