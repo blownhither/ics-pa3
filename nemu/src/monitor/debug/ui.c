@@ -82,7 +82,8 @@ uint32_t swaddr_read(swaddr_t addr, size_t len);
 static int scan_ram(char *args){
 	//currently args comes as "N 0x100000"
 	strtok(args," ");///safety
-	strtok(NULL," ");
+	char *args1=strtok(NULL," ");
+	args1++;
 	int n;
 	sscanf(args,"%d",&n);///TODO confirm: try to use args here!
 	//for(i=0;i<len1&&args[i]!="";i++){
