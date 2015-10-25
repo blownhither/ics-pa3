@@ -29,7 +29,7 @@ static struct rule {
 	{"\\*" , '*'} , //multiply
 	{"/" , '/'} , //devide
 	//negate
-	{"\(" , '('} , {"\\)" , ')'}	//parenthesis
+	{"\\(" , '('} , {"\\)" , ')'}	//parenthesis
 	//TODO:testify on "\\\("  or "\\("
 };
 
