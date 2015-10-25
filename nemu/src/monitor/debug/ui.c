@@ -28,7 +28,7 @@ static int cmd_si(char *args){//int_cpu_exec
 		} 
 	}
 	cpu_exec(ans);
-	return 1;
+	return 0;
 }
 
 
@@ -111,7 +111,17 @@ static int cmd_x(char *args){
 		printf("0x%x\t",swaddr_read(addr+i,1));
 	}
 	printf("\n");
-	return 1;
+	return 0;
+}
+
+uint32_t expr(char *e , bool *success); 
+static int cmd_p(char *args){
+	bool success=true; 
+	expr(args , &success); 
+	if(!success){
+		panic("invalid expression"); 
+	} 
+	return 0; 
 }
 
 static struct {
@@ -124,7 +134,8 @@ static struct {
 	{ "q", "Exit NEMU", cmd_q },
 	{"info", "Generic command for showing things about the program being debugged", cmd_info},
 	{ "si", "Step N instruction exactly. Usage si [N]. (default N=1)", cmd_si },
-	{"x","Examine memory: x [N] ADDRESS",cmd_x}
+	{"x","Examine memory: x [N] ADDRESS",cmd_x} , 
+	{"p" , "Print value of expression EXP." , cmd_p}
 	/* TODO: Add more commands */
 
 };
@@ -155,7 +166,7 @@ static int cmd_help(char *args) {
 }
 
 void ui_mainloop() {
- 	while(1) {
+  	while(1) {
 		char *str = rl_gets();
 		char *str_end = str + strlen(str);
 
