@@ -8,7 +8,7 @@
 
 enum {
 	NOTYPE = 256, EQ
-
+	
 	/* TODO: Add more token types */
 
 };
@@ -21,10 +21,16 @@ static struct rule {
 	/* TODO: Add more rules.
 	 * Pay attention to the precedence level of different rules.
 	 */
-
+	//rules and type(in the enum above)
 	{" +",	NOTYPE},				// spaces
 	{"\\+", '+'},					// plus
-	{"==", EQ}						// equal
+	{"==", EQ} , 					// equal
+	{"-" , '-'} ,					//minus
+	{"\\*" , '*'} , //multiply
+	{"/" , '/'} , //devide
+	//negate
+	{"\\(" , '('} , {"\\)" , ')'}	//parenthesis
+	//??
 };
 
 #define NR_REGEX (sizeof(rules) / sizeof(rules[0]) )
