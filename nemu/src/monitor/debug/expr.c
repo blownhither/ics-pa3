@@ -88,7 +88,7 @@ static bool make_token(char *e) {
 
 				switch(rules[i].token_type) {
 					default://TODO: panic("please implement me");
-	printf("pretending I'm evaluating the expression:)\n"); 
+					; 
 				}
 
 				break;
@@ -109,9 +109,9 @@ uint32_t expr(char *e, bool *success) {
 		*success = false;
 		return 0;
 	}
-
+	//TODO: 
+	printf("end of tokening\n" ); 
 	/* TODO: Insert codes to evaluate the expression. */
-
 	//TODO:panic("please implement me");
 	return 0;
 }
