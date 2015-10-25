@@ -22,8 +22,8 @@ static struct rule {
 	 * Pay attention to the precedence level of different rules.
 	 */
 	//rules and type(in the enum above)
-	{"0x\\d+" , HEX} , //hexadecimal number
-	{"\\d+" , DEC} , //decimal number
+	{"0x[0-9a-fA-F]+" , HEX} , //hexadecimal number
+	{"[0-9]+" , DEC} , //decimal number
 	{" +",	NOTYPE},				// spaces
 	{"\\+", '+'},					// plus
 	{"==", EQ} , 					// equal
@@ -110,7 +110,8 @@ uint32_t expr(char *e, bool *success) {
 	}
 
 	/* TODO: Insert codes to evaluate the expression. */
-	panic("please implement me");
+	printf("pretending I'm evaluating the expression:)\n"); 
+	//TODO:panic("please implement me");
 	return 0;
 }
 
