@@ -29,8 +29,8 @@ static struct rule {
 	{"\\*" , '*'} , //multiply
 	{"/" , '/'} , //devide
 	//negate
-	{"\\(" , '('} , {"\\)" , ')'}	//parenthesis
-	//??
+	{"\(" , '('} , {"\\)" , ')'}	//parenthesis
+	//TODO:testify on "\\\("  or "\\("
 };
 
 #define NR_REGEX (sizeof(rules) / sizeof(rules[0]) )
