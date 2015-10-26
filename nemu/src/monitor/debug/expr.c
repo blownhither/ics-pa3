@@ -99,6 +99,7 @@ static bool make_token(char *e) {
 					//nr_token is the number of tokens (1-32)
 					tokens[nr_token].type = rules[i].token_type;
 					strncpy(tokens[nr_token].str , substr_start , substr_len); 
+					(tokens[nr_token].str)[substr_len]='\0'; 
 					//TODO: panic("please implement me");
 						 
 				}
@@ -121,7 +122,9 @@ uint32_t expr(char *e, bool *success) {
 		*success = false;
 		return 0;
 	}
-	//TODO: 
+	//TODO:
+	int i; 
+	for(i=0; i<nr_token; i++)printf("%s\n" , tokens[i].str); 
 	printf("-----end of tokening-----\n" ); 
 	/* TODO: Insert codes to evaluate the expression. */
 	//TODO:panic("please implement me");
