@@ -32,7 +32,7 @@ static struct rule {
 	{"-" , '-'} ,					//minus
 	{"\\*" , '*'} , //multiply
 	{"/" , '/'} , //devide
-	{"$[eErR][a-dA-D][xX]" , REG} , //register TODO:consider printing "wrong register"
+	{"\\$[a-zA-Z]{2,3}" , REG} , //register TODO:consider printing "wrong register"
 	{"\\\(" , '('} , {"\\)" , ')'} , 	//parenthesis
 	{"%" , '%'}
 };
