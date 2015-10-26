@@ -27,7 +27,7 @@ static struct rule {
 	{" +",	NOTYPE},				// spaces
 	{"\\+", '+'},					// plus
 	{"==", EQ} , 					// equal
-	{"^-|(?<=(\\+|-|/|\\*))" , NEG} , //negate
+	{"(^-)|-(?<=+)" , NEG} , //negate
 	{"-" , '-'} ,					//minus
 	{"\\*" , '*'} , //multiply
 	{"/" , '/'} , //devide
