@@ -175,6 +175,7 @@ uint32_t expr(char *e, bool *success) {
 		*success = false;
 		return 0;
 	}
+	int i; for(i=0; i<nr_token; i++)printf("%c " , tokens[i].type); 
 	int paren=check_parentheses(0 , nr_token-1)?1:0;  
 	printf("paren %d\n" , paren); 
 	//printf("-----end of tokening-----\n" ); 
