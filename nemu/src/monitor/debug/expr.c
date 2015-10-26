@@ -1,5 +1,4 @@
 #include "nemu.h"
-
 /* We use the POSIX regex functions to process regular expressions.
  * Type 'man regex' for more information about POSIX regex functions.
  */
@@ -123,17 +122,65 @@ static bool make_token(char *e) {
 	return true; 
 }
 
+
+bool check_parentheses(int p , int q){
+	//pretend there is a stack always full of '('
+	int end=-1; 
+	if(tokens[p].type!='('||tokens[q].type!=')')
+		return false; 
+	int i;
+	for(i=p; i<=q; i++){
+		if(tokens[p].type=='('){
+			++end;
+			continue; 
+		}
+		if(tokens[p].type==')'){
+			if(end==-1)return false; 
+			if(end==0 && i!=q)return false; 
+			end--; 
+			continue;  
+		}
+	}
+	if(end!=-1)return false;
+	return true;
+}
+
+int eval(int p , int q){
+	//p , q is the beginning and ending of a subexpression
+	if(p>q){
+		/*bad expression*/
+	}
+	else if(p == q) { 
+		/* Single token.
+		 *		 * For now this token should be a number. 
+		 *				 * Return the value of the number.
+		 *						 */ 
+	}
+	else if(check_parentheses(p ,  q) == true) {
+		/* The expression is surrounded by a matched pair of parentheses. 
+		 *		 * If that is the case ,  just throw away the parentheses.
+		 *				 */
+		return eval(p + 1 ,  q - 1);  
+	}
+	else {
+	
+		/* We should do more things here. */
+	}
+	return 0; 
+
+}
+
 uint32_t expr(char *e, bool *success) {
 	if(!make_token(e)) {
 		*success = false;
 		return 0;
 	}
-	//TODO:
-	int i; 
-	for(i=0; i<nr_token; i++)printf("%s\t" , tokens[i].str); 
-	printf("-----end of tokening-----\n" ); 
+	int paren=check_parentheses(0 , nr_token-1);  
+	printf("paren %d" , paren); 
+	//printf("-----end of tokening-----\n" ); 
 	/* TODO: Insert codes to evaluate the expression. */
 	//TODO:panic("please implement me");
+	//TODO:eval(0 , nr_token-1); 
 	return 0;
 }
 
