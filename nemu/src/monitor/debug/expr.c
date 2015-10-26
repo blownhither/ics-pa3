@@ -5,6 +5,7 @@
  */
 #include <sys/types.h>
 #include <regex.h>
+#include<string.h>
 
 enum {
 	NOTYPE = 256, EQ , DEC  , HEX , REG , NEG , LE , GE
@@ -91,10 +92,16 @@ static bool make_token(char *e) {
 				 * to record the token in the array ``tokens''. For certain 
 				 * types of tokens, some extra actions should be performed.
 				 */
-
+				
 				switch(rules[i].token_type) {
-					default://TODO: panic("please implement me");
-					; 
+					
+				default:
+					//plain recording
+					//nr_token is the number of tokens (1-32)
+					tokens[nr_token].type = rules[i].token_type;
+					strncpy(tokens[nr_token].str , substr_start , substr_len); 
+					//TODO: panic("please implement me");
+						 
 				}
 
 				break;
