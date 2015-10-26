@@ -27,11 +27,12 @@ static struct rule {
 	{" +",	NOTYPE},				// spaces
 	{"\\+", '+'},					// plus
 	{"==", EQ} , 					// equal
-	{"(^-)|-(?<=+)" , NEG} , //negate
+	//{"(^-)|-\(?<=+\)" , NEG} , //negate
+	//leaving NEG for future parsing
 	{"-" , '-'} ,					//minus
 	{"\\*" , '*'} , //multiply
 	{"/" , '/'} , //devide
-	{"$((e|E))" , REG} , //register TODO:consider printing "wrong register"
+	{"$([eErR][a-dA-D][xX])" , REG} , //register TODO:consider printing "wrong register"
 	{"\\\(" , '('} , {"\\)" , ')'} , 	//parenthesis
 	{"%" , '%'}
 };
