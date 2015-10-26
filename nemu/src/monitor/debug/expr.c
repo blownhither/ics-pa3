@@ -32,12 +32,11 @@ static struct rule {
 	{">" , '>'} ,
 	{"<" , '<'} , 
 	{"==", EQ} , 					// equal
-	//{"(^-)|-\(?<=+\)" , NEG} , //negate
 	//leaving NEG for future parsing
 	{"-" , '-'} ,					//minus
-	{"\\*" , '*'} , //multiply
-	{"/" , '/'} , //devide
-	{"\\$[a-zA-Z]{2,3}" , REG} , //register TODO:consider printing "wrong register"
+	{"\\*" , '*'} ,				    //multiply
+	{"/" , '/'} ,			    	//devide
+	{"\\$[a-zA-Z]{2,3}" , REG} ,    //register TODO:consider printing "wrong register"
 	{"\\\(" , '('} , {"\\)" , ')'} , 	//parenthesis
 	{"%" , '%'}
 };
