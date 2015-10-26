@@ -92,6 +92,11 @@ static bool make_token(char *e) {
 				 * types of tokens, some extra actions should be performed.
 				 */
 				
+				//expression overflow
+				if(nr_token>=31||substr_len>31){
+					printf("expression too long\n"); 
+					return false; 
+				}
 				switch(rules[i].token_type) {
 					
 				default:
@@ -100,7 +105,7 @@ static bool make_token(char *e) {
 					tokens[nr_token].type = rules[i].token_type;
 					strncpy(tokens[nr_token].str , substr_start , substr_len); 
 					(tokens[nr_token].str)[substr_len]='\0';
-					nr_token++; 
+					nr_token++;
 					//TODO: panic("please implement me");
 						 
 				}
@@ -125,7 +130,7 @@ uint32_t expr(char *e, bool *success) {
 	}
 	//TODO:
 	int i; 
-	for(i=0; i<nr_token; i++)printf("%s\n" , tokens[i].str); 
+	for(i=0; i<nr_token; i++)printf("%s\t" , tokens[i].str); 
 	printf("-----end of tokening-----\n" ); 
 	/* TODO: Insert codes to evaluate the expression. */
 	//TODO:panic("please implement me");
