@@ -7,7 +7,7 @@
 #include <regex.h>
 
 enum {
-	NOTYPE = 256, EQ , DEC  , HEX
+	NOTYPE = 256, EQ , DEC  , HEX , REG , NEG
 	
 	/* TODO: Add more token types */
 
@@ -27,12 +27,13 @@ static struct rule {
 	{" +",	NOTYPE},				// spaces
 	{"\\+", '+'},					// plus
 	{"==", EQ} , 					// equal
+	{"^-|(?<=\\+|-|/|\\*)" , NEG} , //negate
 	{"-" , '-'} ,					//minus
 	{"\\*" , '*'} , //multiply
 	{"/" , '/'} , //devide
-	//negate
-	{"\\\(" , '('} , {"\\)" , ')'}	//parenthesis
-	//TODO:testify on "\\\("  or "\\("
+	{"$((e|E))" , REG} , //register TODO:consider printing "wrong register"
+	{"\\\(" , '('} , {"\\)" , ')'} , 	//parenthesis
+	{"%" , '%'}
 };
 
 #define NR_REGEX (sizeof(rules) / sizeof(rules[0]) )
@@ -110,7 +111,7 @@ uint32_t expr(char *e, bool *success) {
 		return 0;
 	}
 	//TODO: 
-	printf("end of tokening\n" ); 
+	printf("-----end of tokening-----\n" ); 
 	/* TODO: Insert codes to evaluate the expression. */
 	//TODO:panic("please implement me");
 	return 0;
