@@ -175,8 +175,8 @@ uint32_t expr(char *e, bool *success) {
 		*success = false;
 		return 0;
 	}
-	int paren=check_parentheses(0 , nr_token-1);  
-	printf("paren %d" , paren); 
+	int paren=check_parentheses(0 , nr_token-1)?1:0;  
+	printf("paren %d\n" , paren); 
 	//printf("-----end of tokening-----\n" ); 
 	/* TODO: Insert codes to evaluate the expression. */
 	//TODO:panic("please implement me");
