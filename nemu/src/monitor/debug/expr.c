@@ -163,7 +163,7 @@ int get_operator_priority(int operator){
 		case '|':return 10; 
 		case AND:return 9; 
 		case OR:return 8; 
-		default: return -1; 
+		default: return 888; 
 	}
 }
 long long string_to_int(char *s , int base){
@@ -181,6 +181,7 @@ long long eval(int p , int q){
 	//p , q is the beginning and ending of a subexpression
 	if(p>q){
 		/*bad expression*/
+		panic("p > q in eval()"); 
 		return 0; 
 	}
 	else if(p == q) { 
@@ -228,7 +229,7 @@ long long eval(int p , int q){
 		long long val1 = eval(p , op-1); 
 		long long val2 = eval(op+1 , q);
 #ifdef MZYDEBUG
-		printf("val1=%lld, op=%d , val2=%lld\n " , val1 , op , val2); 
+		printf("p=%d , q=%d , val1=%lld, op=%d , val2=%lld\n " ,p , q ,  val1 , op , val2); 
 #endif
 		switch(tokens[op].type){
 			case '+':return val1+val2; 
@@ -259,6 +260,10 @@ uint32_t expr(char *e, bool *success) {
 	int paren=check_parentheses(0 , nr_token-1)?1:0;  
 	printf("paren %d\n" , paren); 
 	printf("-----end of tokening-----\n" );
+	if(!paren){
+		printf("invalid expression.\n"); 
+		return 0; 
+	}
 #endif
 	/* TODO: Insert codes to evaluate the expression. */
 	//TODO:panic("please implement me");
