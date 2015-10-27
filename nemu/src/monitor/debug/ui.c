@@ -14,6 +14,10 @@ static int cmd_si(char *args){//int_cpu_exec
 	//convert char arg into int arg
 	//return int s.t. cmd_table can take
 	uint32_t ans=0;
+	if(args==NULL){
+		cpu_exec(1);
+		return 0; 
+	} 
 	int len=strlen(args);
 	if(!len)ans=1;
 	else{
