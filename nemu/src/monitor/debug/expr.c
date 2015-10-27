@@ -104,8 +104,9 @@ static bool make_token(char *e) {
 					return false; 
 				}
 				switch(rules[i].token_type) {
+				
 				case NOTYPE:
-					break;  
+					break;   
 				default:
 					//plain recording
 					//nr_token is the number of tokens (1-32)
