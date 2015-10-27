@@ -6,8 +6,8 @@
 #include <regex.h>
 #include<string.h>
 
-#define RED "\e[0; 31m"
-#define NONE "\e[0m"
+#define PRINTFRED "\e[0; 31m"
+#define PRINTFNONE "\e[0m"
 enum {
 	NOTYPE = 256, EQ , DEC  , HEX , REG , NEG , LE , GE=263 , 
 	DREF = 264 , SL , SR , NEQ , AND , OR
@@ -168,11 +168,18 @@ int get_operator_priority(int operator){
 		default: return -1; 
 	}
 }
-
+long long string_to_int(char *s , int base){
+	int i , n=strlen(s); 
+	if(!s)return 0; 
+	long long ans=0; 
+	for(i=0; i<n; i++)
+		ans = ans*base + s[i] - '0'; 
+	return ans; 
+}
 
 //TODO
 #define MZYDEBUG
-int eval(int p , int q){
+long long eval(int p , int q){
 	//p , q is the beginning and ending of a subexpression
 	if(p>q){
 		/*bad expression*/
@@ -183,7 +190,10 @@ int eval(int p , int q){
 		 *		 * For now this token should be a number. 
 		 *				 * Return the value of the number.
 		 *						 */ 
-
+		if(tokens[p].type==DEC)
+			return string_to_int(tokens[p].str , 10);  
+		if(tokens[p].type==HEX)
+			return string_to_int(tokens[p].str , 16); 
 	}
 	else if(check_parentheses(p ,  q) == true) {
 		/* The expression is surrounded by a matched pair of parentheses. 
@@ -217,14 +227,14 @@ int eval(int p , int q){
 			}
 		}
 		//now op is the dominant operator
-		int val1 = eval(p , op-1); 
-		int val2 = eval(op+1 , q); 
+		long long val1 = eval(p , op-1); 
+		long long val2 = eval(op+1 , q); 
 		switch(tokens[op].type){
 			case '+':return val1+val2; 
 			case '-':return val1-val2; 
 			case '*':return val1*val2; 
 			case '/':return (double)val1/val2; 
-			default:printf( RED "operator %c not defined.\n" , tokens[op].type); 
+			default:printf( PRINTFRED "operator %c not defined.\n"PRINTFNONE , tokens[op].type); 
 			return 0; 
 		}
 
@@ -251,7 +261,9 @@ uint32_t expr(char *e, bool *success) {
 #endif
 	/* TODO: Insert codes to evaluate the expression. */
 	//TODO:panic("please implement me");
-	//TODO:eval(0 , nr_token-1); 
+	static int gdb_expr_count=0; 
+	long long ans = eval(0 , nr_token-1);
+	printf(" $%d\t\t%lld" , gdb_expr_count , ans); 
 	return 0;
 }
 
