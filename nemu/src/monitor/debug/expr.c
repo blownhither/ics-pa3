@@ -31,7 +31,8 @@ static struct rule {
 	{"<<" , SL} , 
 	{">>" , SR} , 
 	{">" , '>'} ,
-	{"<" , '<'} , 
+	{"<" , '<'} ,
+	{"!=" , NEQ} ,   
 	{"==", EQ} , 					// equal
 									//leaving NEG for future parsing
 	{"-" , '-'} ,					//minus
@@ -174,10 +175,10 @@ int get_operator_priority(int operator){
 			//not a defined operator. probably a number or '(' ,  ')' 
 	}
 }
-long long string_to_int(char *s , int base){
+uint32_t string_to_int(char *s , int base){
 	int i , n=strlen(s); 
 	if(!s)return 0; 
-	long long ans=0;
+	uint32_t ans=0;
 	if(base == 16)i=2;				//omitting (0x)0000000 
 	else i=0; 
 	for(; i<n; i++)
@@ -188,7 +189,8 @@ long long string_to_int(char *s , int base){
 //TODO
 #define MZYDEBUG
 int invalid_flag=0; 
-long long eval(int p , int q){
+
+uint32_t eval(int p , int q){
 	if(invalid_flag)return 0; 	
 	//p , q is the beginning and ending of a subexpression
 	if(p>q){
@@ -205,6 +207,11 @@ long long eval(int p , int q){
 			return string_to_int(tokens[p].str , 10);  
 		else if(tokens[p].type==HEX)
 			return string_to_int(tokens[p].str , 16);
+		else if(tokens[p].type=REG){
+			printf("please implement REG evaluate.\n"); 
+			invalid_flag=1; 
+			return 0; 
+		}
 		else {
 			invalid_flag=1; 
 			return 0; 
@@ -245,10 +252,13 @@ long long eval(int p , int q){
 			}
 		}
 		//now op is the dominant operator
-		long long val1 = eval(p , op-1); 
-		long long val2 = eval(op+1 , q);
+		if(tokens[op].type==NEG)return -eval(op+1 , q);
+		if(tokens[op].type==DREF)return swaddr_read(eval(op+1 , q) , 4);
+
+		uint32_t val1 = eval(p , op-1); 
+		uint32_t val2 = eval(op+1 , q);
 #ifdef MZYDEBUG
-		printf("p=%d , q=%d , val1=%lld, op=%d , val2=%lld\n " ,p , q ,  val1 , op , val2); 
+		printf("p=%d , q=%d , val1=%d, op=%d , val2=%d\n " ,p , q ,  val1 , op , val2); 
 #endif
 		switch(tokens[op].type){
 			case '+':return val1+val2; 
@@ -256,7 +266,8 @@ long long eval(int p , int q){
 			case '*':return val1*val2; 
 			case '/':if(!val2)printf("warning: devided by 0"); 
 					 return (double)val1/val2;
-			case '%':return val1%val2; 
+			case '%':if(!val2){invalid_flag=1; return 0; }
+					 return val1%val2; 
 			case '>':return val1>val2; 
 			case '<':return val1<val2; 
 			case GE:return val1>=val2; 
@@ -266,15 +277,18 @@ long long eval(int p , int q){
 			case '^':return val1^val2; 
 			case AND:return val1&&val2; 
 			case OR:return val1||val2; 
-			case EQ:return val1==val2; 
-			default:printf( "operator %c not defined.\n" , tokens[op].type); 
+			case EQ:return val1==val2;
+			case NEQ:return val1!=val2;
+			case SL:return val1<<val2; 
+			case SR:return val1>>val2; 
+			default:invalid_flag=1; 
+					printf( "operator %c not defined.\n" , tokens[op].type); 
 			return 0; 
 		}
 
 
 	
 
-		/* We should do more things here. */
 	}
 	return 0; 
 
@@ -292,15 +306,25 @@ uint32_t expr(char *e, bool *success) {
 	printf("paren %d\n" , paren); 
 	//printf("-----end of tokening-----\n" );
 #endif
+	//subdevide operators
+	int i; 
+	for(i=0; i<nr_token; i++){
+		//if tokens[i-1] is operator
+		if(tokens[i].type == '*' && (i==0 || get_operator_priority(tokens[i-1].type) !=-1))
+			tokens[i].type= DREF; 
+
+		if(tokens[i].type == '-' && (i==0 || get_operator_priority(tokens[i-1].type) !=-1))
+			tokens[i].type= NEG; 
+	}
+
 	static int gdb_expr_count=0; 
-	
-	long long ans = eval(0 , nr_token-1);
+	uint32_t ans = eval(0 , nr_token-1);
 	if(invalid_flag){
 		printf("invalid expression\n"); 
 		invalid_flag=0; 
 		return 0; 
 	} 
-	else printf(" $%d\t\t%lld\n" , gdb_expr_count++ , ans); 
+	else printf(" $%d\t\t%d\n" , gdb_expr_count++ , ans); 
 	return 0;
 }
 
