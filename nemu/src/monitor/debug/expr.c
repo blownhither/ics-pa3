@@ -185,7 +185,7 @@ long long eval(int p , int q){
 	//p , q is the beginning and ending of a subexpression
 	if(p>q){
 		/*bad expression*/
-		panic("p > q in eval()"); 
+		invalid_flag=1; 
 		return 0; 
 	}
 	else if(p == q) { 
@@ -195,8 +195,12 @@ long long eval(int p , int q){
 		 *						 */ 
 		if(tokens[p].type==DEC)
 			return string_to_int(tokens[p].str , 10);  
-		if(tokens[p].type==HEX)
-			return string_to_int(tokens[p].str , 16); 
+		else if(tokens[p].type==HEX)
+			return string_to_int(tokens[p].str , 16);
+		else {
+			invalid_flag=1; 
+			return 0; 
+		}
 	}
 	else if(check_parentheses(p ,  q) == true) {
 		/* The expression is surrounded by a matched pair of parentheses. 
@@ -243,7 +247,18 @@ long long eval(int p , int q){
 			case '+':return val1+val2; 
 			case '-':return val1-val2; 
 			case '*':return val1*val2; 
-			case '/':return (double)val1/val2; 
+			case '/':return (double)val1/val2;
+			case '%':return val1%val2; 
+			case '>':return val1>val2; 
+			case '<':return val1<val2; 
+			case GE:return val1>=val2; 
+			case LE: return val1<=val2; 
+			case '&':return val1&val2; 
+			case '|':return val1|val2; 
+			case '^':return val1^val2; 
+			case AND:return val1&&val2; 
+			case OR:return val1||val2; 
+			case EQ:return val1==val2; 
 			default:printf( "operator %c not defined.\n" , tokens[op].type); 
 			return 0; 
 		}
@@ -277,7 +292,7 @@ uint32_t expr(char *e, bool *success) {
 		invalid_flag=0; 
 		return 0; 
 	} 
-	else printf(" $%d\t\t%lld\n" , gdb_expr_count , ans); 
+	else printf(" $%d\t\t%lld\n" , gdb_expr_count++ , ans); 
 	return 0;
 }
 
