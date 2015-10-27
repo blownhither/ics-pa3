@@ -6,8 +6,6 @@
 #include <regex.h>
 #include<string.h>
 
-#define PRINTFRED "\e[0; 31m"
-#define PRINTFNONE "\e[0m"
 enum {
 	NOTYPE = 256, EQ , DEC  , HEX , REG , NEG , LE , GE=263 , 
 	DREF = 264 , SL , SR , NEQ , AND , OR
@@ -230,14 +228,14 @@ long long eval(int p , int q){
 		long long val1 = eval(p , op-1); 
 		long long val2 = eval(op+1 , q);
 #ifdef MZYDEBUG
-		printf("val1=%lld, val2=%lld\n" , val1 , val2); 
+		printf("val1=%lld, op=%d , val2=%lld\n " , val1 , op , val2); 
 #endif
 		switch(tokens[op].type){
 			case '+':return val1+val2; 
 			case '-':return val1-val2; 
 			case '*':return val1*val2; 
 			case '/':return (double)val1/val2; 
-			default:printf( PRINTFRED "operator %c not defined.\n"PRINTFNONE , tokens[op].type); 
+			default:printf( "operator %c not defined.\n" , tokens[op].type); 
 			return 0; 
 		}
 
