@@ -220,7 +220,7 @@ long long eval(int p , int q){
 #endif
 			}
 			//now i is not in a pair of paren
-
+			else if(tokens[i].type==DEC || tokens[i].type==HEX)continue; 
 			else if(get_operator_priority(tokens[i].type) <= op_priority ){
 				op_priority = get_operator_priority(tokens[i].type); 
 				op = i; 
@@ -228,7 +228,10 @@ long long eval(int p , int q){
 		}
 		//now op is the dominant operator
 		long long val1 = eval(p , op-1); 
-		long long val2 = eval(op+1 , q); 
+		long long val2 = eval(op+1 , q);
+#ifdef MZYDEBUG
+		printf("val1=%lld, val2=%lld\n" , val1 , val2); 
+#endif
 		switch(tokens[op].type){
 			case '+':return val1+val2; 
 			case '-':return val1-val2; 
@@ -263,7 +266,7 @@ uint32_t expr(char *e, bool *success) {
 	//TODO:panic("please implement me");
 	static int gdb_expr_count=0; 
 	long long ans = eval(0 , nr_token-1);
-	printf(" $%d\t\t%lld" , gdb_expr_count , ans); 
+	printf(" $%d\t\t%lld\n" , gdb_expr_count , ans); 
 	return 0;
 }
 
