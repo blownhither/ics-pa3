@@ -207,7 +207,7 @@ uint32_t eval(int p , int q){
 			return string_to_int(tokens[p].str , 10);  
 		else if(tokens[p].type==HEX)
 			return string_to_int(tokens[p].str , 16);
-		else if(tokens[p].type=REG){
+		else if(tokens[p].type==REG){
 			printf("please implement REG evaluate.\n"); 
 			invalid_flag=1; 
 			return 0; 
@@ -324,7 +324,7 @@ uint32_t expr(char *e, bool *success) {
 		invalid_flag=0; 
 		return 0; 
 	} 
-	else printf(" $%d\t\t%d\n" , gdb_expr_count++ , ans); 
+	else printf(" $%d = %x\t%d\n" , gdb_expr_count++ , ans , ans); 
 	return 0;
 }
 
