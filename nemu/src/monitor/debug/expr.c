@@ -42,10 +42,10 @@ static struct rule {
 	{"\\\(" , '('} , {"\\)" , ')'} ,//parenthesis
 	{"%" , '%'} , 						//mod
 	{"&&" , AND} , 
-	{"||" , OR} , 
+	{"\\|\\|" , OR} , 
 	{"&" , '&'} , 
-	{"|" , '|'} , 
-	{"^" , '^'}
+	{"\\|" , '|'} , 
+	{"\\^" , '^'}
 };
 
 #define NR_REGEX (sizeof(rules) / sizeof(rules[0]) )
@@ -104,7 +104,8 @@ static bool make_token(char *e) {
 					return false; 
 				}
 				switch(rules[i].token_type) {
-					
+				case NOTYPE:
+					continue; 
 				default:
 					//plain recording
 					//nr_token is the number of tokens (1-32)
@@ -185,6 +186,7 @@ uint32_t string_to_int(char *s , int base){
 
 //TODO
 #define MZYDEBUG
+#undef MZYDEBUG
 int invalid_flag=0; 
 
 uint32_t eval(int p , int q){
@@ -261,7 +263,7 @@ uint32_t eval(int p , int q){
 			case '+':return val1+val2; 
 			case '-':return val1-val2; 
 			case '*':return val1*val2; 
-			case '/':if(!val2)printf("warning: devided by 0"); 
+			case '/':if(!val2)printf("warning: devided by 0\n"); 
 					 return (double)val1/val2;
 			case '%':if(!val2){invalid_flag=1; return 0; }
 					 return val1%val2; 
