@@ -164,7 +164,7 @@ int get_operator_priority(int operator){
 		case AND:return 9; 
 		case OR:return 8; 
 		default: return -1;
-			//not a defined operator. probably a number 
+			//not a defined operator. probably a number or '(' ,  ')' 
 	}
 }
 long long string_to_int(char *s , int base){
@@ -216,7 +216,7 @@ long long eval(int p , int q){
 		for(i=p; i<=q; i++){
 			if(tokens[i].type=='('){
 				int count=1; 
-				while(++i<=q && count){
+				while(count && ++i<=q){
 					if(tokens[i].type==')')
 						count--; 
 					else if(tokens[i].type=='(')
