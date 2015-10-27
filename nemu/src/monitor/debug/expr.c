@@ -211,7 +211,7 @@ long long eval(int p , int q){
 	}
 	else {
 		//dominant operator
-		int i , op=p , op_priority = get_operator_priority(tokens[p].type); 
+		int i , op=p , op_priority = 1000; 
 		//op is the position of current choice of dominant operator
 		for(i=p; i<=q; i++){
 			if(tokens[i].type=='('){
