@@ -111,9 +111,7 @@ static bool make_token(char *e) {
 					tokens[nr_token].type = rules[i].token_type;
 					strncpy(tokens[nr_token].str , substr_start , substr_len); 
 					(tokens[nr_token].str)[substr_len]='\0';
-					nr_token++;
-					//TODO: panic("please implement me");
-						 
+					nr_token++; 
 				}
 
 				break;
@@ -139,13 +137,11 @@ bool check_parentheses(int p , int q){
 	for(i=p; i<=q; i++){
 		if(tokens[i].type=='('){
 			++end;
-			continue; 
 		}
-		if(tokens[i].type==')'){
+		else if(tokens[i].type==')'){
 			if(end==-1)return false; 
 			if(end==0 && i!=q)return false; 
 			end--; 
-			continue;  
 		}
 	}
 	if(end!=-1)return false;
@@ -176,7 +172,8 @@ int get_operator_priority(int operator){
 	}
 }
 uint32_t string_to_int(char *s , int base){
-	int i , n=strlen(s); 
+	int i , n=strlen(s);
+	if(n>32)n=32; 
 	if(!s)return 0; 
 	uint32_t ans=0;
 	if(base == 16)i=2;				//omitting (0x)0000000 
