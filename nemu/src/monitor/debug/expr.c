@@ -324,7 +324,7 @@ uint32_t expr(char *e, bool *success) {
 		invalid_flag=0; 
 		return 0; 
 	} 
-	else printf(" $%d = %x\t%d\n" , gdb_expr_count++ , ans , ans); 
+	else printf(" $%d = 0x%x\t%d\n" , gdb_expr_count++ , ans , ans); 
 	return 0;
 }
 
