@@ -169,15 +169,19 @@ int get_operator_priority(int operator){
 long long string_to_int(char *s , int base){
 	int i , n=strlen(s); 
 	if(!s)return 0; 
-	long long ans=0; 
-	for(i=0; i<n; i++)
+	long long ans=0;
+	if(base == 16)i=2;				//omitting (0x)0000000 
+	else i=0; 
+	for(; i<n; i++)
 		ans = ans*base + s[i] - '0'; 
 	return ans; 
 }
 
 //TODO
 #define MZYDEBUG
+int invalid_flag=0; 
 long long eval(int p , int q){
+	if(invalid_flag)return 0; 	
 	//p , q is the beginning and ending of a subexpression
 	if(p>q){
 		/*bad expression*/
@@ -215,7 +219,11 @@ long long eval(int p , int q){
 				}
 				if(!count)continue;
 #ifdef MZYDEBUG
-				else panic("eval() exception after hitting '(' when searching for dominant operators\n"); 
+				else {
+					printf("invalid expression (line 223)\n"); 
+					invalid_flag=1; 
+					return 0; 
+				} 
 #endif
 			}
 			//now i is not in a pair of paren
@@ -257,19 +265,19 @@ uint32_t expr(char *e, bool *success) {
 	}
 	int i; for(i=0; i<nr_token; i++)printf("%c " , tokens[i].type); 
 #ifdef MZYDEBUG
-	int paren=check_parentheses(0 , nr_token-1)?1:0;  
-	printf("paren %d\n" , paren); 
-	printf("-----end of tokening-----\n" );
-	if(!paren){
-		printf("invalid expression.\n"); 
-		return 0; 
-	}
+	//int paren=check_parentheses(0 , nr_token-1)?1:0;  
+	//printf("paren %d\n" , paren); 
+	//printf("-----end of tokening-----\n" );
 #endif
-	/* TODO: Insert codes to evaluate the expression. */
-	//TODO:panic("please implement me");
 	static int gdb_expr_count=0; 
+	
 	long long ans = eval(0 , nr_token-1);
-	printf(" $%d\t\t%lld\n" , gdb_expr_count , ans); 
+	if(invalid_flag){
+		printf("invalid expression\n"); 
+		invalid_flag=0; 
+		return 0; 
+	} 
+	else printf(" $%d\t\t%lld\n" , gdb_expr_count , ans); 
 	return 0;
 }
 
