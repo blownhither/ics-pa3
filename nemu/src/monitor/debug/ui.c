@@ -118,7 +118,7 @@ static int cmd_x(char *args){
 uint32_t expr(char *e , bool *success); 
 static int cmd_p(char *args){
 	bool success=true; 
-	if(!strlen(args))return 0; 
+	if(args==NULL)return 0; 
 	expr(args , &success); 
 	if(!success){
 		printf("\035\tinvalid expression\n"); 
