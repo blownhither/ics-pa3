@@ -171,6 +171,7 @@ int eval(int p , int q){
 }
 
 uint32_t expr(char *e, bool *success) {
+	if(!strlen(e))return 0; 
 	if(!make_token(e)) {
 		*success = false;
 		return 0;
