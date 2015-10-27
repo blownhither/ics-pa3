@@ -163,7 +163,8 @@ int get_operator_priority(int operator){
 		case '|':return 10; 
 		case AND:return 9; 
 		case OR:return 8; 
-		default: return 888; 
+		default: return -1;
+			//not a defined operator. probably a number 
 	}
 }
 long long string_to_int(char *s , int base){
@@ -222,16 +223,14 @@ long long eval(int p , int q){
 						count++; 
 				}
 				if(!count)continue;
-#ifdef MZYDEBUG
 				else {
-					printf("invalid expression (line 223)\n"); 
+					//printf("invalid expression (line 223)\n"); 
 					invalid_flag=1; 
 					return 0; 
 				} 
-#endif
 			}
 			//now i is not in a pair of paren
-			else if(tokens[i].type==DEC || tokens[i].type==HEX)continue; 
+			else if(get_operator_priority(tokens[i].type)==-1)continue; 
 			else if(get_operator_priority(tokens[i].type) <= op_priority ){
 				op_priority = get_operator_priority(tokens[i].type); 
 				op = i; 
@@ -278,8 +277,8 @@ uint32_t expr(char *e, bool *success) {
 		*success = false;
 		return 0;
 	}
-	int i; for(i=0; i<nr_token; i++)printf("%c " , tokens[i].type); 
 #ifdef MZYDEBUG
+	//int i; for(i=0; i<nr_token; i++)printf("%c " , tokens[i].type); 
 	//int paren=check_parentheses(0 , nr_token-1)?1:0;  
 	//printf("paren %d\n" , paren); 
 	//printf("-----end of tokening-----\n" );
