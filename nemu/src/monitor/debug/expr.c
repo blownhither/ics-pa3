@@ -216,11 +216,12 @@ long long eval(int p , int q){
 		for(i=p; i<=q; i++){
 			if(tokens[i].type=='('){
 				int count=1; 
-				while(count && ++i<=q){
+				while(count && i<q){
+					i++; 
 					if(tokens[i].type==')')
 						count--; 
 					else if(tokens[i].type=='(')
-						count++; 
+						count++;
 				}
 				if(!count)continue;
 				else {
