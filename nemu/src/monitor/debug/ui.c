@@ -85,6 +85,7 @@ uint32_t swaddr_read(swaddr_t addr, size_t len);
 
 static int cmd_x(char *args){
 	//currently args comes as "N 0x100000"
+	if(args==NULL)return 0; 
 	char *args1 =strtok(args," ");///safety
 	//char *args1=strtok(NULL," ");
 	int n;

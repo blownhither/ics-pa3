@@ -6,9 +6,11 @@
 #include <regex.h>
 #include<string.h>
 
+#define RED "\e[0; 31m"
+#define NONE "\e[0m"
 enum {
-	NOTYPE = 256, EQ , DEC  , HEX , REG , NEG , LE , GE
-	 
+	NOTYPE = 256, EQ , DEC  , HEX , REG , NEG , LE , GE=263 , 
+	DREF = 264 , SL , SR , NEQ , AND , OR
 	/* TODO: Add more token types */
 
 };
@@ -22,8 +24,8 @@ static struct rule {
 	 * Pay attention to the precedence level of different rules.
 	 */
 	//rules and type(in the enum above)
-	{"0x[0-9a-fA-F]+" , HEX} , //hexadecimal number
-	{"[0-9]+" , DEC} , //decimal number
+	{"0x[0-9a-fA-F]+" , HEX} ,		//hexadecimal number
+	{"[0-9]+" , DEC} ,				//decimal number
 	{" +",	NOTYPE},				// spaces
 	{"\\+", '+'},					// plus
 	{"<=" , LE} , 
@@ -31,18 +33,17 @@ static struct rule {
 	{">" , '>'} ,
 	{"<" , '<'} , 
 	{"==", EQ} , 					// equal
-	//leaving NEG for future parsing
+									//leaving NEG for future parsing
 	{"-" , '-'} ,					//minus
 	{"\\*" , '*'} ,				    //multiply
 	{"/" , '/'} ,			    	//devide
 	{"\\$[a-zA-Z]{2,3}" , REG} ,    //register TODO:consider printing "wrong register"
-	{"\\\(" , '('} , {"\\)" , ')'} , 	//parenthesis
-	{"%" , '%'}
+	{"\\\(" , '('} , {"\\)" , ')'} ,//parenthesis
+	{"%" , '%'}						//mod
 };
 
 #define NR_REGEX (sizeof(rules) / sizeof(rules[0]) )
-
-static regex_t re[NR_REGEX];
+ regex_t re[NR_REGEX];
 
 /* Rules are used for many times.
  * Therefore we compile them only once before any usage.
@@ -145,16 +146,44 @@ bool check_parentheses(int p , int q){
 	return true;
 }
 
+int get_operator_priority(int operator){
+	switch(operator){
+		case NEG:case DREF:case '!':case '~':
+			return 18; 
+		case '/':case '*':case '%':
+			return 17; 
+		case '+':case '-':
+			return 16; 
+		case SL:case SR:
+			return 15; 
+		case '>':case GE:case '<':case LE:
+			return 14; 
+		case EQ:case NEQ:
+			return 13; 
+		case '&':return 12; 
+		case '^':return 11; 
+		case '|':return 10; 
+		case AND:return 9; 
+		case OR:return 8; 
+		default: return -1; 
+	}
+}
+
+
+//TODO
+#define MZYDEBUG
 int eval(int p , int q){
 	//p , q is the beginning and ending of a subexpression
 	if(p>q){
 		/*bad expression*/
+		return 0; 
 	}
 	else if(p == q) { 
 		/* Single token.
 		 *		 * For now this token should be a number. 
 		 *				 * Return the value of the number.
 		 *						 */ 
+
 	}
 	else if(check_parentheses(p ,  q) == true) {
 		/* The expression is surrounded by a matched pair of parentheses. 
@@ -163,7 +192,45 @@ int eval(int p , int q){
 		return eval(p + 1 ,  q - 1);  
 	}
 	else {
+		//dominant operator
+		int i , op=p , op_priority = get_operator_priority(tokens[p].type); 
+		//op is the position of current choice of dominant operator
+		for(i=p; i<=q; i++){
+			if(tokens[i].type=='('){
+				int count=1; 
+				while(++i<=q && count){
+					if(tokens[i].type==')')
+						count--; 
+					else if(tokens[i].type=='(')
+						count++; 
+				}
+				if(!count)continue;
+#ifdef MZYDEBUG
+				else panic("eval() exception after hitting '(' when searching for dominant operators\n"); 
+#endif
+			}
+			//now i is not in a pair of paren
+
+			else if(get_operator_priority(tokens[i].type) <= op_priority ){
+				op_priority = get_operator_priority(tokens[i].type); 
+				op = i; 
+			}
+		}
+		//now op is the dominant operator
+		int val1 = eval(p , op-1); 
+		int val2 = eval(op+1 , q); 
+		switch(tokens[op].type){
+			case '+':return val1+val2; 
+			case '-':return val1-val2; 
+			case '*':return val1*val2; 
+			case '/':return (double)val1/val2; 
+			default:printf( RED "operator %c not defined.\n" , tokens[op].type); 
+			return 0; 
+		}
+
+
 	
+
 		/* We should do more things here. */
 	}
 	return 0; 
@@ -177,9 +244,11 @@ uint32_t expr(char *e, bool *success) {
 		return 0;
 	}
 	int i; for(i=0; i<nr_token; i++)printf("%c " , tokens[i].type); 
+#ifdef MZYDEBUG
 	int paren=check_parentheses(0 , nr_token-1)?1:0;  
 	printf("paren %d\n" , paren); 
-	//printf("-----end of tokening-----\n" ); 
+	printf("-----end of tokening-----\n" );
+#endif
 	/* TODO: Insert codes to evaluate the expression. */
 	//TODO:panic("please implement me");
 	//TODO:eval(0 , nr_token-1); 
