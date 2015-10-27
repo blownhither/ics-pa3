@@ -28,6 +28,8 @@ static struct rule {
 	{"\\+", '+'},					// plus
 	{"<=" , LE} , 
 	{">=" , GE} , 
+	{"<<" , SL} , 
+	{">>" , SR} , 
 	{">" , '>'} ,
 	{"<" , '<'} , 
 	{"==", EQ} , 					// equal
@@ -37,7 +39,12 @@ static struct rule {
 	{"/" , '/'} ,			    	//devide
 	{"\\$[a-zA-Z]{2,3}" , REG} ,    //register TODO:consider printing "wrong register"
 	{"\\\(" , '('} , {"\\)" , ')'} ,//parenthesis
-	{"%" , '%'}						//mod
+	{"%" , '%'} , 						//mod
+	{"&&" , AND} , 
+	{"||" , OR} , 
+	{"&" , '&'} , 
+	{"|" , '|'} , 
+	{"^" , '^'}
 };
 
 #define NR_REGEX (sizeof(rules) / sizeof(rules[0]) )
@@ -247,7 +254,8 @@ long long eval(int p , int q){
 			case '+':return val1+val2; 
 			case '-':return val1-val2; 
 			case '*':return val1*val2; 
-			case '/':return (double)val1/val2;
+			case '/':if(!val2)printf("warning: devided by 0"); 
+					 return (double)val1/val2;
 			case '%':return val1%val2; 
 			case '>':return val1>val2; 
 			case '<':return val1<val2; 
