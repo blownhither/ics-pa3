@@ -112,7 +112,7 @@ static int cmd_x(char *args){
 	}
 	//output
 	int i=0;
-	printf("%x <addr>:\t\t0x%x\t",addr,swaddr_read(addr,1));
+	printf("0x%x <addr>:\t\t0x%x\t",addr,swaddr_read(addr,1));
 	for(i=1;i<n;i++){
 		//if(i%8==0)printf("\n");
 		if(i%8==0&&i!=0){
