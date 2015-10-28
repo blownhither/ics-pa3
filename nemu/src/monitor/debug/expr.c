@@ -5,7 +5,6 @@
 #include <sys/types.h>
 #include <regex.h>
 #include<string.h>
-
 enum {
 	NOTYPE = 256, EQ , DEC  , HEX , REG , NEG , LE , GE=263 , 
 	DREF = 264 , SL , SR , NEQ , AND , OR
@@ -34,7 +33,7 @@ static struct rule {
 	{"<" , '<'} ,
 	{"!=" , NEQ} ,   
 	{"==", EQ} , 					// equal
-									//leaving NEG for future parsing
+	//leaving NEG for future parsing
 	{"-" , '-'} ,					//minus
 	{"\\*" , '*'} ,				    //multiply
 	{"/" , '/'} ,			    	//devide
@@ -49,7 +48,7 @@ static struct rule {
 };
 
 #define NR_REGEX (sizeof(rules) / sizeof(rules[0]) )
- regex_t re[NR_REGEX];
+regex_t re[NR_REGEX];
 
 /* Rules are used for many times.
  * Therefore we compile them only once before any usage.
@@ -80,7 +79,7 @@ static bool make_token(char *e) {
 	int position = 0;
 	int i;
 	regmatch_t pmatch;
-	
+
 	nr_token = 0;
 
 	while(e[position] != '\0') {
@@ -97,25 +96,24 @@ static bool make_token(char *e) {
 				 * to record the token in the array ``tokens''. For certain 
 				 * types of tokens, some extra actions should be performed.
 				 */
-				
+
 				//expression overflow
 				if(nr_token>=31||substr_len>31){
 					printf("expression too long\n"); 
 					return false; 
 				}
 				switch(rules[i].token_type) {
-				
-				case NOTYPE:
-					break;   
-				default:
-					//plain recording
-					//nr_token is the number of tokens (1-32)
-					tokens[nr_token].type = rules[i].token_type;
-					strncpy(tokens[nr_token].str , substr_start , substr_len); 
-					(tokens[nr_token].str)[substr_len]='\0';
-					nr_token++;
-					//TODO
-					printf("nr_token = %d" , nr_token); 
+					case NOTYPE:
+						break;   
+					default:
+						//plain recording
+						//nr_token is the number of tokens (1-32)
+						tokens[nr_token].type = rules[i].token_type;
+						strncpy(tokens[nr_token].str , substr_start , substr_len); 
+						(tokens[nr_token].str)[substr_len]='\0';
+						nr_token++;
+						//TODO
+						printf("nr_token = %d" , nr_token); 
 				}
 
 				break;
@@ -152,6 +150,7 @@ bool check_parentheses(int p , int q){
 	return true;
 }
 
+
 int get_operator_priority(int operator){
 	switch(operator){
 		case NEG:case DREF:case '!':case '~':
@@ -172,7 +171,7 @@ int get_operator_priority(int operator){
 		case AND:return 9; 
 		case OR:return 8; 
 		default: return -1;
-			//not a defined operator. probably a number or '(' ,  ')' 
+				 //not a defined operator. probably a number or '(' ,  ')' 
 	}
 }
 uint32_t string_to_int(char *s , int base){
@@ -191,6 +190,52 @@ uint32_t string_to_int(char *s , int base){
 #define MZYDEBUG
 #undef MZYDEBUG
 int invalid_flag=0; 
+const char* my_register_num_32[]={"EAX" , "ECX" , "EDX" , "EBX" , "ESP" , "EBP" , "ESI" , "EDI"}; 
+const char* my_register_num_16[]={"AX" , "CX" , "DX" , "BX" , "SP" , "BP" , "SI" , "DI"};
+const char* my_register_num_8h[]={"AH" , "CH" , "DH" , "BH"}; 
+const char* my_register_num_8l[]={"AL" , "CL" , "DL" , "BL"}; 
+uint32_t get_register_value(char *reg){
+	int len=strlen(reg); 
+
+	int i; 
+	if(len==3)
+		for(i=0; i<8; i++){
+			if(!strcmp(reg , my_register_num_32[i]))
+				return cpu.gpr[i]._32;
+		}
+	else {
+		for(i=0; i<8; i++)
+			if(!strcmp(reg , my_register_num_16[i]))
+				return cpu.gpr[i]._16; 
+		for(i=0; i<4; i++){
+			if(!strcmp(reg , my_register_num_8h[i]))
+				return cpu.gpr[i]._8[1]; 
+		}
+		//TODO H stands for ._8[1]? 
+		for(i=0; i<4; i++){
+			if(!strcmp(reg , my_register_num_8l[i])){
+				return cpu.gpr[i]._8[0]; 
+			}
+		}
+
+	}	
+
+	invalid_flag=1; 
+	return 0; 
+
+	//panic("please implement get_register_value()\n"); 
+	//return 0; 
+}
+
+void tool_to_upper_case(char *s){
+	int len=strlen(s); 
+	int i; 
+	for(i=0; i<len; i++){
+		if(s[i]>='a' && s[i]<='z')
+			s[i]+='A'-'a'; 
+	}
+	return; 
+}
 
 uint32_t eval(int p , int q){
 	if(invalid_flag)return 0; 	
@@ -210,9 +255,17 @@ uint32_t eval(int p , int q){
 		else if(tokens[p].type==HEX)
 			return string_to_int(tokens[p].str , 16);
 		else if(tokens[p].type==REG){
-			printf("please implement REG evaluate.\n"); 
-			invalid_flag=1; 
-			return 0; 
+			if(strlen(tokens[p].str)>3){
+				printf("register not found.\n"); 
+				invalid_flag=1; 
+				return 0; 
+			}
+			char reg[10]; 
+			strcpy(reg , tokens[p].str) ; 
+			tool_to_upper_case(reg);  
+			//TODO
+			printf("%s" , reg); 
+			return get_register_value(reg); 
 		}
 		else {
 			invalid_flag=1; 
