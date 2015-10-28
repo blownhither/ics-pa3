@@ -104,10 +104,10 @@ static int cmd_x(char *args){
 		args2=args1; 
 		n=1; 
 	}
-	bool success; 
+	bool success=true;  
 	int addr = expr_cmd_x(args2 , &success); 
 	if(!success){
-		printf("invalid expression\n"); 
+		printf("invalid expression(ui_110)\n"); 
 		return 0; 
 	}
 	//output
