@@ -112,8 +112,9 @@ static bool make_token(char *e) {
 						strncpy(tokens[nr_token].str , substr_start , substr_len); 
 						(tokens[nr_token].str)[substr_len]='\0';
 						nr_token++;
-						//TODO
-						printf("nr_token = %d" , nr_token); 
+#ifdef MZYDEBUG
+						//printf("nr_token = %d" , nr_token);
+#endif
 				}
 
 				break;
@@ -261,7 +262,7 @@ uint32_t eval(int p , int q){
 				return 0; 
 			}
 			char reg[10]; 
-			strcpy(reg , tokens[p].str) ; 
+			strcpy(reg , &tokens[p].str[1]) ;		//first ch is '$'
 			tool_to_upper_case(reg);  
 			//TODO
 			printf("%s" , reg); 
