@@ -265,25 +265,25 @@ uint32_t eval(int p , int q){
 			strcpy(reg , &tokens[p].str[1]) ;		//first ch is '$'
 			tool_to_upper_case(reg);  
 			//TODO
-			printf("%s" , reg); 
+			//printf("%s" , reg); 
 			return get_register_value(reg); 
 		}
 		else {
 			invalid_flag=1; 
 			return 0; 
-		}
+		} 
 	}
 	else if(check_parentheses(p ,  q) == true) {
-		/* The expression is surrounded by a matched pair of parentheses. 
+		/*  The expression is surrounded by a matched pair of parentheses. 
 		 *		 * If that is the case ,  just throw away the parentheses.
 		 *				 */
 		return eval(p + 1 ,  q - 1);  
 	}
-	else {
+	else { 
 		//dominant operator
 		int i , op=p , op_priority = 1000; 
 		//op is the position of current choice of dominant operator
-		for(i=p; i<=q; i++){
+		for (i=p; i<=q; i++){
 			if(tokens[i].type=='('){
 				int count=1; 
 				while(count && i<q){
@@ -313,6 +313,9 @@ uint32_t eval(int p , int q){
 
 		uint32_t val1 = eval(p , op-1); 
 		uint32_t val2 = eval(op+1 , q);
+//TODO
+#define MZYDEBU
+#define MZYDEBUG
 #ifdef MZYDEBUG
 		printf("p=%d , q=%d , val1=%d, op=%d , val2=%d\n " ,p , q ,  val1 , op , val2); 
 #endif
