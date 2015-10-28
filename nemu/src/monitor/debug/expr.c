@@ -187,7 +187,7 @@ uint32_t string_to_int(char *s , int base){
 	return ans; 
 }
 
-//TODO
+
 #define MZYDEBUG
 #undef MZYDEBUG
 int invalid_flag=0; 
@@ -264,8 +264,6 @@ uint32_t eval(int p , int q){
 			char reg[10]; 
 			strcpy(reg , &tokens[p].str[1]) ;		//first ch is '$'
 			tool_to_upper_case(reg);  
-			//TODO
-			//printf("%s" , reg); 
 			return get_register_value(reg); 
 		}
 		else {
