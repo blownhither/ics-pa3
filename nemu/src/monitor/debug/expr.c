@@ -256,7 +256,7 @@ uint32_t eval(int p , int q){
 		else if(tokens[p].type==HEX)
 			return string_to_int(tokens[p].str , 16);
 		else if(tokens[p].type==REG){
-			if(strlen(tokens[p].str)>3){
+			if(strlen(tokens[p].str)>4){
 				printf("register not found.\n"); 
 				invalid_flag=1; 
 				return 0; 
