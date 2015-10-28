@@ -313,9 +313,6 @@ uint32_t eval(int p , int q){
 
 		uint32_t val1 = eval(p , op-1); 
 		uint32_t val2 = eval(op+1 , q);
-//TODO
-#define MZYDEBU
-#define MZYDEBUG
 #ifdef MZYDEBUG
 		printf("p=%d , q=%d , val1=%d, op=%d , val2=%d\n " ,p , q ,  val1 , op , val2); 
 #endif
@@ -344,10 +341,6 @@ uint32_t eval(int p , int q){
 					printf( "operator %c not defined.\n" , tokens[op].type); 
 			return 0; 
 		}
-
-
-	
-
 	}
 	return 0; 
 
@@ -387,3 +380,25 @@ uint32_t expr(char *e, bool *success) {
 	return 0;
 }
 
+uint32_t expr_cmd_x(char *e , bool *success){
+	if(!make_token(e)){
+		*success=false;
+		return 0; 
+	}
+	int i; 
+	for(i=0; i<nr_token; i++){
+		//if tokens[i-1] is operator
+		if(tokens[i].type == '*' && (i==0 || get_operator_priority(tokens[i-1].type) !=-1))
+			tokens[i].type= DREF; 
+
+		if(tokens[i].type == '-' && (i==0 || get_operator_priority(tokens[i-1].type) !=-1))
+			tokens[i].type= NEG; 
+	}
+	uint32_t ans = eval(0 , nr_token-1);
+	if(invalid_flag){
+		printf("invalid expression\n"); 
+		invalid_flag=0; 
+		return 0; 
+	}
+	else return ans; 
+}

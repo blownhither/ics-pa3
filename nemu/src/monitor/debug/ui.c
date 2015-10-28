@@ -86,7 +86,7 @@ static int cmd_info(char *args){
 
 uint32_t swaddr_read(swaddr_t addr, size_t len);
 //size_t equals long unsigned int in 64x and unsigned in others
-
+uint32_t expr_cmd_x(char *e , bool *success); 
 static int cmd_x(char *args){
 	//currently args comes as "N 0x100000"
 	if(args==NULL)return 0; 
@@ -98,12 +98,18 @@ static int cmd_x(char *args){
 	//	Assert('0'<=args1[i]&&args[i]<='9',"invalid argument for RAM scan");
 	//	n=n*10+args[i]-'0';
 	//}
-
+	
 	char *args2=strtok(NULL," ");
-	int addr;
-	//Assert(args2==NULL,"too few arguments for RAM scan");
-	sscanf(args2,"0x%8x",&addr);
-
+	if(args2==NULL){
+		args2=args1; 
+		n=1; 
+	}
+	bool success; 
+	int addr = expr_cmd_x(args2 , &success); 
+	if(!success){
+		printf("invalid expression\n"); 
+		return 0; 
+	}
 	//output
 	int i=0;
 	printf("%x <addr>:\t\t0x%x\t",addr,swaddr_read(addr,1));
@@ -112,10 +118,10 @@ static int cmd_x(char *args){
 		if(i%8==0&&i!=0){
 			printf("\n0x%x <addr+%d>:\t",addr+i,i);
 			//if(i<10)printf("\t");
-		}
+	 	}
 		//currently using "addr" sign
 		printf("0x%x\t",swaddr_read(addr+i,1));
-	}
+	} 
 	printf("\n");
 	return 0;
 }
