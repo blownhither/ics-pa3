@@ -143,8 +143,6 @@ static int cmd_w(char *args){
 		printf("Expression too long.\n"); 
 		return 0; 
 	}
-	char args_buffer[256]; 
-	strcpy(args_buffer , args); 
 	bool success=true; 
 	expr_cmd_x(args , &success);
 	if(!success){
@@ -152,13 +150,13 @@ static int cmd_w(char *args){
 		return 0;
 	} 
 	if(flag_const_watchpoint){
-		printf("Cannot watch constant value %s\n" ,args_buffer); 
+		printf("Cannot watch constant value %s\n" ,args); 
 		return 0; 
 	}
 	//TODO
 	printf("at line 156 in ui.c\n"); 
-	printf("args is %s\nargs_buffer is %s" , args , args_buffer); 
-	WP *temp = get_new_wp(args_buffer); 
+	printf("args is %s\nanother line\nanother line\n" , args); 
+	WP *temp = get_new_wp(args); 
 	if(temp==NULL){
 		panic("Watchpoint pool depleted.\n");
 		return 0; 
