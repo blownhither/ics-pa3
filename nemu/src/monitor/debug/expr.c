@@ -404,6 +404,7 @@ uint32_t expr_cmd_x(char *e , bool *success){
 		printf("invalid expression\n"); 
 		invalid_flag=0; 
 		return 0; 
-	} 
-	else return ans; 
+	}
+	printf("expr_cmd_x returned.\n"); //TODO	
+	return ans; 
 }

@@ -113,12 +113,12 @@ static int cmd_x(char *args){
 	//output
 	int i=0;
 	printf("0x%x <addr>:\t0x%x\t",addr,swaddr_read(addr,1));
-	for(i=1;i<n;i++){
+	for(i=1;i<n;i++){ 
 		//if(i%8==0)printf("\n");
 		if(i%8==0&&i!=0){
 			printf("\n0x%x <addr+%d>:\t",addr+i,i);
 			//if(i<10)printf("\t");
-	 	}
+	 	} 
 		//currently using "addr" sign
 		printf("0x%x\t",swaddr_read(addr+i,1));
 	} 
@@ -145,11 +145,16 @@ static int cmd_w(char *args){
 	}
 	bool success; 
 	expr_cmd_x(args , &success);
-	if(!success)return 0; 
+	if(!success){
+		printf("Unsuccessful expression parsing.\n"); 	
+		return 0;
+	} 
 	if(flag_const_watchpoint){
 		printf("Cannot watch constant value %s\n" , args); 
 		return 0; 
 	}
+	//TODO
+	printf("at line 156 in ui.c\n"); 
 	if(get_new_wp(args) == NULL)
 		panic("Watchpoint pool depleted.\n"); 
 	//considering assert action
