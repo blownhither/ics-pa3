@@ -13,15 +13,17 @@ void init_wp_list() {
 	for(i = 0; i < NR_WP; i ++) {
 		wp_list[i].NO = i;
 		wp_list[i].next = &wp_list[i + 1];
+		wp_list[i+1].last = &wp_list[i]; 
 	}
 	wp_list[NR_WP - 1].next = NULL;
-
 	head = &aux_wp_head;
 	head->next=NULL; 
+	head->last=NULL; 
 	free_ = wp_list;
 }
 
 WP *new_wp(){
+	printf("new_wp() started\n"); 
 	if(free_ == NULL){
 		return NULL; 
 	}
