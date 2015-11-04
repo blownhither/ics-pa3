@@ -22,13 +22,15 @@ void init_wp_list() {
 }
 
 WP *new_wp(){
-	printf("new_wp() start\n"); 
 	if(free_ == NULL){
 		return NULL; 
 	}
-	WP *new_free_ = free_->next; 
-	free_->next  = head->next; 
-	head->next->last = free_; 
+	WP *new_free_ = free_->next;
+	printf("1"); 
+	free_->next  = head->next;
+	printf("31"); 
+	head->next->last = free_;
+	printf("33"); 
 	head->next = free_;
 	printf("at line 32 in watchpoint.c\n"); 
 	free_->last = head; 
