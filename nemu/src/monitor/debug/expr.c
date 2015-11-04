@@ -381,12 +381,12 @@ uint32_t expr(char *e, bool *success) {
 //different from merely expr()
 //neat , without "$" index and return result as number without inner printer
 //also used in cmd_w (featured with flag_const_watchpoint)
+extern bool flag_const_watchpoint; 
 uint32_t expr_cmd_x(char *e , bool *success){
 	if(!make_token(e)){
 		*success=false;
 		return 0; 
 	} 
-	extern bool flag_const_watchpoint; 
 	flag_const_watchpoint =  true; 
 	int i; 
 	for(i=0; i<nr_token; i++){

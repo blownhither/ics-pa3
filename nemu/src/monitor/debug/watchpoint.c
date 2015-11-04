@@ -53,7 +53,8 @@ WP *get_new_wp(char *expr){
 	uint32_t temp= expr_cmd_x(expr , &success);  
 	if(!success)panic("Exception: invalid expression for get_new_wp()\n"); 
 	new->old_value = temp; 
-	strcpy(free_->expr , expr); 
+	strcpy(free_->expr , expr);
+	printf("Watchpoint %d: %s" , top_watchpoint_NO , expr); 
 	return new; 
 }
 

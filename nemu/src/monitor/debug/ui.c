@@ -154,7 +154,6 @@ static int cmd_w(char *args){
 		panic("Watchpoint pool depleted.\n"); 
 	//considering assert action
 	else return 0; 
-
 }
 
 static struct {
