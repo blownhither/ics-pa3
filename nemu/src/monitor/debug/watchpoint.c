@@ -27,6 +27,7 @@ WP *new_wp(){
 	if(free_ == NULL){
 		return NULL; 
 	}
+	printf("0"); 
 	WP *new_free_ = free_->next;
 	printf("1"); 
 	free_->next  = head->next;
