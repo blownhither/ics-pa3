@@ -155,8 +155,13 @@ static int cmd_w(char *args){
 	}
 	//TODO
 	printf("at line 156 in ui.c\n"); 
-	if(get_new_wp(args) == NULL)
-		panic("Watchpoint pool depleted.\n"); 
+	WP *temp = get_new_wp(args); 
+	if(temp==NULL){
+		panic("Watchpoint pool depleted.\n");
+		return 0; 
+	}
+	//if(get_new_wp(args) == NULL)
+	//	panic("Watchpoint pool depleted.\n"); 
 	//considering assert action
 	else return 0; 
 }
