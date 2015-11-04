@@ -20,6 +20,7 @@ void init_wp_list() {
 	head->next=NULL; 
 	head->last=NULL; 
 	free_ = wp_list;
+	printf("free_ = %p" , free_); 
 }
 
 WP *new_wp(){
