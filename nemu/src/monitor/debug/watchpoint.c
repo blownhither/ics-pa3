@@ -20,11 +20,11 @@ void init_wp_list() {
 	head->next=NULL; 
 	head->last=NULL; 
 	free_ = wp_list;
-	printf("free_ = %p" , free_); 
 }
 
 WP *new_wp(){
 	printf("new_wp() started\n"); 
+	printf("free_ = %p\n" , free_); 
 	if(free_ == NULL){
 		return NULL; 
 	}
