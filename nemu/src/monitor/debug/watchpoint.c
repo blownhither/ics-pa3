@@ -29,6 +29,7 @@ WP *new_wp(){
 	free_->next  = head->next; 
 	head->next->last = free_; 
 	head->next = free_;
+	printf("at line 32 in watchpoint.c\n"); 
 	free_->last = head; 
 	free_ = new_free_; 
 	return head->next; 
@@ -50,7 +51,8 @@ WP *get_new_wp(char *expr){
 	//?	free_->NO = top_watchpoint_NO++; 
 	new->NO = top_watchpoint_NO++; 
 	bool success;
-	printf("at line 53 in watchpoint\n"); 
+	//TODO
+	printf("at line 53 in watchpoint\n");
 	uint32_t temp= expr_cmd_x(expr , &success);  
 	if(!success)panic("Exception: invalid expression for get_new_wp()\n"); 
 	new->old_value = temp; 
