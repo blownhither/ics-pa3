@@ -155,8 +155,8 @@ static int cmd_w(char *args){
 	}
 	//TODO
 	printf("at line 156 in ui.c\n"); 
-	printf("args is %s\nanother line\nanother line\n" , args); 
-	WP *temp = get_new_wp(args); 
+	printf("args is %s\n" , args); 
+	WP *temp; temp = get_new_wp(args); 
 	if(temp==NULL){
 		panic("Watchpoint pool depleted.\n");
 		return 0; 
