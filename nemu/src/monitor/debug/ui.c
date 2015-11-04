@@ -137,7 +137,7 @@ static int cmd_p(char *args){
 	return 0; 
 }
 bool flag_const_watchpoint = false;  
-WP *get_new_wp(char *expr); 
+extern WP *get_new_wp(char *expr); 
 static int cmd_w(char *args){
 	if(strlen(args)>254){
 		printf("Expression too long.\n"); 
