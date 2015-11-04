@@ -37,7 +37,7 @@ static struct rule {
 	{"-" , '-'} ,					//minus
 	{"\\*" , '*'} ,				    //multiply
 	{"/" , '/'} ,			    	//devide
-	{"\\$[a-zA-Z]{2,3}" , REG} ,    //register TODO:consider printing "wrong register"
+	{"\\$[a-zA-Z]{2,3}" , REG} ,    //register
 	{"\\\(" , '('} , {"\\)" , ')'} ,//parenthesis
 	{"%" , '%'} , 						//mod
 	{"&&" , AND} , 
@@ -346,7 +346,7 @@ uint32_t eval(int p , int q){
 
 uint32_t expr(char *e, bool *success) {
 	//if(!strlen(e))return 0; 
-	if(!make_token(e)) {
+	if (!make_token(e)) {
 		*success = false;
 		return 0;
 	}
@@ -358,7 +358,7 @@ uint32_t expr(char *e, bool *success) {
 #endif
 	//subdevide operators
 	int i; 
-	for(i=0; i<nr_token; i++){
+	for (i=0; i<nr_token; i++){
 		//if tokens[i-1] is operator
 		if(tokens[i].type == '*' && (i==0 || get_operator_priority(tokens[i-1].type) !=-1))
 			tokens[i].type= DREF; 
@@ -369,7 +369,7 @@ uint32_t expr(char *e, bool *success) {
 
 	static int gdb_expr_count=0; 
 	uint32_t ans = eval(0 , nr_token-1);
-	if(invalid_flag){
+	if (invalid_flag){
 		printf("invalid expression\n"); 
 		invalid_flag=0; 
 		return 0; 
@@ -378,11 +378,16 @@ uint32_t expr(char *e, bool *success) {
 	return 0;
 }
 
+//different from merely expr()
+//neat , without "$" index and return result as number without inner printer
+//also used in cmd_w (featured with flag_const_watchpoint)
 uint32_t expr_cmd_x(char *e , bool *success){
 	if(!make_token(e)){
 		*success=false;
 		return 0; 
-	}
+	} 
+	extern bool flag_const_watchpoint; 
+	flag_const_watchpoint =  true; 
 	int i; 
 	for(i=0; i<nr_token; i++){
 		//if tokens[i-1] is operator
@@ -390,13 +395,15 @@ uint32_t expr_cmd_x(char *e , bool *success){
 			tokens[i].type= DREF; 
 
 		if(tokens[i].type == '-' && (i==0 || get_operator_priority(tokens[i-1].type) !=-1))
-			tokens[i].type= NEG; 
+			tokens[i].type= NEG;
+		if(tokens[i].type == DREF || tokens[i].type == REG)
+			flag_const_watchpoint = false; 
 	}
 	uint32_t ans = eval(0 , nr_token-1);
 	if(invalid_flag){
 		printf("invalid expression\n"); 
 		invalid_flag=0; 
 		return 0; 
-	}
+	} 
 	else return ans; 
 }

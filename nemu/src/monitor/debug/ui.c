@@ -133,8 +133,28 @@ static int cmd_p(char *args){
 	expr(args , &success); 
 	if(!success){
 		printf("\035\tinvalid expression\n"); 
-	} 
+	}  
 	return 0; 
+}
+bool flag_const_watchpoint = false;  
+WP *get_new_wp(char *expr); 
+static int cmd_w(char *args){
+	if(strlen(args)>254){
+		printf("Expression too long.\n"); 
+		return 0; 
+	}
+	bool success; 
+	expr_cmd_x(args , &success);
+	if(!success)return 0; 
+	if(flag_const_watchpoint){
+		printf("Cannot watch constant value %s\n" , args); 
+		return 0; 
+	}
+	if(get_new_wp(args) == NULL)
+		panic("Watchpoint pool depleted.\n"); 
+	//considering assert action
+	else return 0; 
+
 }
 
 static struct {
@@ -148,7 +168,8 @@ static struct {
 	{"info", "Generic command for showing things about the program being debugged", cmd_info},
 	{ "si", "Step N instruction exactly. Usage si [N]. (default N=1)", cmd_si },
 	{"x","Examine memory: x [N] ADDRESS",cmd_x} , 
-	{"p" , "Print value of expression EXP." , cmd_p}
+	{"p" , "Print value of expression EXP." , cmd_p} , 
+	{"w" , "Stop execution whenever the value of an expression changes." , cmd_w} ,   
 	/* TODO: Add more commands */
 
 };
@@ -178,8 +199,12 @@ static int cmd_help(char *args) {
 	return 0;
 }
 
+void init_wp_list();
+extern int top_watchpoint_NO; 
 void ui_mainloop() {
-  	while(1) {
+	init_wp_list();//initialize watchpoint list 
+	top_watchpoint_NO=0; 
+	while(1) {
 		char *str = rl_gets();
 		char *str_end = str + strlen(str);
 
@@ -199,7 +224,6 @@ void ui_mainloop() {
 		extern void sdl_clear_event_queue(void);
 		sdl_clear_event_queue();
 #endif
-
 		int i;
 		for(i = 0; i < NR_CMD; i ++) {
 			if(strcmp(cmd, cmd_table[i].name) == 0) {
