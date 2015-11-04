@@ -22,6 +22,7 @@ void init_wp_list() {
 }
 
 WP *new_wp(){
+	printf("new_wp() start\n"); 
 	if(free_ == NULL){
 		return NULL; 
 	}
