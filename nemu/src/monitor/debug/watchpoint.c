@@ -25,9 +25,9 @@ void init_wp_list() {
 WP *new_wp(){
 	printf("new_wp() started\n"); 
 	printf("free_ = %p\n" , free_); 
-	if(free_ == NULL){
-		return NULL; 
-	}
+	//if(free_ == NULL){
+	//	return NULL; 
+	//}
 	printf("0"); 
 	WP *new_free_ = free_->next;
 	printf("1"); 
