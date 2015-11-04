@@ -143,7 +143,7 @@ static int cmd_w(char *args){
 		printf("Expression too long.\n"); 
 		return 0; 
 	}
-	bool success; 
+	bool success=true; 
 	expr_cmd_x(args , &success);
 	if(!success){
 		printf("Unsuccessful expression parsing.\n"); 	
