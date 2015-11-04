@@ -405,6 +405,6 @@ uint32_t expr_cmd_x(char *e , bool *success){
 		invalid_flag=0; 
 		return 0; 
 	}
-	printf("expr_cmd_x returned.\n"); //TODO	
+	*success=true; 
 	return ans; 
 }
