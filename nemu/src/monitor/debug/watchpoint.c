@@ -1,6 +1,7 @@
 #include "monitor/watchpoint.h"
 #include "monitor/expr.h"
-
+#include "monitor/monitor.h"
+#include "nemu.h"
 #define NR_WP 32
 
 static WP wp_list[NR_WP];
@@ -86,6 +87,39 @@ void delete_wp(int num_2_delete){
 	return; 
 }
 
+void print_watchpoint_list(){
+	if(head->next==NULL){
+		printf("Empty watchpoint list\n"); 
+		return; 
+	}
+	WP* temp; 
+	for(temp=head->next; temp!=NULL; temp=temp->next){
+		printf("%d\twatchpoint\t%s\n\t\tvalue %d\n" , temp->NO , temp->expr , temp->old_value); 	
+	}
+	return; 
+}
 /* TODO: Implement the functionality of watchpoint */
-
-
+//unsigned int monitor_get_eip32(); 
+void check_watchpoints(){
+	if(head->next==NULL)
+		return; 
+	WP *temp;
+	int found=0;
+	bool success; 
+	for(temp=head->next; temp!=NULL; temp=temp->next){
+		uint32_t new_value = expr_cmd_x(temp->expr , &success);
+		if(!success){
+			printf("Watchpoint %d in an invalid state\n" , temp->NO); 
+			continue; 
+		}
+		if(new_value!=temp->old_value){
+			printf("Watchpoint %d: %s\nOld value = %u\t%x\nNew value = %u\t%x\n" , temp->NO , temp->expr ,  temp->old_value  , temp->old_value, new_value , new_value); 
+			temp->old_value = new_value;
+			found=1; 
+		}
+	}
+	if(found){
+		printf("0x%x in nemu\n" , cpu.eip); 
+	}
+	return;
+}

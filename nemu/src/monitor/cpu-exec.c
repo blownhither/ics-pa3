@@ -35,7 +35,7 @@ void do_int3() {
 }
 
 /* Simulate how the CPU works. */
-//extern void check_watchpoints(); 
+extern void check_watchpoints(); 
 void cpu_exec(volatile uint32_t n) {
 	if(nemu_state == END) {
 		printf("Program execution has ended. To restart the program, exit NEMU and run again.\n");
@@ -74,7 +74,7 @@ void cpu_exec(volatile uint32_t n) {
 #endif
 
 		/* TODO: check watchpoints here. */
-//		check_watchpoints(); 
+		check_watchpoints(); 
 
 		if(nemu_state != RUNNING) { return; }
 	}

@@ -67,6 +67,7 @@ static int cmd_q(char *args) {
 
 static int cmd_help(char *args);
 
+extern void print_watchpoint_list(); 
 static int cmd_info(char *args){
 	//cmd: info r
 	if(!strcmp(args,"r")){
@@ -81,6 +82,9 @@ static int cmd_info(char *args){
 		printf("edi\t\t%p\t%-8x ( | |DI   )\n",&cpu.edi,cpu.edi);
 		printf("eip\t\t%p\t%-8x ( | |IP   )\n\n",&cpu.eip,cpu.eip);
 	}
+	else if(!strcmp(args , "w")){
+		print_watchpoint_list(); 
+	}
 	return 0;
 }
 
@@ -88,16 +92,10 @@ uint32_t swaddr_read(swaddr_t addr, size_t len);
 //size_t equals long unsigned int in 64x and unsigned in others
 uint32_t expr_cmd_x(char *e , bool *success); 
 static int cmd_x(char *args){
-	//currently args comes as "N 0x100000"
 	if(args==NULL)return 0; 
 	char *args1 =strtok(args," ");///safety
-	//char *args1=strtok(NULL," ");
 	int n;
 	sscanf(args1,"%d",&n);///TODO confirm: try to use args here!
-	//for(i=0;i<len1&&args[i]!="";i++){
-	//	Assert('0'<=args1[i]&&args[i]<='9',"invalid argument for RAM scan");
-	//	n=n*10+args[i]-'0';
-	//}
 	
 	char *args2=strtok(NULL," ");
 	if(args2==NULL){
@@ -107,19 +105,22 @@ static int cmd_x(char *args){
 	bool success=true;  
 	int addr = expr_cmd_x(args2 , &success); 
 	if(!success){
-		printf("invalid expression(ui_110)\n"); 
+		printf("Invalid expression.\n"); 
 		return 0; 
 	}
 	//output
 	int i=0;
+
+	if(addr+n-1 >= (1<<(10+10+3+(27-10-10-3)))){
+		printf("Physical address 0x%x is outside of the physical memory!\n" , addr); 
+		//success=false; 
+		return 0; 
+	}
 	printf("0x%x <addr>:\t0x%x\t",addr,swaddr_read(addr,1));
 	for(i=1;i<n;i++){ 
-		//if(i%8==0)printf("\n");
 		if(i%8==0&&i!=0){
 			printf("\n0x%x <addr+%d>:\t",addr+i,i);
-			//if(i<10)printf("\t");
 	 	} 
-		//currently using "addr" sign
 		printf("0x%x\t",swaddr_read(addr+i,1));
 	} 
 	printf("\n");

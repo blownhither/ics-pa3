@@ -38,10 +38,7 @@ typedef struct {
 } CPU_state;
 
 extern CPU_state cpu;
-/*unsigned int monitor_get_eip32(){
-	return cpu.eip; 
-}
-*/
+
 static inline int check_reg_index(int index) {
 	assert(index >= 0 && index < 8);
 	return index;
@@ -56,3 +53,6 @@ extern const char* regsw[];
 extern const char* regsb[];
 
 #endif
+
+
+//extrd:the scope of define? see git log
