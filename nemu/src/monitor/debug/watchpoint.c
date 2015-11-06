@@ -1,7 +1,7 @@
 #include "monitor/watchpoint.h"
 #include "monitor/expr.h"
 
-#define NR_WP 48
+#define NR_WP 32
 
 static WP wp_list[NR_WP];
 static WP aux_wp_head; 
@@ -10,12 +10,13 @@ int top_watchpoint_NO=1;
 //initilazation called in ui_mainloop(); 
 void init_wp_list() {
 	int i;
-	for(i = 0; i < NR_WP; i ++) {
+	for(i = 0; i < NR_WP - 1; i ++) {
 		wp_list[i].NO = i;
 		wp_list[i].next = &wp_list[i + 1];
 		wp_list[i+1].last = &wp_list[i]; 
 	}
 	wp_list[NR_WP - 1].next = NULL;
+	wp_list[NR_WP - 1].last = &wp_list[NR_WP - 2];
 	head = &aux_wp_head;
 	head->next=NULL; 
 	head->last=NULL; 
@@ -23,7 +24,7 @@ void init_wp_list() {
 	return; 
 }
 
-WP *new_wp(){
+WP* new_wp(void){
 	printf("new_wp() started\n"); 
 	printf("free_ = %p\n" , free_); 
 	//if(free_ == NULL){
