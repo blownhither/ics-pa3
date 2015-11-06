@@ -10,13 +10,12 @@ int top_watchpoint_NO=1;
 //initilazation called in ui_mainloop(); 
 void init_wp_list() {
 	int i;
-	for(i = 0; i < NR_WP - 1; i ++) {
+	for(i = 0; i < NR_WP - 1; i++) {
 		wp_list[i].NO = i;
 		wp_list[i].next = &wp_list[i + 1];
 		wp_list[i+1].last = &wp_list[i]; 
 	}
 	wp_list[NR_WP - 1].next = NULL;
-	wp_list[NR_WP - 1].last = &wp_list[NR_WP - 2];
 	head = &aux_wp_head;
 	head->next=NULL; 
 	head->last=NULL; 
@@ -30,7 +29,7 @@ WP* new_wp(void){
 	//if(free_ == NULL){
 	//	return NULL; 
 	//}
-	printf("0"); 
+/*	printf("0"); 
 	WP *new_free_ = free_->next;
 	printf("1"); 
 	free_->next  = head->next;
@@ -42,7 +41,7 @@ WP* new_wp(void){
 	free_->last = head; 
 	free_ = new_free_; 
 	return head->next; 
-
+*/
 	return NULL; 
 }
 
