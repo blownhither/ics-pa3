@@ -166,7 +166,13 @@ static int cmd_w(char *args){
 	//considering assert action
 	else return 0; 
 }
-
+extern void delete_wp(int num_2_delete); 
+static int cmd_d(char *args){
+	int num_2_delete; 
+	sscanf(args , "%d" , &num_2_delete); 
+	delete_wp(num_2_delete); 
+	return 0; 
+}
 static struct {
 	char *name;
 	char *description;
@@ -180,6 +186,7 @@ static struct {
 	{"x","Examine memory: x [N] ADDRESS",cmd_x} , 
 	{"p" , "Print value of expression EXP." , cmd_p} , 
 	{"w" , "Stop execution whenever the value of an expression changes." , cmd_w} ,   
+	{"d" , "Delete breakpoints or auto-display expressions." , cmd_d} , 
 	/* TODO: Add more commands */
 
 };
