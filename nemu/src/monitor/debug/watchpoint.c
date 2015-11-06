@@ -32,7 +32,7 @@ WP* new_wp(void){
 	printf("0"); 
 	WP *new_free_ = free_->next;
 	new_free_->last = NULL;//TODO 
-/*	printf("1"); 
+	printf("1"); 
 	free_->next  = head->next;
 	printf("31"); 
 	head->next->last = free_;
@@ -40,7 +40,7 @@ WP* new_wp(void){
 	head->next = free_;
 	printf("at line 32 in watchpoint.c\n"); 
 	free_->last = head; 
-*/	free_ = new_free_; 
+	free_ = new_free_; 
 	return head->next; 
 
 	return NULL; 
