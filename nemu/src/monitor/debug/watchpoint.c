@@ -24,7 +24,7 @@ void init_wp_list() {
 }
 
 WP *new_wp(){
-/*	printf("new_wp() started\n"); 
+	printf("new_wp() started\n"); 
 	printf("free_ = %p\n" , free_); 
 	//if(free_ == NULL){
 	//	return NULL; 
@@ -41,7 +41,7 @@ WP *new_wp(){
 	free_->last = head; 
 	free_ = new_free_; 
 	return head->next; 
-*/
+
 	return NULL; 
 }
 
@@ -56,9 +56,9 @@ void free_wp(WP *wp){
 
 extern uint32_t expr_cmd_x(char* expr ,bool *success); 
 WP *get_new_wp(char *expr){
-	printf("get_new_wp() started"); 
-/*	WP *new = new_wp(); 
-	if(new==NULL)return NULL; 
+	printf("get_new_wp() started\n"); 
+	new_wp(); 
+/*	if(new==NULL)return NULL; 
 	//?	free_->NO = top_watchpoint_NO++; 
 	new->NO = top_watchpoint_NO++; 
 	bool success;
