@@ -40,9 +40,9 @@ WP* new_wp(void){
 	head->next = free_;
 	printf("at line 32 in watchpoint.c\n"); 
 	free_->last = head; 
-	free_ = new_free_; 
+*/	free_ = new_free_; 
 	return head->next; 
-*/
+
 	return NULL; 
 }
 
