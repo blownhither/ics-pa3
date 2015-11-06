@@ -209,11 +209,11 @@ static int cmd_help(char *args) {
 	return 0;
 }
 
-void init_wp_list();
+extern void init_wp_list();
 extern int top_watchpoint_NO; 
 void ui_mainloop() {
 	init_wp_list();//initialize watchpoint list 
-	top_watchpoint_NO=0; 
+	top_watchpoint_NO=1; 
 	while(1) {
 		char *str = rl_gets();
 		char *str_end = str + strlen(str);
