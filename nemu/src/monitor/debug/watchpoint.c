@@ -20,7 +20,7 @@ void init_wp_list() {
 	head = &aux_wp_head;
 	head->next=NULL; 
 	head->last=NULL; 
-	free_ = wp_list;
+	free_ = &wp_list[0];
 	return; 
 }
 
