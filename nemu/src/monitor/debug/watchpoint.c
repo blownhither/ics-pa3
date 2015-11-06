@@ -29,15 +29,11 @@ WP* new_wp(void){
 	//if(free_ == NULL){
 	//	return NULL; 
 	//}
-	printf("0"); 
 	WP *new_free_ = free_->next;
 	new_free_->last = NULL;//TODO 
-	printf("1"); 
 	free_->next  = head->next;
-	printf("31"); 
 	if(head->next!=NULL)
 		head->next->last = free_;
-	printf("33"); 
 	head->next = free_;
 	printf("at line 32 in watchpoint.c\n"); 
 	free_->last = head; 
@@ -47,8 +43,10 @@ WP* new_wp(void){
 }
 
 void free_wp(WP *wp){
-	wp->last->next = wp->next;
-	wp->next->last = wp->last; 
+	if(wp->last!=NULL)
+		wp->last->next = wp->next;
+	if(wp->next!=NULL)
+		wp->next->last = wp->last; 
 	wp->next = free_; 
 	free_->last = wp; 
 	free_ = wp; 
@@ -69,10 +67,29 @@ WP *get_new_wp(char *expr){
 	if(!success)panic("Exception: invalid expression for get_new_wp()\n"); 
 	new->old_value = temp; 
 	strcpy(free_->expr , expr);
-	printf("Watchpoint %d: %s" , top_watchpoint_NO , expr); 
+	printf("Watchpoint %d: %s\n" , top_watchpoint_NO , expr); 
 	return new;
 }
 
+void delete_wp(int num_2_delete){
+	int found=0; 
+	WP* temp; 
+	if(head->next==NULL){
+		printf("Empty watchpoint list\n"); 
+		return; 
+	}
+	for(temp=head->next; temp!=NULL; temp=temp->next){
+		if(temp->NO==num_2_delete){
+			free_wp(temp);
+			found=1;
+			break; 
+		}
+	}
+	if(!found){
+		printf("No watchpoint number %d\n" , num_2_delete); 
+	}
+	return; 
+}
 
 /* TODO: Implement the functionality of watchpoint */
 

@@ -213,7 +213,7 @@ extern void init_wp_list();
 extern int top_watchpoint_NO; 
 void ui_mainloop() {
 	init_wp_list();//initialize watchpoint list 
-	top_watchpoint_NO=1; 
+	top_watchpoint_NO=0; 
 	while(1) {
 		char *str = rl_gets();
 		char *str_end = str + strlen(str);
