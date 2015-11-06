@@ -44,7 +44,6 @@ WP* new_wp(void){
 	free_ = new_free_; 
 	return head->next; 
 
-	return NULL; 
 }
 
 void free_wp(WP *wp){
@@ -59,8 +58,8 @@ void free_wp(WP *wp){
 extern uint32_t expr_cmd_x(char* expr ,bool *success); 
 WP *get_new_wp(char *expr){
 	printf("get_new_wp() started\n"); 
-	new_wp(); 
-/*	if(new==NULL)return NULL; 
+	WP* new = new_wp(); 
+	if(new==NULL)return NULL; 
 	//?	free_->NO = top_watchpoint_NO++; 
 	new->NO = top_watchpoint_NO++; 
 	bool success;
@@ -72,8 +71,6 @@ WP *get_new_wp(char *expr){
 	strcpy(free_->expr , expr);
 	printf("Watchpoint %d: %s" , top_watchpoint_NO , expr); 
 	return new;
-*/
-	return NULL; 
 }
 
 

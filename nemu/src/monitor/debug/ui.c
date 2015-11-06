@@ -158,7 +158,7 @@ static int cmd_w(char *args){
 	printf("args is %s\n" , args); 
 	WP *temp; temp = get_new_wp(args); 
 	if(temp==NULL){
-		panic("Watchpoint pool depleted.\n");
+		panic("Watchpoint pool depleted.\n"); 
 		return 0; 
 	}
 	//if(get_new_wp(args) == NULL)
