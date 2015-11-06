@@ -29,9 +29,10 @@ WP* new_wp(void){
 	//if(free_ == NULL){
 	//	return NULL; 
 	//}
-/*	printf("0"); 
+	printf("0"); 
 	WP *new_free_ = free_->next;
-	printf("1"); 
+	new_free_->last = NULL;//TODO 
+/*	printf("1"); 
 	free_->next  = head->next;
 	printf("31"); 
 	head->next->last = free_;
