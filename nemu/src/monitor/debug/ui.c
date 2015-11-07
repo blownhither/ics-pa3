@@ -155,8 +155,9 @@ static int cmd_w(char *args){
 		printf("Cannot watch constant value %s\n" ,args); 
 		return 0; 
 	}
-	//TODO
+#ifdef MZYDEBUG
 	printf("Args is %s\n" , args); 
+#endif
 	WP *temp; temp = get_new_wp(args); 
 	if(temp==NULL){
 		panic("Watchpoint pool depleted.\n"); 

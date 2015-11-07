@@ -26,6 +26,7 @@ void init_wp_list() {
 
 WP* new_wp(void){
 	if(free_ == NULL){
+		printf("MZYDEBG free_ == NULL\n"); 
 		return NULL; 
 	}
 	WP *new_free_ = free_->next;
@@ -55,8 +56,11 @@ extern uint32_t expr_cmd_x(char* expr ,bool *success);
 
 WP *get_new_wp(char *expr){
 	WP* new = new_wp(); 
-	if(new==NULL)return NULL; 
-	//?	free_->NO = top_watchpoint_NO++; 
+	if(new==NULL){
+		printf("new_wp return NULL\n");//TODO 
+		return NULL;
+		
+	} 
 	new->NO = ++top_watchpoint_NO; 
 	bool success=true;
 	//TODO
