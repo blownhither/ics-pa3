@@ -25,9 +25,9 @@ void init_wp_list() {
 }
 
 WP* new_wp(void){
-	//if(free_ == NULL){
-	//	return NULL; 
-	//}
+	if(free_ == NULL){
+		return NULL; 
+	}
 	WP *new_free_ = free_->next;
 	new_free_->last = NULL;//TODO 
 	free_->next  = head->next;
@@ -98,7 +98,7 @@ void print_watchpoint_list(){
 	}
 	WP* temp; 
 	for(temp=head->next; temp!=NULL; temp=temp->next){
-		printf("%d    watchpoint\t%s\n\t\tvalue %d  0x%x\n" , temp->NO , temp->expr , temp->old_value , temp->old_value); 	
+		printf("%d    watchpoint\t%s\n\tvalue %d  0x%x\n" , temp->NO , temp->expr , temp->old_value , temp->old_value); 	
 	}
 	return; 
 }
@@ -112,13 +112,13 @@ void check_watchpoints(){
 	bool success=true; 
 	for(temp=head->next; temp!=NULL; temp=temp->next){
 		uint32_t new_value = expr_cmd_x(temp->expr , &success);
-		printf("expr is %s\n" , temp->expr); 
+		//printf("expr is %s\n" , temp->expr); 
 		if(!success){
 			printf("Watchpoint %d in an invalid state\n" , temp->NO); 
 			continue; 
 		}
 		if(new_value!=temp->old_value){
-			printf("Watchpoint %d: %s\nOld value = %u\t0x%x\nNew value = %u\t0x%x\n" , temp->NO , temp->expr ,  temp->old_value  , temp->old_value, new_value , new_value); 
+			printf("Watchpoint %d: %s\n\tOld value = %u\t0x%x\n\tNew value = %u\t0x%x\n" , temp->NO , temp->expr ,  temp->old_value  , temp->old_value, new_value , new_value); 
 			temp->old_value = new_value;
 			found=1; 
 		}

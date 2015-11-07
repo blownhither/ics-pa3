@@ -82,7 +82,7 @@ static int cmd_info(char *args){
 		printf("edi\t\t%p\t%-8x ( | |DI   )\n",&cpu.edi,cpu.edi);
 		printf("eip\t\t%p\t%-8x ( | |IP   )\n\n",&cpu.eip,cpu.eip);
 	}
-	else if(!strcmp(args , "b")){
+	else if(!strcmp(args , "b" )|| !strcmp(args , "w")){
 		print_watchpoint_list(); 
 	}
 	return 0;
