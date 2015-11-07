@@ -58,12 +58,15 @@ WP *get_new_wp(char *expr){
 	if(new==NULL)return NULL; 
 	//?	free_->NO = top_watchpoint_NO++; 
 	new->NO = ++top_watchpoint_NO; 
-	bool success;
+	bool success=true;
 	//TODO
 	uint32_t temp= expr_cmd_x(expr , &success);  
 	if(!success)panic("Exception: invalid expression for get_new_wp()\n"); 
 	new->old_value = temp; 
-	strcpy(free_->expr , expr);
+	strcpy(new->expr , expr);
+#ifdef MZYDEBUG
+	printf("MZYDEBUG expr recorded is %s from %s\n" , new->expr , expr); 
+#endif
 	printf("Watchpoint %d: %s\n" , top_watchpoint_NO , expr); 
 	return new;
 }
@@ -95,7 +98,7 @@ void print_watchpoint_list(){
 	}
 	WP* temp; 
 	for(temp=head->next; temp!=NULL; temp=temp->next){
-		printf("%d    watchpoint\t%s\n\t\tvalue %d\n" , temp->NO , temp->expr , temp->old_value); 	
+		printf("%d    watchpoint\t%s\n\t\tvalue %d  0x%x\n" , temp->NO , temp->expr , temp->old_value , temp->old_value); 	
 	}
 	return; 
 }
@@ -109,13 +112,13 @@ void check_watchpoints(){
 	bool success=true; 
 	for(temp=head->next; temp!=NULL; temp=temp->next){
 		uint32_t new_value = expr_cmd_x(temp->expr , &success);
-		printf("expr is %s" , temp->expr); 
+		printf("expr is %s\n" , temp->expr); 
 		if(!success){
 			printf("Watchpoint %d in an invalid state\n" , temp->NO); 
 			continue; 
 		}
 		if(new_value!=temp->old_value){
-			printf("Watchpoint %d: %s\nOld value = %u\t%x\nNew value = %u\t%x\n" , temp->NO , temp->expr ,  temp->old_value  , temp->old_value, new_value , new_value); 
+			printf("Watchpoint %d: %s\nOld value = %u\t0x%x\nNew value = %u\t0x%x\n" , temp->NO , temp->expr ,  temp->old_value  , temp->old_value, new_value , new_value); 
 			temp->old_value = new_value;
 			found=1; 
 		}
