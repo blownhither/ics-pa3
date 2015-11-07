@@ -25,12 +25,13 @@ void init_wp_list() {
 }
 
 WP* new_wp(void){
-	if(free_ == NULL){
+	if(free_ == NULL ){
 		printf("MZYDEBG free_ == NULL\n"); 
 		return NULL; 
 	}
 	WP *new_free_ = free_->next;
-	new_free_->last = NULL;//TODO 
+	if(new_free_!=NULL)
+		new_free_->last = NULL;//TODO 
 	free_->next  = head->next;
 	if(head->next!=NULL)
 		head->next->last = free_;
