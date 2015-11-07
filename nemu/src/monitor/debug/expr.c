@@ -402,7 +402,8 @@ uint32_t expr_cmd_x(char *e , bool *success){
 	uint32_t ans = eval(0 , nr_token-1);
 	if(invalid_flag){
 		printf("Invalid expression \n"); 
-		invalid_flag=0; 
+		invalid_flag=0;
+		*success=false; 
 		return 0; 
 	}
 	*success=true; 
