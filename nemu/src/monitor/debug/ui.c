@@ -82,7 +82,7 @@ static int cmd_info(char *args){
 		printf("edi\t\t%p\t%-8x ( | |DI   )\n",&cpu.edi,cpu.edi);
 		printf("eip\t\t%p\t%-8x ( | |IP   )\n\n",&cpu.eip,cpu.eip);
 	}
-	else if(!strcmp(args , "w")){
+	else if(!strcmp(args , "b")){
 		print_watchpoint_list(); 
 	}
 	return 0;
@@ -121,6 +121,7 @@ static int cmd_x(char *args){
 		if(i%8==0&&i!=0){
 			printf("\n0x%x <addr+%d>:\t",addr+i,i);
 	 	} 
+		//currently using "addr" sign
 		printf("0x%x\t",swaddr_read(addr+i,1));
 	} 
 	printf("\n");
@@ -155,8 +156,7 @@ static int cmd_w(char *args){
 		return 0; 
 	}
 	//TODO
-	printf("at line 156 in ui.c\n"); 
-	printf("args is %s\n" , args); 
+	printf("Args is %s\n" , args); 
 	WP *temp; temp = get_new_wp(args); 
 	if(temp==NULL){
 		panic("Watchpoint pool depleted.\n"); 

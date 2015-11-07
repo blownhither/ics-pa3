@@ -52,11 +52,12 @@ void free_wp(WP *wp){
 }
 
 extern uint32_t expr_cmd_x(char* expr ,bool *success); 
+
 WP *get_new_wp(char *expr){
 	WP* new = new_wp(); 
 	if(new==NULL)return NULL; 
 	//?	free_->NO = top_watchpoint_NO++; 
-	new->NO = top_watchpoint_NO++; 
+	new->NO = ++top_watchpoint_NO; 
 	bool success;
 	//TODO
 	uint32_t temp= expr_cmd_x(expr , &success);  
