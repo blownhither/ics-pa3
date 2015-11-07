@@ -177,13 +177,20 @@ int get_operator_priority(int operator){
 }
 uint32_t string_to_int(char *s , int base){
 	int i , n=strlen(s);
-	if(n>32)n=32; 
 	if(!s)return 0; 
+	if(n>32)n=32; 
 	uint32_t ans=0;
 	if(base == 16)i=2;				//omitting (0x)0000000 
 	else i=0; 
 	for(; i<n; i++)
-		ans = ans*base + s[i] - '0'; 
+		if('a'<=s[i]&&s[i]<='f'){
+			ans = ans*base + s[i] - 'a' + 10; 
+		}
+		else if('A'<=s[i]&&s[i]<='F'){
+			ans = ans*base + s[i] - 'A' + 10; 
+		}
+		else
+			ans = ans*base + s[i] - '0'; 
 	return ans; 
 }
 
