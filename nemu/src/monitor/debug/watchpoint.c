@@ -95,7 +95,7 @@ void print_watchpoint_list(){
 	}
 	WP* temp; 
 	for(temp=head->next; temp!=NULL; temp=temp->next){
-		printf("%d\twatchpoint\t%s\n\t\tvalue %d\n" , temp->NO , temp->expr , temp->old_value); 	
+		printf("%d    watchpoint\t%s\n\t\tvalue %d\n" , temp->NO , temp->expr , temp->old_value); 	
 	}
 	return; 
 }
@@ -109,8 +109,8 @@ void check_watchpoints(){
 	bool success=true; 
 	for(temp=head->next; temp!=NULL; temp=temp->next){
 		uint32_t new_value = expr_cmd_x(temp->expr , &success);
+		printf("expr is %s" , temp->expr); 
 		if(!success){
-			printf("expr is %s" , temp->expr); 
 			printf("Watchpoint %d in an invalid state\n" , temp->NO); 
 			continue; 
 		}
