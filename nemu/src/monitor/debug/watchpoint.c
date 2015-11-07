@@ -106,10 +106,11 @@ void check_watchpoints(){
 		return; 
 	WP *temp;
 	int found=0;
-	bool success; 
+	bool success=true; 
 	for(temp=head->next; temp!=NULL; temp=temp->next){
 		uint32_t new_value = expr_cmd_x(temp->expr , &success);
 		if(!success){
+			printf("expr is %s" , temp->expr); 
 			printf("Watchpoint %d in an invalid state\n" , temp->NO); 
 			continue; 
 		}
