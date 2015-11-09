@@ -72,15 +72,15 @@ static int cmd_info(char *args){
 	//cmd: info r
 	if(!strcmp(args,"r")){
 		//eax, ecx, edx, ebx, esp, ebp, esi, edi
-		printf("eax\t\t%p\t%-8x ( | |AH|AL)\n",&cpu.eax,cpu.eax);
-		printf("ebx\t\t%p\t%-8x ( | |BH|BL)\n",&cpu.ebx,cpu.ebx);
-		printf("ecx\t\t%p\t%-8x ( | |CH|CL)\n",&cpu.ecx,cpu.ecx);
-		printf("edx\t\t%p\t%-8x ( | |DH|DL)\n",&cpu.edx,cpu.edx);
-		printf("esp\t\t%p\t%-8x ( | |SP   )\n",&cpu.esp,cpu.esp);
-		printf("ebp\t\t%p\t%-8x ( | |BP   )\n",&cpu.ebp,cpu.ebp);
-		printf("esi\t\t%p\t%-8x ( | |SI   )\n",&cpu.esi,cpu.esi);
-		printf("edi\t\t%p\t%-8x ( | |DI   )\n",&cpu.edi,cpu.edi);
-		printf("eip\t\t%p\t%-8x ( | |IP   )\n\n",&cpu.eip,cpu.eip);
+		printf("eax\t%-8x\t%-8x ( | |AH|AL)\n",cpu.eax,swaddr_read(cpu.eax , 4));
+		printf("ebx\t%-8x\t%-8x ( | |BH|BL)\n",cpu.ebx,swaddr_read(cpu.ebx , 4));
+		printf("ecx\t%-8x\t%-8x ( | |CH|CL)\n",cpu.ecx,swaddr_read(cpu.ecx , 4));
+		printf("edx\t%-8x\t%-8x ( | |DH|DL)\n",cpu.edx,swaddr_read(cpu.edx , 4));
+		printf("esp\t%-8x\t%-8x ( | |SP   )\n",cpu.esp,swaddr_read(cpu.esp , 4));
+		printf("ebp\t%-8x\t%-8x ( | |BP   )\n",cpu.ebp,swaddr_read(cpu.ebp , 4));
+		printf("esi\t%-8x\t%-8x ( | |SI   )\n",cpu.esi,swaddr_read(cpu.esi, 4));
+		printf("edi\t%-8x\t%-8x ( | |DI   )\n",cpu.edi,swaddr_read(cpu.edi , 4));
+		printf("eip\t%-8x\t%-8x ( | |IP   )\n\n",cpu.eip,swaddr_read(cpu.eip , 4));
 	}
 	else if(!strcmp(args , "b" )|| !strcmp(args , "w")){
 		print_watchpoint_list(); 

@@ -28,7 +28,7 @@ WP* new_wp(void){
 	if(free_ == NULL ){
 #undef MZYDEBUG
 #ifdef MZYDEBUG
-		printf("MZYDEBG free_ == NULL\n"); 
+		printf("MZYDEBUG free_ == NULL\n"); 
 #endif
 		return NULL; 
 	}
