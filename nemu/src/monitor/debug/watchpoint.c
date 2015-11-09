@@ -61,9 +61,7 @@ extern uint32_t expr_cmd_x(char* expr ,bool *success);
 WP *get_new_wp(char *expr){
 	WP* new = new_wp(); 
 	if(new==NULL){
-		//printf("new_wp return NULL\n");//TODO 
-		return NULL;
-		
+		return NULL;	
 	} 
 	new->NO = ++top_watchpoint_NO; 
 	bool success=true;
@@ -104,10 +102,13 @@ void print_watchpoint_list(){
 		printf("Empty watchpoint list\n"); 
 		return; 
 	}
-	WP* temp; 
+	WP* temp;
+	int count=0; 
 	for(temp=head->next; temp!=NULL; temp=temp->next){
 		printf("%d    watchpoint\t%s\n\tvalue %d  0x%x\n" , temp->NO , temp->expr , temp->old_value , temp->old_value); 	
+		count++; 
 	}
+	printf("\t%d watchpoint(s) active\n" , count); 
 	return; 
 }
 /* TODO: Implement the functionality of watchpoint */
