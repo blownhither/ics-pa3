@@ -91,7 +91,7 @@ static int cmd_info(char *args){
 		printf("esi\t0x%-8x\t0x%-8x ( | |SI   )\n",cpu.esi,swaddr_read_safe(cpu.esi, 4));
 		printf("edi\t0x%-8x\t0x%-8x ( | |DI   )\n",cpu.edi,swaddr_read_safe(cpu.edi , 4));
 		printf("eip\t0x%-8x\t0x%-8x ( | |IP   )\n",cpu.eip,swaddr_read_safe(cpu.eip , 4));
-		if(info_register_overflow_flag)printf("Warning: address out of physical memory treated as -1.\n\tUse x cmd for details.\n\n"); 	
+		if(info_register_overflow_flag)printf("Warning: address out of physical memory were treated as -1.\n\tUse x cmd for details.\n\n"); 	
 	}
 	else if(!strcmp(args , "b" )|| !strcmp(args , "w")){
 		print_watchpoint_list(); 
