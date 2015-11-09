@@ -67,20 +67,31 @@ static int cmd_q(char *args) {
 
 static int cmd_help(char *args);
 
-extern void print_watchpoint_list(); 
+bool info_register_overflow_flag = false; 
+uint32_t swaddr_read(swaddr_t addr, size_t len);
+uint32_t swaddr_read_safe(swaddr_t addr , size_t len){
+	if(addr >= 1<<27){
+		info_register_overflow_flag = true; 
+		return -1; 
+	} 
+	else return swaddr_read(addr , len); 
+}
+extern void print_watchpoint_list();
 static int cmd_info(char *args){
 	//cmd: info r
 	if(!strcmp(args,"r")){
 		//eax, ecx, edx, ebx, esp, ebp, esi, edi
-		printf("eax\t%-8x\t%-8x ( | |AH|AL)\n",cpu.eax,swaddr_read(cpu.eax , 4));
-		printf("ebx\t%-8x\t%-8x ( | |BH|BL)\n",cpu.ebx,swaddr_read(cpu.ebx , 4));
-		printf("ecx\t%-8x\t%-8x ( | |CH|CL)\n",cpu.ecx,swaddr_read(cpu.ecx , 4));
-		printf("edx\t%-8x\t%-8x ( | |DH|DL)\n",cpu.edx,swaddr_read(cpu.edx , 4));
-		printf("esp\t%-8x\t%-8x ( | |SP   )\n",cpu.esp,swaddr_read(cpu.esp , 4));
-		printf("ebp\t%-8x\t%-8x ( | |BP   )\n",cpu.ebp,swaddr_read(cpu.ebp , 4));
-		printf("esi\t%-8x\t%-8x ( | |SI   )\n",cpu.esi,swaddr_read(cpu.esi, 4));
-		printf("edi\t%-8x\t%-8x ( | |DI   )\n",cpu.edi,swaddr_read(cpu.edi , 4));
-		printf("eip\t%-8x\t%-8x ( | |IP   )\n\n",cpu.eip,swaddr_read(cpu.eip , 4));
+		info_register_overflow_flag = false; 
+		printf("eax\t%-8x\t%-8x ( | |AH|AL)\n",cpu.eax,swaddr_read_safe(cpu.eax , 4));
+		printf("ebx\t%-8x\t%-8x ( | |BH|BL)\n",cpu.ebx,swaddr_read_safe(cpu.ebx , 4));
+		printf("ecx\t%-8x\t%-8x ( | |CH|CL)\n",cpu.ecx,swaddr_read_safe(cpu.ecx , 4));
+		printf("edx\t%-8x\t%-8x ( | |DH|DL)\n",cpu.edx,swaddr_read_safe(cpu.edx , 4));
+		printf("esp\t%-8x\t%-8x ( | |SP   )\n",cpu.esp,swaddr_read_safe(cpu.esp , 4));
+		printf("ebp\t%-8x\t%-8x ( | |BP   )\n",cpu.ebp,swaddr_read_safe(cpu.ebp , 4));
+		printf("esi\t%-8x\t%-8x ( | |SI   )\n",cpu.esi,swaddr_read_safe(cpu.esi, 4));
+		printf("edi\t%-8x\t%-8x ( | |DI   )\n",cpu.edi,swaddr_read_safe(cpu.edi , 4));
+		printf("eip\t%-8x\t%-8x ( | |IP   )\n\n",cpu.eip,swaddr_read_safe(cpu.eip , 4));
+		if(info_register_overflow_flag)printf("Warning: address out of physical memory treated as -1.\n"); 	
 	}
 	else if(!strcmp(args , "b" )|| !strcmp(args , "w")){
 		print_watchpoint_list(); 
@@ -88,7 +99,6 @@ static int cmd_info(char *args){
 	return 0;
 }
 
-uint32_t swaddr_read(swaddr_t addr, size_t len);
 //size_t equals long unsigned int in 64x and unsigned in others
 uint32_t expr_cmd_x(char *e , bool *success); 
 static int cmd_x(char *args){
