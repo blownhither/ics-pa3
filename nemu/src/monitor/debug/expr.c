@@ -211,11 +211,11 @@ uint32_t get_register_value(char *reg){
 			if(!strcmp(reg , my_register_num_32[i]))
 				return cpu.gpr[i]._32;
 		}
-		if(!strcmp(reg , "eip")){
-			printf("MZYDEBUG $eip recognized as %u.\n" , cpu.eip); 
+		if(!strcmp(reg , "EIP")){
+			//printf("MZYDEBUG $eip recognized as %u.\n" , cpu.eip); 
 			return (uint32_t)cpu.eip; 
 		}
-		}
+	}
 	else {
 		for(i=0; i<8; i++)
 			if(!strcmp(reg , my_register_num_16[i]))
@@ -224,7 +224,6 @@ uint32_t get_register_value(char *reg){
 			if(!strcmp(reg , my_register_num_8h[i]))
 				return cpu.gpr[i]._8[1]; 
 		}
-		//TODO H stands for ._8[1]? 
 		for(i=0; i<4; i++){
 			if(!strcmp(reg , my_register_num_8l[i])){
 				return cpu.gpr[i]._8[0]; 
@@ -235,9 +234,6 @@ uint32_t get_register_value(char *reg){
 
 	invalid_flag=1; 
 	return 0; 
-
-	//panic("please implement get_register_value()\n"); 
-	//return 0; 
 }
 
 void tool_to_upper_case(char *s){
