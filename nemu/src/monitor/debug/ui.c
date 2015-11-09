@@ -82,16 +82,16 @@ static int cmd_info(char *args){
 	if(!strcmp(args,"r")){
 		//eax, ecx, edx, ebx, esp, ebp, esi, edi
 		info_register_overflow_flag = false; 
-		printf("eax\t%-8x\t%-8x ( | |AH|AL)\n",cpu.eax,swaddr_read_safe(cpu.eax , 4));
-		printf("ebx\t%-8x\t%-8x ( | |BH|BL)\n",cpu.ebx,swaddr_read_safe(cpu.ebx , 4));
-		printf("ecx\t%-8x\t%-8x ( | |CH|CL)\n",cpu.ecx,swaddr_read_safe(cpu.ecx , 4));
-		printf("edx\t%-8x\t%-8x ( | |DH|DL)\n",cpu.edx,swaddr_read_safe(cpu.edx , 4));
-		printf("esp\t%-8x\t%-8x ( | |SP   )\n",cpu.esp,swaddr_read_safe(cpu.esp , 4));
-		printf("ebp\t%-8x\t%-8x ( | |BP   )\n",cpu.ebp,swaddr_read_safe(cpu.ebp , 4));
-		printf("esi\t%-8x\t%-8x ( | |SI   )\n",cpu.esi,swaddr_read_safe(cpu.esi, 4));
-		printf("edi\t%-8x\t%-8x ( | |DI   )\n",cpu.edi,swaddr_read_safe(cpu.edi , 4));
-		printf("eip\t%-8x\t%-8x ( | |IP   )\n\n",cpu.eip,swaddr_read_safe(cpu.eip , 4));
-		if(info_register_overflow_flag)printf("Warning: address out of physical memory treated as -1.\n"); 	
+		printf("eax\t0x%-8x\t0x%-8x ( | |AH|AL)\n",cpu.eax,swaddr_read_safe(cpu.eax , 4));
+		printf("ebx\t0x%-8x\t0x%-8x ( | |BH|BL)\n",cpu.ebx,swaddr_read_safe(cpu.ebx , 4));
+		printf("ecx\t0x%-8x\t0x%-8x ( | |CH|CL)\n",cpu.ecx,swaddr_read_safe(cpu.ecx , 4));
+		printf("edx\t0x%-8x\t0x%-8x ( | |DH|DL)\n",cpu.edx,swaddr_read_safe(cpu.edx , 4));
+		printf("esp\t0x%-8x\t0x%-8x ( | |SP   )\n",cpu.esp,swaddr_read_safe(cpu.esp , 4));
+		printf("ebp\t0x%-8x\t0x%-8x ( | |BP   )\n",cpu.ebp,swaddr_read_safe(cpu.ebp , 4));
+		printf("esi\t0x%-8x\t0x%-8x ( | |SI   )\n",cpu.esi,swaddr_read_safe(cpu.esi, 4));
+		printf("edi\t0x%-8x\t0x%-8x ( | |DI   )\n",cpu.edi,swaddr_read_safe(cpu.edi , 4));
+		printf("eip\t0x%-8x\t0x%-8x ( | |IP   )\n",cpu.eip,swaddr_read_safe(cpu.eip , 4));
+		if(info_register_overflow_flag)printf("Warning: address out of physical memory treated as -1.\n\tUse x cmd for details.\n\n"); 	
 	}
 	else if(!strcmp(args , "b" )|| !strcmp(args , "w")){
 		print_watchpoint_list(); 
