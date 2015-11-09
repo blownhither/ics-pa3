@@ -206,13 +206,15 @@ uint32_t get_register_value(char *reg){
 	int len=strlen(reg); 
 
 	int i; 
-	if(len==3)
+	if(len==3){
 		for(i=0; i<8; i++){
 			if(!strcmp(reg , my_register_num_32[i]))
 				return cpu.gpr[i]._32;
-			if(!strcmp(reg , "eip")){
-				return (uint32_t)cpu.eip; 
-			}
+		}
+		if(!strcmp(reg , "eip")){
+			printf("MZYDEBUG $eip recognized as %u.\n" , cpu.eip); 
+			return (uint32_t)cpu.eip; 
+		}
 		}
 	else {
 		for(i=0; i<8; i++)
