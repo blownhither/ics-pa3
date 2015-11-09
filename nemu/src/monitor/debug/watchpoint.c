@@ -112,9 +112,9 @@ void print_watchpoint_list(){
 }
 /* TODO: Implement the functionality of watchpoint */
 //unsigned int monitor_get_eip32(); 
-void check_watchpoints(){
+bool check_watchpoints(){
 	if(head->next==NULL)
-		return; 
+		return false; 
 	WP *temp;
 	int found=0;
 	bool success=true; 
@@ -132,10 +132,10 @@ void check_watchpoints(){
 		}
 	}
 	if(found){
-		printf("0x%x in nemu\n" , cpu.eip); 
+		printf("0x%x in nemu\n" , cpu.eip);
 	}
 #ifdef MZYDEBUG
 	printf("MZYDEBUG free_ is %p" , free_); 
 #endif
-	return;
+	return found;
 }

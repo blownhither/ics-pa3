@@ -35,7 +35,7 @@ void do_int3() {
 }
 
 /* Simulate how the CPU works. */
-extern void check_watchpoints(); 
+extern bool check_watchpoints(); 
 void cpu_exec(volatile uint32_t n) {
 	if(nemu_state == END) {
 		printf("Program execution has ended. To restart the program, exit NEMU and run again.\n");
@@ -59,7 +59,7 @@ void cpu_exec(volatile uint32_t n) {
 #endif
 
 		/* Execute one instruction, including instruction fetch,
-		 * instruction decode, and the actual execution. */
+		 *  instruction decode, and the actual execution. */
 		int instr_len = exec(cpu.eip);
 
 		cpu.eip += instr_len;
@@ -70,11 +70,13 @@ void cpu_exec(volatile uint32_t n) {
 		Log_write("%s\n", asm_buf);
 		if(n_temp < MAX_INSTR_TO_PRINT) {
 			printf("%s\n", asm_buf);
-		}
+		} 
 #endif
 
 		/* TODO: check watchpoints here. */
-		check_watchpoints(); 
+		if(check_watchpoints()){
+			n=0; 
+		} 
 
 		if(nemu_state != RUNNING) { return; }
 	}
