@@ -210,6 +210,9 @@ uint32_t get_register_value(char *reg){
 		for(i=0; i<8; i++){
 			if(!strcmp(reg , my_register_num_32[i]))
 				return cpu.gpr[i]._32;
+			if(!strcmp(reg , "eip")){
+				return (uint32_t)cpu.eip; 
+			}
 		}
 	else {
 		for(i=0; i<8; i++)

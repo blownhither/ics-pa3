@@ -134,6 +134,8 @@ void check_watchpoints(){
 	if(found){
 		printf("0x%x in nemu\n" , cpu.eip); 
 	}
+#ifdef MZYDEBUG
 	printf("MZYDEBUG free_ is %p" , free_); 
+#endif
 	return;
 }
