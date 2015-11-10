@@ -317,8 +317,8 @@ uint32_t eval(int p , int q){
 		if(tokens[op].type==NEG)return -eval(op+1 , q);
 		if(tokens[op].type==DREF){
 			swaddr_t temp = eval(op+1 , q); 
-			if(temp + 4>= 1<<27){
-				printf("physical address %x is outside of the physical memory!" , temp);
+			if((temp + 4) >= (1<<27)){
+				printf("physical address %x is outside of the physical memory!\n" , temp);
 				invalid_flag=1; 
 				return 0; 
 			}

@@ -123,7 +123,6 @@ static int cmd_x(char *args){
 
 	if(addr+n-1 >= (1<<(10+10+3+(27-10-10-3)))){
 		printf("Physical address 0x%x is outside of the physical memory!\n" , addr); 
-		//success=false; 
 		return 0; 
 	}
 	printf("0x%x <addr>:\t0x%x\t",addr,swaddr_read(addr,1));
@@ -131,7 +130,6 @@ static int cmd_x(char *args){
 		if(i%8==0&&i!=0){
 			printf("\n0x%x <addr+%d>:\t",addr+i,i);
 	 	} 
-		//currently using "addr" sign
 		printf("0x%x\t",swaddr_read(addr+i,1));
 	} 
 	printf("\n");
