@@ -65,7 +65,6 @@ WP *get_new_wp(char *expr){
 	} 
 	new->NO = ++top_watchpoint_NO; 
 	bool success=true;
-	//TODO
 	uint32_t temp= expr_cmd_x(expr , &success);  
 	if(!success)panic("Exception: invalid expression for get_new_wp()\n"); 
 	new->old_value = temp; 
