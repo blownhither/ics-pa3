@@ -315,8 +315,15 @@ uint32_t eval(int p , int q){
 		}
 		//now op is the dominant operator
 		if(tokens[op].type==NEG)return -eval(op+1 , q);
-		if(tokens[op].type==DREF)return swaddr_read(eval(op+1 , q) , 4);
-
+		if(tokens[op].type==DREF){
+			swaddr_t temp = eval(op+1 , q); 
+			if(temp + 4>= 1<<27){
+				printf("physical address %x is outside of the physical memory!" , temp);
+				invalid_flag=1; 
+				return 0; 
+			}
+			return swaddr_read(eval(op+1 , q) , 4);
+		}
 		uint32_t val1 = eval(p , op-1); 
 		uint32_t val2 = eval(op+1 , q);
 #ifdef MZYDEBUG
