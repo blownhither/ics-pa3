@@ -82,15 +82,15 @@ static int cmd_info(char *args){
 	if(!strcmp(args,"r")){
 		//eax, ecx, edx, ebx, esp, ebp, esi, edi
 		info_register_overflow_flag = false; 
-		printf("eax\t0x%-x\t%-d ( | |AH|AL)\n",cpu.eax,cpu.eax);
-		printf("ebx\t0x%-x\t%-d ( | |BH|BL)\n",cpu.ebx,cpu.ebx );
-		printf("ecx\t0x%-x\t%-d ( | |CH|CL)\n",cpu.ecx,cpu.ecx );
-		printf("edx\t0x%-x\t%-d ( | |DH|DL)\n",cpu.edx,cpu.edx );
-		printf("esp\t0x%-x\t%-d ( | |SP   )\n",cpu.esp,cpu.esp );
-		printf("ebp\t0x%-x\t%-d ( | |BP   )\n",cpu.ebp,cpu.ebp );
-		printf("esi\t0x%-x\t%-d ( | |SI   )\n",cpu.esi , cpu.esi);
-		printf("edi\t0x%-x\t%-d ( | |DI   )\n",cpu.edi,cpu.edi );
-		printf("eip\t0x%-x\t%-d ( | |IP   )\n",cpu.eip,cpu.eip );
+		printf("eax\t0x%-x\t%-d\t ( | |AH|AL)\n",cpu.eax,cpu.eax);
+		printf("ebx\t0x%-x\t%-d\t ( | |BH|BL)\n",cpu.ebx,cpu.ebx );
+		printf("ecx\t0x%-x\t%-d\t ( | |CH|CL)\n",cpu.ecx,cpu.ecx );
+		printf("edx\t0x%-x\t%-d\t ( | |DH|DL)\n",cpu.edx,cpu.edx );
+		printf("esp\t0x%-x\t%-d\t ( | |SP   )\n",cpu.esp,cpu.esp );
+		printf("ebp\t0x%-x\t%-d\t ( | |BP   )\n",cpu.ebp,cpu.ebp );
+		printf("esi\t0x%-x\t%-d\t ( | |SI   )\n",cpu.esi , cpu.esi);
+		printf("edi\t0x%-x\t%-d\t ( | |DI   )\n",cpu.edi,cpu.edi );
+		printf("eip\t0x%-x\t%-d\t ( | |IP   )\n",cpu.eip,cpu.eip );
 	}
 	else if(!strcmp(args , "b" )|| !strcmp(args , "w")){
 		print_watchpoint_list(); 
