@@ -16,7 +16,10 @@ make_instr_helper(rm2r)
 //DATA_BYTE ,  DATA_TYPE is refering to latter operand(SRC)?
 //and SUFFIX is referring to former opearand
 
-
+/*Flags Affected
+ * OF ,  SF ,  ZF ,  AF ,  PF ,  
+ * and CF as described in Appendix C
+ */
 static void do_execute(){
 	DATA_TYPE a; 
 	DATA_TYPE b = op_dest->val; 
