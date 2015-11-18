@@ -24,9 +24,9 @@ static void do_execute(){
 //then b=b-(signextend)a
 //else b = b - a
 #if (DATA_BYTE == 4) && SUFFIX == b
-	a = (DATA_TYPE)op_src->val | 0xffffff00; 
+	a = (DATA_TYPE)op_src->val & 0xffffffff; 
 #elif (DATA_BYTE == 2) && SUFFIX == b
-	a = (DATA_TYPE)op_src->val | 0xff00; 
+	a = (DATA_TYPE)op_src->val & 0xffff; 
 #else
 	a = op_src->val; 
 #endif
