@@ -29,12 +29,11 @@ make_helper(concat(decode_si_, SUFFIX)) {
 	/* TODO: Use instr_fetch() to read ``DATA_BYTE'' bytes of memory pointed 
 	 * by ``eip''. Interpret the result as an signed immediate, and assign
 	 * it to op_src->simm.
-	 *
-	op_src->simm = ???
 	 */
-	panic("please implement me");
-	//yes! I will!
-	op_src->val = op_src->simm;
+	op_src->simm = instr_fetch(eip , DATA_BYTE); 
+	 
+	
+	//TODO:op_src->val = op_src->simm;
 
 #ifdef DEBUG
 	snprintf(op_src->str, OP_STR_SIZE, "$0x%x", op_src->val);
