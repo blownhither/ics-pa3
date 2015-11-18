@@ -29,10 +29,13 @@ make_group(group1_v,
 
 /* 0x83 */
 /* opcode is encoded here
- * other bits ignored*/
+ * other bits ignored
+ *  000, 001, 010, 011 
+ *  100, 101, 110, 111*/
 make_group(group1_sx_v,
-			inv, inv, inv, inv, 
-/*0x100*/	inv, mov_r2rm_b, inv, inv)
+	inv, inv, inv, inv, 
+	inv, sub_si2rm_v, inv, inv)
+//TODO:check sub_signed_8-bit-imm_from_r/m_variant
 
 /* 0xc0 */
 make_group(group2_i_b,

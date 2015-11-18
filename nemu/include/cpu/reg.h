@@ -34,6 +34,28 @@ typedef struct {
 	#define esi gpr[6]._32
 	#define edi gpr[7]._32
 	swaddr_t eip;
+	struct EFLAGS{
+		uint8_t CF:1; 
+		uint8_t	  :1; 
+		uint8_t PF:1; 
+		uint8_t   :1; 
+		uint8_t AF:1; 
+		uint8_t   :1; 
+		uint8_t ZF:1; 
+		uint8_t SF:1; 
+		uint8_t TF:1; 
+		uint8_t IF:1; 
+		uint8_t DF:1; 
+		uint8_t OF:1; 
+		uint8_t OL:1; 
+		uint8_t NT:1; 
+		uint8_t   :1; 
+		uint8_t RF:1; 
+		uint8_t VM:1;
+		uint8_t   :6; 
+		uint8_t   :8; 
+	}eflags;
+	//TODO
 
 } CPU_state;
 
