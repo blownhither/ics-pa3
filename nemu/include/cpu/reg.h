@@ -35,35 +35,46 @@ typedef struct {
 	#define edi gpr[7]._32
 	swaddr_t eip;
 	struct EFLAGS{
-		uint8_t CF:1; 
-		uint8_t	  :1; 
-		uint8_t PF:1; 
-		uint8_t   :1; 
-		uint8_t AF:1; 
-		uint8_t   :1; 
-		uint8_t ZF:1; 
-		uint8_t SF:1; 
-		uint8_t TF:1; 
-		uint8_t IF:1; 
-		uint8_t DF:1; 
-		uint8_t OF:1; 
-		uint8_t OL:1; 
-		uint8_t NT:1; 
-		uint8_t   :1; 
-		uint8_t RF:1; 
-		uint8_t VM:1;
-		uint8_t   :6; 
-		uint8_t   :8; 
+		uint32_t CF:1; 
+		uint32_t	  :1; 
+		uint32_t PF:1; 
+		uint32_t   :1; 
+		uint32_t AF:1; 
+		uint32_t   :1; 
+		uint32_t ZF:1; 
+		uint32_t SF:1; 
+		uint32_t TF:1; 
+		uint32_t IF:1; 
+		uint32_t DF:1; 
+		uint32_t OF:1; 
+		uint32_t OL:1; 
+		uint32_t NT:1; 
+		uint32_t   :1; 
+		uint32_t RF:1; 
+		uint32_t VM:1;
+		uint32_t   :6; 
+		uint32_t   :8; 
 	}eflags;
 	//TODO
 
 } CPU_state;
-
 extern CPU_state cpu;
+enum{EF_CF=0 , EF_PF=2 , EF_AF=4 , EF_ZF=6 , EF_SF , EF_TF , EF_IF , EF_DF , EF_OF , EF_OL , EF_IP , EF_NT , EF_RF=16 , EF_VM=17}; 
 /*unsigned int monitor_get_eip32(){
 	return cpu.eip; 
 }
 */
+/*
+uint32_t get_eflags(){
+	return cpu.eflags.CF; 
+}
+*/
+/*
+uint32_t set_eflags(uint32_t new_eflags){
+	ELAGS 
+}
+*/
+
 static inline int check_reg_index(int index) {
 	assert(index >= 0 && index < 8);
 	return index;

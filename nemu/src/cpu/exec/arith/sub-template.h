@@ -36,7 +36,6 @@ static void do_execute(){
 	DATA_TYPE result = b-a;
 	OPERAND_W(op_dest , result); 
 	print_asm_template2(); 
-	//return DATA_BYTE; //TODO
 }
 #if DATA_BYTE == 2 || DATA_BYTE == 4
 make_instr_helper(si2rm)
