@@ -14,6 +14,28 @@ enum { R_AL, R_CL, R_DL, R_BL, R_AH, R_CH, R_DH, R_BH };
  * For more details about the register encoding scheme, see i386 manual.
  */
 
+typedef struct {
+	uint32_t CF:1; 
+	uint32_t	  :1; 
+	uint32_t PF:1; 
+	uint32_t   :1; 
+	uint32_t AF:1; 
+	uint32_t   :1; 
+	uint32_t ZF:1; 
+	uint32_t SF:1; 
+	uint32_t TF:1; 
+	uint32_t IF:1; 
+	uint32_t DF:1; 
+	uint32_t OF:1; 
+			uint32_t OL:1; 
+			uint32_t NT:1; 
+uint32_t   :1; 
+			uint32_t RF:1; 
+			uint32_t VM:1;
+uint32_t   :6; 
+uint32_t   :8; 
+}EFLAGS;
+extern EFLAGS eflags;  
 //enum{eax,ecx,edx,ebx,esp,ebp,esi,edi};
 typedef struct {
 	union {//each GPR includes one of the three tpyes defined below, merged together brings benefits
@@ -25,53 +47,21 @@ typedef struct {
 	/* Do NOT change the order of the GPRs' definitions. */
 
 	//uint32_t eax, ecx, edx, ebx, esp, ebp, esi, edi;
-	#define eax gpr[0]._32
-	#define ecx gpr[1]._32
-	#define edx gpr[2]._32
-	#define ebx gpr[3]._32
-	#define esp gpr[4]._32
-	#define ebp gpr[5]._32
-	#define esi gpr[6]._32
-	#define edi gpr[7]._32
+#define eax gpr[0]._32
+#define ecx gpr[1]._32
+#define edx gpr[2]._32
+#define ebx gpr[3]._32
+#define esp gpr[4]._32
+#define ebp gpr[5]._32
+#define esi gpr[6]._32
+#define edi gpr[7]._32
 	swaddr_t eip;
-	struct EFLAGS{
-		uint32_t CF:1; 
-		uint32_t	  :1; 
-		uint32_t PF:1; 
-		uint32_t   :1; 
-		uint32_t AF:1; 
-		uint32_t   :1; 
-		uint32_t ZF:1; 
-		uint32_t SF:1; 
-		uint32_t TF:1; 
-		uint32_t IF:1; 
-		uint32_t DF:1; 
-		uint32_t OF:1; 
-		uint32_t OL:1; 
-		uint32_t NT:1; 
-		uint32_t   :1; 
-		uint32_t RF:1; 
-		uint32_t VM:1;
-		uint32_t   :6; 
-		uint32_t   :8; 
-	}eflags;
-	//TODO
+
 
 } CPU_state;
 extern CPU_state cpu;
 enum{EF_CF=0 , EF_PF=2 , EF_AF=4 , EF_ZF=6 , EF_SF , EF_TF , EF_IF , EF_DF , EF_OF , EF_OL , EF_IP , EF_NT , EF_RF=16 , EF_VM=17}; 
-#define cpu_elags cpu.eflags
 
-/*
-uint32_t get_eflags(){
-	return cpu.eflags.CF; 
-}
-*/
-/*
-uint32_t set_eflags(uint32_t new_eflags){
-	ELAGS 
-}
-*/
 
 static inline int check_reg_index(int index) {
 	assert(index >= 0 && index < 8);
