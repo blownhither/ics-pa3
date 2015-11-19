@@ -76,6 +76,13 @@ uint32_t swaddr_read_safe(swaddr_t addr , size_t len){
 	} 
 	else return swaddr_read(addr , len); 
 }
+void print_eflags(){
+	EFLAGS_bit t = eflags.eflags;
+	printf("CF PF AF ZF SF TF IF\n%x  %x  %x  %x  %x  %x  %x\nDF OF OL IP NT RF VM\n%x  %x  %x  %x  %x  %x  %x\n",
+			t.CF,t.PF,t.AF,t.ZF,t.SF,t.TF,t.IF,
+			t.DF,t.OF,t.OL,t.IP,t.NT,t.RF,t.VM);
+	return;
+}	
 extern void print_watchpoint_list();
 static int cmd_info(char *args){
 	//cmd: info r
@@ -91,7 +98,8 @@ static int cmd_info(char *args){
 		printf("esi\t0x%-x\t%-d\t ( | |SI   )\n",cpu.esi , cpu.esi);
 		printf("edi\t0x%-x\t%-d\t ( | |DI   )\n",cpu.edi,cpu.edi );
 		printf("eip\t0x%-x\t%-d\t ( | |IP   )\n",cpu.eip,cpu.eip );
-		printf("elags\t0x%-x\t\t\t\n" , eflags.eflags_l); 
+		printf("elags\t0x%-x\t\t\t\n" , eflags.eflags_l);
+		print_eflags(); 
 	}
 	else if(!strcmp(args , "b" )|| !strcmp(args , "w")){
 		print_watchpoint_list(); 

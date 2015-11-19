@@ -5,14 +5,11 @@
 //0x83 is to sub imm8 from longer r/m
 //others are to sub a length from same length
 //do_execute is do_instr_SUFFIX
+
 //#define op_src (&ops_decoded.src)
 //DATA_BYTE ,  DATA_TYPE is refering to latter operand(SRC)?
 //and SUFFIX is referring to former opearand
 
-/*Flags Affected
- * OF ,  SF ,  ZF ,  AF ,  PF ,  
- * and CF as described in Appendix C
- */
 //if a is byte and b is word/dword
 //then b=b-(signextend)a
 //else b = b - a
