@@ -28,12 +28,15 @@ static void do_execute(){
 #endif
 	DATA_TYPE result = b-a;
 	eflags.eflags.CF = (a > b);
+	/*
 	uint32_t pf_temp = (result >> 16) ^ result; 
 	pf_temp = (result >> 8) ^ result; 
 	pf_temp = (result >> 4) ^ result; 
 	pf_temp = (result >> 2) ^ result;
-	pf_temp = ((result >> 1) ^ result) & 1; 
-	eflags.eflags.PF = pf_temp;
+	pf_temp = ((result >> 1) ^ result) & 1;
+	*/
+	extern bool parity_check(uint32_t a); 
+	eflags.eflags.PF = parity_check(result);
 	//TODO :eflags.eflags.AF = (a > b);
 	eflags.eflags.SF = (result >> (DATA_BYTE - 1))&1;
 	eflags.eflags.ZF = (a == b);
