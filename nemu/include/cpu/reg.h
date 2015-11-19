@@ -60,10 +60,8 @@ typedef struct {
 } CPU_state;
 extern CPU_state cpu;
 enum{EF_CF=0 , EF_PF=2 , EF_AF=4 , EF_ZF=6 , EF_SF , EF_TF , EF_IF , EF_DF , EF_OF , EF_OL , EF_IP , EF_NT , EF_RF=16 , EF_VM=17}; 
-/*unsigned int monitor_get_eip32(){
-	return cpu.eip; 
-}
-*/
+#define cpu_elags cpu.eflags
+
 /*
 uint32_t get_eflags(){
 	return cpu.eflags.CF; 
