@@ -14,7 +14,7 @@ bool parity_check(uint32_t a){
 	pf_temp = (a >> 4) ^ a;  
 	pf_temp = (a >> 2) ^ a; 
 	pf_temp = ((a >> 1) ^ a) & 1;  
-	return pf_temp; 
+	return !pf_temp; 
 }
 
 void reg_test() {
