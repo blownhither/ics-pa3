@@ -2,15 +2,8 @@
 
 #define instr sub
 
-/*
-//TODO:make_instr_helper(???)
-make_instr_helper(i2rm)
 //0x83 is to sub imm8 from longer r/m
-make_instr_helper(i2r)
-make_instr_helper(r2rm)
-make_instr_helper(rm2r)
 //others are to sub a length from same length
-*/
 //do_execute is do_instr_SUFFIX
 //#define op_src (&ops_decoded.src)
 //DATA_BYTE ,  DATA_TYPE is refering to latter operand(SRC)?
@@ -26,20 +19,30 @@ static void do_execute(){
 //if a is byte and b is word/dword
 //then b=b-(signextend)a
 //else b = b - a
-#if (DATA_BYTE == 4) && SUFFIX == b
+#if DATA_BYTE == 4
 	a = (DATA_TYPE)op_src->val & 0xffffffff; 
-#elif (DATA_BYTE == 2) && SUFFIX == b
+#elif DATA_BYTE == 2
 	a = (DATA_TYPE)op_src->val & 0xffff; 
 #else
 	a = op_src->val; 
 #endif
 	DATA_TYPE result = b-a;
+	eflags.eflags.CF = (a > b);
+	//TODO :eflags.eflags.PF = (a > b);
+	//TODO :eflags.eflags.AF = (a > b);
+	eflags.eflags.SF = (result >> (DATA_BYTE - 1))&1;
+	eflags.eflags.OF = (op_src->val<0 && op_dest->val>0 && result<0) || (op_src->val>0 && op_dest->val<0 && result>0);
+
 	OPERAND_W(op_dest , result); 
 	print_asm_template2(); 
 }
 #if DATA_BYTE == 2 || DATA_BYTE == 4
 make_instr_helper(si2rm)
 #endif
+make_instr_helper(i2r)
+make_instr_helper(i2rm)
+make_instr_helper(r2rm)
+make_instr_helper(rm2r)
 
 
 #include "cpu/exec/template-end.h"
