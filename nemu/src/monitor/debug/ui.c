@@ -91,7 +91,7 @@ static int cmd_info(char *args){
 		printf("esi\t0x%-x\t%-d\t ( | |SI   )\n",cpu.esi , cpu.esi);
 		printf("edi\t0x%-x\t%-d\t ( | |DI   )\n",cpu.edi,cpu.edi );
 		printf("eip\t0x%-x\t%-d\t ( | |IP   )\n",cpu.eip,cpu.eip );
-		printf("elags\t0x%-x\t\t\t\n" , eflags.CF); 
+		printf("elags\t0x%-x\t\t\t\n" , eflags.eflags_l); 
 	}
 	else if(!strcmp(args , "b" )|| !strcmp(args , "w")){
 		print_watchpoint_list(); 

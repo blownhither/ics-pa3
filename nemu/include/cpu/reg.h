@@ -35,9 +35,13 @@ uint32_t   :1;
 			uint32_t VM:1;
 uint32_t   :6; 
 uint32_t   :8; 
+}EFLAGS_bit;
+typedef union {
+	EFLAGS_bit eflags;
+	uint32_t eflags_l;  
 }EFLAGS;
 EFLAGS eflags; 
-extern EFLAGS eflags;  
+//extern EFLAGS eflags;  
 //enum{eax,ecx,edx,ebx,esp,ebp,esi,edi};
 typedef struct {
 	union {//each GPR includes one of the three tpyes defined below, merged together brings benefits
