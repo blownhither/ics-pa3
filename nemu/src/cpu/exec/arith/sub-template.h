@@ -31,6 +31,7 @@ static void do_execute(){
 	//TODO :eflags.eflags.PF = (a > b);
 	//TODO :eflags.eflags.AF = (a > b);
 	eflags.eflags.SF = (result >> (DATA_BYTE - 1))&1;
+	eflags.eflags.ZF = (a == b);
 	eflags.eflags.OF = (op_src->val<0 && op_dest->val>0 && result<0) || (op_src->val>0 && op_dest->val<0 && result>0);
 
 	OPERAND_W(op_dest , result); 
