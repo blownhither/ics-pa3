@@ -13,12 +13,12 @@
  * OF ,  SF ,  ZF ,  AF ,  PF ,  
  * and CF as described in Appendix C
  */
-static void do_execute(){
-	DATA_TYPE a; 
-	DATA_TYPE b = op_dest->val; 
 //if a is byte and b is word/dword
 //then b=b-(signextend)a
 //else b = b - a
+static void do_execute(){
+	DATA_TYPE a; 
+	DATA_TYPE b = op_dest->val; 
 #if DATA_BYTE == 4
 	a = (DATA_TYPE)op_src->val & 0xffffffff; 
 #elif DATA_BYTE == 2
@@ -34,10 +34,10 @@ static void do_execute(){
 	pf_temp = (result >> 4) ^ result; 
 	pf_temp = (result >> 2) ^ result;
 	pf_temp = ((result >> 1) ^ result) & 1;
-	*/
-	extern bool parity_check(uint32_t a); 
-	eflags.eflags.PF = parity_check(result);
-	//TODO :eflags.eflags.AF = (a > b);
+	*/ 
+	extern bool parity_check(uint32_t ); 
+	eflags.eflags.PF = parity_check(result&0xffff );
+	//TODO :eflags.eflags.AF = ;
 	eflags.eflags.SF = (result >> (DATA_BYTE - 1))&1;
 	eflags.eflags.ZF = (a == b);
 	eflags.eflags.OF = (op_src->val<0 && op_dest->val>0 && result<0) || (op_src->val>0 && op_dest->val<0 && result>0);
