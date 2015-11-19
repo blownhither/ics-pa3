@@ -16,7 +16,7 @@ enum { R_AL, R_CL, R_DL, R_BL, R_AH, R_CH, R_DH, R_BH };
 
 typedef struct {
 	uint32_t CF:1; 
-	uint32_t	  :1; 
+	uint32_t dont_care:1; 
 	uint32_t PF:1; 
 	uint32_t   :1; 
 	uint32_t AF:1; 
@@ -27,7 +27,8 @@ typedef struct {
 	uint32_t IF:1; 
 	uint32_t DF:1; 
 	uint32_t OF:1; 
-			uint32_t OL:1; 
+			uint32_t OL:1;
+			uint32_t IP:1; 
 			uint32_t NT:1; 
 uint32_t   :1; 
 			uint32_t RF:1; 
@@ -35,6 +36,7 @@ uint32_t   :1;
 uint32_t   :6; 
 uint32_t   :8; 
 }EFLAGS;
+EFLAGS eflags; 
 extern EFLAGS eflags;  
 //enum{eax,ecx,edx,ebx,esp,ebp,esi,edi};
 typedef struct {

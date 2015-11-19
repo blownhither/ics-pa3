@@ -28,7 +28,7 @@ void init_monitor(int argc, char *argv[]) {
 
 	/* Open the log file. */
 	init_log();
-
+	
 	/* Load the string table and symbol table from the ELF file for future use. */
 	load_elf_tables(argc, argv);
 
@@ -74,13 +74,23 @@ static void load_entry() {
 	fclose(fp);
 }
 
+ 
+//extern EFLAGS eflags; 
+void init_eflags(){
+	eflags.CF=eflags.PF=eflags.AF=eflags.ZF=0; 
+	eflags.SF=eflags.TF=eflags.IF=eflags.DF=0; 
+	eflags.OF=eflags.OL=eflags.IP=eflags.NT=0; 
+	eflags.RF=eflags.VM=0; 
+	eflags.dont_care = 1; 
+}
+
 void restart() {
 	/* Perform some initialization to restart a program */
 #ifdef USE_RAMDISK
 	/* Read the file with name `argv[1]' into ramdisk. */
 	init_ramdisk();
 #endif
-
+	init_eflags(); 
 	/* Read the entry code into memory. */
 	load_entry();
 
