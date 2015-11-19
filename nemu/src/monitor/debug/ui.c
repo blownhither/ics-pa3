@@ -78,7 +78,7 @@ uint32_t swaddr_read_safe(swaddr_t addr , size_t len){
 }
 void print_eflags(){
 	EFLAGS_bit t = eflags.eflags;
-	printf("CF PF AF ZF SF TF IF\n%x  %x  %x  %x  %x  %x  %x\nDF OF OL IP NT RF VM\n%x  %x  %x  %x  %x  %x  %x\n",
+	printf("\tCF PF AF ZF SF TF IF\n\t%x  %x  %x  %x  %x  %x  %x\n\tDF OF OL IP NT RF VM\n\t%x  %x  %x  %x  %x  %x  %x\n",
 			t.CF,t.PF,t.AF,t.ZF,t.SF,t.TF,t.IF,
 			t.DF,t.OF,t.OL,t.IP,t.NT,t.RF,t.VM);
 	return;
