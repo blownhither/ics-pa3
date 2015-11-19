@@ -8,6 +8,15 @@ const char *regsl[] = {"eax", "ecx", "edx", "ebx", "esp", "ebp", "esi", "edi"};
 const char *regsw[] = {"ax", "cx", "dx", "bx", "sp", "bp", "si", "di"};
 const char *regsb[] = {"al", "cl", "dl", "bl", "ah", "ch", "dh", "bh"};
 
+bool parity_check(uint32_t a){
+	uint32_t pf_temp = (a >> 16) ^ a;  
+	pf_temp = (a >> 8) ^ a;  
+	pf_temp = (a >> 4) ^ a;  
+	pf_temp = (a >> 2) ^ a; 
+	pf_temp = ((a >> 1) ^ a) & 1;  
+	return pf_temp; 
+}
+
 void reg_test() {
 	srand(time(0));
 	uint32_t sample[8];
