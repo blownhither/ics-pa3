@@ -4,10 +4,10 @@
 
 //push(ip or eip)
 static void do_execute(){
-	reg_l(4) += 4; //esp
+	reg_l(R_ESP) += 4; //esp
 	//TODO warning:?! why +=
 	//DATA_TYPE temp = reg_w(4);
-	MEM_W(reg_l(4) , cpu.eip); //= swaddr_write	
+	MEM_W(reg_l(R_ESP) , cpu.eip); //= swaddr_write	
 	
 
 	//TODO: currently only 0xe8 implemented

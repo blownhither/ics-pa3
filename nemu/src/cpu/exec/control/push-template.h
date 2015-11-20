@@ -7,7 +7,6 @@ static void do_execute () {
 	printf("op_src->val is %x" , opsrc->val); 
 }
 */
-#define MZYDEBUG
 
 //extern static inline uint32_t instr_fetch(swaddr_t , size_t); 
 //stack address size is 32
