@@ -10,6 +10,7 @@ static void do_execute(){
 	#if DATA_BYTE == 2
 	cpu.eip = (cpu.eip + op_src->val) & 0xffff; 
 *///TODO*/
+	printf("op_src->val is %x , op_dest->val is %x\n" , op_src->val , op_dest->val); 
 #if DATA_BYTE == 4
 	cpu.eip = cpu.eip + op_src->val; 
 #endif
