@@ -4,8 +4,7 @@
 
 //push(ip or eip)
 static void do_execute(){
-	reg_l(R_ESP) += 4; //esp
-	//TODO warning:?! why +=
+	reg_l(R_ESP) -= 4; //esp
 	//DATA_TYPE temp = reg_w(4);
 	MEM_W(reg_l(R_ESP) , cpu.eip); //= swaddr_write	
 	
