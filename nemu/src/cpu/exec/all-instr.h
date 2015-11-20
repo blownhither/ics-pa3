@@ -24,6 +24,7 @@
 
 #include "control/call.h"
 #include "control/push.h"
+#include "control/jcc.h"
 
 #include "string/rep.h"
 
