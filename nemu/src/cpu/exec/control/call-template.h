@@ -4,7 +4,7 @@
 
 static void do_execute(){
 	reg_l(4) += 4; //esp
-	/*TODO ?! why +=
+	/*TODO warning:?! why +=
 	//DATA_TYPE temp = reg_w(4);
 	MEM_W(reg_l(4) , cpu.eip); //= swaddr_write	
 	*/
