@@ -13,14 +13,13 @@ static void do_execute () {
 //stack address size is 32
 make_helper(pushr){
 	uint8_t reg_num = instr_fetch(eip , 1);
-	printf("reg_num fetched is %x\n" , reg_num); 
-#ifdef MZYDEBUG
 	reg_num -= 0x50; 
-	printf("reg_num fetched is %x\n" , reg_num);
-#endif
-	printf("%x:\t\tpush %s" , eip , regsl[check_reg_index(reg_num)]); 
+	printf("  %x:\t%x\t\t\tpush %s" , eip , reg_num+0x50 , regsl[check_reg_index(reg_num)]); 
 	reg_l(R_ESP) += 4; //TODO += ?!?
 	swaddr_write(reg_l(R_ESP) , 4 , reg_l(reg_num));   
+#ifdef MZYDEBUG
+	printf("reg_num fetched is %x\n" , reg_num); 
+#endif
 	return 1; 
 	
 }
