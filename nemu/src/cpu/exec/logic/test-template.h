@@ -8,6 +8,7 @@ static void do_execute () {
 	eflags.eflags.ZF = !!op_src->val;
 	eflags.eflags.PF = parity_check(op_src->val);
 	eflags.eflags.SF = MSB(op_src->val);
+	print_asm_template2();
 }
 
 make_instr_helper(i2r)
