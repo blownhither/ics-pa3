@@ -13,7 +13,9 @@ static void do_execute () {
 make_helper(pushr){
 	uint8_t reg_num = instr_fetch(eip , 1);
 	reg_num -= 0x50; 
-	printf("  %x:\t%x\t\t\tpush %s" , eip , reg_num+0x50 , regsl[check_reg_index(reg_num)]); 
+	//printf("  %x:\t%x\t\t\tpush %s" , eip , reg_num+0x50 , regsl[check_reg_index(reg_num)]); 
+	strcpy(op_src->str , "push"); 
+	
 	reg_l(R_ESP) -= 4; 
 	swaddr_write(reg_l(R_ESP) , 4 , reg_l(reg_num));   
 #ifdef MZYDEBUG
