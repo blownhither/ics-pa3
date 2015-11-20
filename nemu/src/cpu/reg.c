@@ -17,6 +17,8 @@ bool parity_check(uint32_t a){
 	pf_temp = ((a >> 1) ^ a) & 1;  
 	return !pf_temp; 
 }
+//TODO: add more types of check
+
 
 void reg_test() {
 	srand(time(0));
