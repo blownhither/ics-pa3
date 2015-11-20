@@ -15,7 +15,7 @@ make_helper(pushr){
 	uint8_t reg_num = instr_fetch(eip , 1);
 	printf("reg_num fetched is %x\n" , reg_num); 
 #ifdef MZYDEBUGi
-	reg_num -= 0x80; 
+	reg_num -= 0x50; 
 	printf("reg_num fetched is %x\n" , reg_num);
 #endif
 	printf("%x:\t\tpush %s" , eip , regsl[check_reg_index(reg_num)]); 
