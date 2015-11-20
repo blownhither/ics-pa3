@@ -28,10 +28,10 @@ make_helper(je_b){
 	printf("offset fetched is 0x%x",offset);
 	#endif	
 	cpu.eip += 2;
-	if(eflags.eflags.ZF){
-		cpu.eip += op_src->val;
+	if(!!eflags.eflags.ZF){
+		cpu.eip += offset;
 	}
-	print_asm("je 0x%x <offset = 0x%x\n>",cpu.eip,offset);
+	print_asm("je 0x%x <offset 0x%x\n>",cpu.eip,offset);
 	return 0;
 }
 #endif
