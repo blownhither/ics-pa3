@@ -20,12 +20,12 @@ static make_helper(_2byte_esc);
 /* 0x80 */
 make_group(group1_b,
 	inv, inv, inv, inv, 
-	sub_i2rm_b, inv, inv, inv)
+	sub_i2rm_b, inv, inv, cmp_i2rm_b)
 
 /* 0x81 */
 make_group(group1_v,
 	inv, inv, inv, inv, 
-	sub_i2rm_v, inv, inv, inv)
+	sub_i2rm_v, inv, inv, cmp_i2rm_v)
 
 /* 0x83 */
 /* opcode is encoded here
@@ -34,7 +34,7 @@ make_group(group1_v,
  *  100, 101, 110, 111*/
 make_group(group1_sx_v,
 	inv, inv, inv, inv, 
-	inv, sub_si2rm_v, inv, inv)
+	inv, sub_si2rm_v, inv, cmp_si2rm_v)
 //TODO:check sub_signed_8-bit-imm_from_r/m_variant
 
 /* 0xc0 */
@@ -113,8 +113,8 @@ helper_fun opcode_table [256] = {
 /* 0x2c */	sub_i2r_b, sub_i2r_v, inv, inv,
 /* 0x30 */	inv, inv, inv, inv,
 /* 0x34 */	inv, inv, inv, inv,
-/* 0x38 */	inv, inv, inv, inv,
-/* 0x3c */	inv, inv, inv, inv,
+/* 0x38 */	cmp_r2rm_b, cmp_r2rm_v, cmp_rm2r_b, cmp_rm2r_v, 
+/* 0x3c */	cmp_i2a_b, cmp_i2a_v, inv, inv, 
 /* 0x40 */	inv, inv, inv, inv,
 /* 0x44 */	inv, inv, inv, inv,
 /* 0x48 */	inv, inv, inv, inv,
@@ -181,8 +181,8 @@ helper_fun _2byte_opcode_table [256] = {
 /* 0x2c */	inv, inv, inv, inv, 
 /* 0x30 */	inv, inv, inv, inv, 
 /* 0x34 */	inv, inv, inv, inv,
-/* 0x38 */	cmp_r2rm_b, cmp_r2rm_v, cmp_rm2r_b, cmp_rm2r_v, 
-/* 0x3c */	cmp_i2a_b, cmp_i2a_v, inv, inv, 
+/* 0x38 */	inv, inv, inv, inv,
+/* 0x3c */	inv, inv, inv, inv, 
 /* 0x40 */	inv, inv, inv, inv, 
 /* 0x44 */	inv, inv, inv, inv,
 /* 0x48 */	inv, inv, inv, inv, 
@@ -199,7 +199,7 @@ helper_fun _2byte_opcode_table [256] = {
 /* 0x74 */	inv, inv, inv, inv,
 /* 0x78 */	inv, inv, inv, inv, 
 /* 0x7c */	inv, inv, inv, inv, 
-/* 0x80 */	cmp_i2rm_b, cmp_i2rm_v, inv, cmp_si2rm_v,
+/* 0x80 */	inv, inv, inv, inv, 
 /* 0x84 */	inv, inv, inv, inv,
 /* 0x88 */	inv, inv, inv, inv, 
 /* 0x8c */	inv, inv, inv, inv, 
