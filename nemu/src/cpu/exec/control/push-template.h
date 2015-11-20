@@ -14,7 +14,7 @@ static void do_execute () {
 make_helper(pushr){
 	uint8_t reg_num = instr_fetch(eip , 1);
 	printf("reg_num fetched is %x\n" , reg_num); 
-#ifdef MZYDEBUGi
+#ifdef MZYDEBUG
 	reg_num -= 0x50; 
 	printf("reg_num fetched is %x\n" , reg_num);
 #endif
