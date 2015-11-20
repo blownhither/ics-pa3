@@ -12,7 +12,8 @@ static void do_execute () {
 //extern static inline uint32_t instr_fetch(swaddr_t , size_t); 
 //stack address size is 32
 make_helper(pushr){
-	uint8_t reg_num = instr_fetch(eip , 1); 
+	uint8_t reg_num = instr_fetch(eip , 1);
+	printf("reg_num fetched is %x\n" , reg_num); 
 #ifdef MZYDEBUGi
 	reg_num -= 0x80; 
 	printf("reg_num fetched is %x\n" , reg_num);
