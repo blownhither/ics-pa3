@@ -23,7 +23,7 @@ make_helper(je_v){
 
 #if DATA_BYTE == 1
 make_helper(je_b){
-	DATA_TYPE offset = instr_fetch(eip+1,1);
+	DATA_TYPE_S offset = instr_fetch(eip+1,1);
 	#ifdef MZYDEBUG
 	printf("offset fetched is 0x%x",offset);
 	#endif	
