@@ -12,7 +12,7 @@ static void do_execute(){
 *///TODO*/
 	printf("op_src->val is %x , op_dest->val is %x\n" , op_src->val , op_dest->val); 
 #if DATA_BYTE == 4
-	cpu.eip = cpu.eip + op_src->val; 
+	cpu.eip = cpu.eip + op_src->simm; 
 #endif
 	print_asm_template1(); 
 	return; 
