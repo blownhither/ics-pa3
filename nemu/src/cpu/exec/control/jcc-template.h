@@ -16,7 +16,7 @@ make_helper(concat(je_i_ , SUFFIX)){
 		cpu.eip += offset; 
 	}
 	print_asm("je 0x%x <offset = 0x%x\n>",cpu.eip,offset);
-	return 0;
+	return DATA_BYTE + 1;
 }
 #endif
 
@@ -32,7 +32,7 @@ make_helper(je_i_b){
 		cpu.eip += offset;
 	 }
 	print_asm("je 0x%x <offset 0x%x\n>",cpu.eip,offset);
-	return 0;
+	return 2;
 }
 #endif
 
