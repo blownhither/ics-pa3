@@ -5,13 +5,15 @@
 
 #if DATA_BYTE == 4 || DATA_BYTE == 2
 make_helper(concat(je_i_ , SUFFIX)){
+/*
 #if DATA_BYTE == 4 
 	DATA_TYPE offset = instr_fetch(eip+2,4);
 	
 #elif DATA_BYTE == 2
 	DATA_TYPE offset = instr_fetch(eip+2,2);
-
 #endif
+*/
+	DATA_TYPE offset = instr_fetch(eip+DATA_BYTE , DATA_BYTE); 
 	if(!!eflags.eflags.ZF){
 		cpu.eip += offset; 
 	}
