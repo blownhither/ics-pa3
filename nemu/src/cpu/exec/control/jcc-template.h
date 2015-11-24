@@ -27,7 +27,6 @@ make_helper(je_i_b){
 	#ifdef MZYDEBUG
 	printf("offset fetched is 0x%x",offset);
 	#endif	
-	cpu.eip += offset;
 	if(!!eflags.eflags.ZF){
 		cpu.eip += offset;
 	 }
