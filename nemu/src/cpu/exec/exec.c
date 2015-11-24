@@ -244,6 +244,7 @@ static make_helper(_2byte_esc) {
 	ops_decoded.opcode = opcode | 0x100;
 /*
 #ifdef MZYDEBUG
+	//snprintf("opcode | 0x100 is %d\n"); 
 	assert( "opcode | 0x100 is %d\n" , ops_decode.opcode); 
 #endif
 */
