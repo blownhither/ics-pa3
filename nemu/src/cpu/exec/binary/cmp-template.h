@@ -6,11 +6,11 @@ extern bool parity_check(uint32_t );
 static void do_execute () {
 	DATA_TYPE_S result = op_dest->val - (DATA_TYPE_S)op_src->val;
 	eflags.eflags.ZF = !result;
-	eflags.eflags.OF = (MSB(op_dest->val) ^ MSB(op_src->val)) && (MSB(op_dest->val) ^ MSB(result));
+	eflags.eflags.OF = (MSB(op_dest->val) ^ MSB(op_src->val)) 
+				&& (MSB(op_dest->val) ^ MSB(result));
 	eflags.eflags.SF = MSB(result);
 	//eflags.eflags.AF = 
 	eflags.eflags.PF = parity_check(result);
-
 }
 
 
@@ -23,3 +23,9 @@ make_instr_helper(rm2r)
 make_instr_helper(i2rm)
 
 #include "cpu/exec/template-end.h"
+
+
+
+
+
+

@@ -21,3 +21,8 @@ static void do_execute(){
 
 make_instr_helper(si); 
 #include "cpu/exec/template-end.h"
+
+
+
+
+
