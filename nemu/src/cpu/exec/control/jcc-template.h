@@ -13,7 +13,7 @@ make_helper(concat(je_i_ , SUFFIX)){
 	DATA_TYPE offset = instr_fetch(eip+2,2);
 #endif
 */
-	DATA_TYPE offset = instr_fetch(eip+DATA_BYTE , DATA_BYTE); 
+	DATA_TYPE offset = instr_fetch(eip+1 , DATA_BYTE); 
 	if(!!eflags.eflags.ZF){
 		cpu.eip += offset; 
 	}
