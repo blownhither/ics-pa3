@@ -251,7 +251,7 @@ uint32_t eval(int p , int q){
 	//p , q is the beginning and ending of a subexpression
 	if(p>q){
 		/*bad expression*/
-		invalid_flag=1; 
+		//invalid_flag=1; 
 		return 0; 
 	}
 	else if(p == q) { 
