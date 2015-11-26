@@ -322,6 +322,7 @@ uint32_t eval(int p , int q){
 				invalid_flag=1; 
 				return 0; 
 			}
+			printf("derf src is %x" , temp); 
 			return swaddr_read(eval(op+1 , q) , 4);
 		}
 		uint32_t val1 = eval(p , op-1); 
