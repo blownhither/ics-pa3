@@ -3,7 +3,7 @@
 #define instr je
 
 
-#if DATA_BYTE == 4 || DATA_BYTE == 2
+//#if DATA_BYTE == 4 || DATA_BYTE == 2
 make_helper(concat(je_i_ , SUFFIX)){
 /*
 #if DATA_BYTE == 4 
@@ -20,9 +20,9 @@ make_helper(concat(je_i_ , SUFFIX)){
 	print_asm("je 0x%x <offset = 0x%x\n>",cpu.eip,offset);
 	return DATA_BYTE + 1;
 }
-#endif
+//#endif
 
-
+/*
 #if DATA_BYTE == 1
 make_helper(je_i_b){
 	DATA_TYPE_S offset = instr_fetch(eip+1,1);
@@ -36,7 +36,7 @@ make_helper(je_i_b){
 	return 2;
 }
 #endif
-
+*/
 #undef instr
 
 #include "cpu/exec/template-end.h"
