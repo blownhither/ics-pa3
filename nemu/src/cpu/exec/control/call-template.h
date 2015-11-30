@@ -2,7 +2,7 @@
 
 #define instr call
 
-//push(ip or eip)
+
 static void do_execute(){
 	reg_l(R_ESP) -= 4; //esp
 	//DATA_TYPE temp = reg_w(4);
