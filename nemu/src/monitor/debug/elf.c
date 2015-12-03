@@ -79,6 +79,7 @@ void load_elf_tables(int argc, char *argv[]) {
 	free(shstrtab);
 	assert(strtab != NULL && symtab != NULL);
 	printf("%s\n" , strtab);
+	printf("%x\n" , symtab[0].st_value); 
 	printf("MZYDEBUG!!\n"); 
 	fclose(fp);
 }
