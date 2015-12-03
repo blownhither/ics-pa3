@@ -366,7 +366,7 @@ uint32_t expr(char *e, bool *success) {
 	//Elf32_Sym entry = symtab[0]; 
 	printf("MZYDEBUG:\n"); 
 	int i; 
-	for(i=0; i<10; i++)printf("%x" , symtab[i].st_name); 
+	for(i=0; i<10; i++)printf("%c" , symtab[i].st_name); 
 
 
 	if (!make_token(e)) {
