@@ -359,9 +359,16 @@ uint32_t eval(int p , int q){
 	return 0; 
 
 }
-
+#include<elf.h>
+extern Elf32_Sym symtab[]; 
 uint32_t expr(char *e, bool *success) {
 	//if(!strlen(e))return 0; 
+	//Elf32_Sym entry = symtab[0]; 
+	printf("MZYDEBUG:\n"); 
+	int i; 
+	for(i=0; i<10; i++)printf("%x" , symtab[i].st_name); 
+
+
 	if (!make_token(e)) {
 		*success = false;
 		return 0;
@@ -373,7 +380,7 @@ uint32_t expr(char *e, bool *success) {
 	//printf("-----end of tokening-----\n" );
 #endif
 	//subdevide operators
-	int i; 
+	//int i; 
 	for (i=0; i<nr_token; i++){
 		//if tokens[i-1] is operator
 		if(tokens[i].type == '*' && (i==0 || get_operator_priority(tokens[i-1].type) !=-1))

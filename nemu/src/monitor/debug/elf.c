@@ -4,8 +4,8 @@
 
 char *exec_file = NULL;
 
-static char *strtab = NULL;
-static Elf32_Sym *symtab = NULL;
+char *strtab = NULL;
+Elf32_Sym *symtab = NULL;
 static int nr_symtab_entry;
 
 void load_elf_tables(int argc, char *argv[]) {
