@@ -365,9 +365,9 @@ extern char strtab[];
 uint32_t expr(char *e, bool *success) {
 	//if(!strlen(e))return 0; 
 	//Elf32_Sym entry = symtab[0]; 
-	printf("MZYDEBUG:\n"); 
+	//printf("MZYDEBUG:\n"); 
 	int i; 
-	for(i=0; i<10; i++)printf("%s" , strtab); 
+	//for(i=0; i<10; i++)printf("%s" , strtab); 
 
 
 	if (!make_token(e)) {
