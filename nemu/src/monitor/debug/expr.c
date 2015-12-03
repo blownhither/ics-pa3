@@ -360,13 +360,14 @@ uint32_t eval(int p , int q){
 
 }
 #include<elf.h>
-extern Elf32_Sym symtab[]; 
+extern Elf32_Sym symtab[];
+extern char strtab[]; 
 uint32_t expr(char *e, bool *success) {
 	//if(!strlen(e))return 0; 
 	//Elf32_Sym entry = symtab[0]; 
 	printf("MZYDEBUG:\n"); 
 	int i; 
-	for(i=0; i<10; i++)printf("%c" , symtab[i].st_name); 
+	for(i=0; i<10; i++)printf("%c" , strtab[i]); 
 
 
 	if (!make_token(e)) {
