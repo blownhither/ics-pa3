@@ -17,7 +17,8 @@ make_instr_helper(i2a)
 make_instr_helper(i2rm)
 make_instr_helper(r2rm)
 make_instr_helper(rm2r)
-//make_instr_helper(si2rm)
-
+#if DATA_BYTE == 2 || DATA_BYTE == 4
+make_instr_helper(si2rm)
+#endif
 
 #include "cpu/exec/template-end.h"
