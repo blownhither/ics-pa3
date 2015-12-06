@@ -106,7 +106,6 @@ static bool make_token(char *e) {
 				}
 				switch(rules[i].token_type) {
 					case NOTYPE:
-						rules[i].token_type = SYMB; 
 						break;   
 					default:
 						//plain recording
@@ -284,7 +283,7 @@ uint32_t eval(int p , int q){
 			bool ok; 
 			uint32_t symb_addr = query_symbol(tokens[p].str , &ok); 
 			if(!ok){
-				printf("Undefined symbol %s in current context" , tokens[p].str); 
+				printf("Undefined symbol %s in current context\n" , tokens[p].str); 
 			}
 			return symb_addr; 
 		}
