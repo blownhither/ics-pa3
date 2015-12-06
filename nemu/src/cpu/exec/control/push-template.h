@@ -6,10 +6,10 @@
 static void do_execute () {
 #if DATA_BYTE == 2
 	cpu.esp -= 2;
-	swaddr_write(reg_l(R_ESP),2,op_src->val);
+	swaddr_write(cpu.esp,2,op_src->val);
 #elif DATA_BYTE == 4
 	cpu.esp -= 4;
-	swaddr_write(reg_l(R_ESP),4,op_src->val);
+	swaddr_write(cpu.esp,4,op_src->val);
 #endif
 	print_asm_template1();
 }
