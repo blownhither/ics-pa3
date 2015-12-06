@@ -247,6 +247,7 @@ void tool_to_upper_case(char *s){
 	return; 
 }
 
+extern uint32_t query_symbol(char* , bool*); 
 uint32_t eval(int p , int q){
 	if(invalid_flag)return 0; 	
 	//p , q is the beginning and ending of a subexpression
@@ -281,7 +282,8 @@ uint32_t eval(int p , int q){
 			//int i; 
 			//for(i=0; i<)
 			//sscanf(strtab , "%s" , symbol_name); 
-
+			bool ok; 
+			printf("test data at 0x%x\n" , query_symbol("test_data" , &ok)); 
 		}
 		else {
 			invalid_flag=1; 
