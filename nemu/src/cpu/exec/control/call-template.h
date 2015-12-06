@@ -8,7 +8,7 @@ static void do_execute(){
 	cpu.esp -= 4;
 	//DATA_TYPE temp = reg_w(4);
 	//	MEM_W(reg_l(R_ESP) , cpu.eip); //TODO: why not working?	
-	swaddr_write(reg_l(R_ESP) , 4 , cpu.eip+4); 
+	swaddr_write(reg_l(R_ESP) , 4 , cpu.eip+DATA_BYTE+1); 
 
 	//TODO: currently only 0xe8 implemented
 #if DATA_BYTE == 2
