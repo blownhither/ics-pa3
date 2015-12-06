@@ -97,7 +97,9 @@ uint32_t query_symbol(char *tar , bool *ok){
 		if(symtab[i].st_info != 0x11) continue; 
 		cur = strtab + symtab[i].st_name;
 		if(!strcmp(cur , tar)){
+#ifdef MZYDEBUG
 			printf("found %s at 0x%x\n" , cur , symtab[i].st_value);
+#endif
 			*ok = true; 
 			return symtab[i].st_value; 
 		}
