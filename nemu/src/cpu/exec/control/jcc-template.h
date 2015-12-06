@@ -31,7 +31,8 @@ make_helper(je_i_b){
 #endif
 */
 #undef instr
-
+#include "cpu/exec/template-end.h"
+#include "cpu/exec/template-start.h"
 #define instr jbe
 make_helper(concat(jbe_si_ , SUFFIX)){
 
