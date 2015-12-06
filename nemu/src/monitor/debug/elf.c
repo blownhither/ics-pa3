@@ -64,9 +64,9 @@ void load_elf_tables(int argc, char *argv[]) {
 			ret = fread(symtab, sh[i].sh_size, 1, fp);
 			assert(ret == 1);
 			nr_symtab_entry = sh[i].sh_size / sizeof(symtab[0]);
-		}
+		} 
 		else if(sh[i].sh_type == SHT_STRTAB && 
-				strcmp(shstrtab + sh[i].sh_name, ".strtab") == 0) {
+		 		strcmp(shstrtab + sh[i].sh_name, ".strtab") == 0) {
 			/* Load string table from exec_file */
 			strtab = malloc(sh[i].sh_size);
 			fseek(fp, sh[i].sh_offset, SEEK_SET);
@@ -78,10 +78,12 @@ void load_elf_tables(int argc, char *argv[]) {
 	free(sh);
 	free(shstrtab);
 	assert(strtab != NULL && symtab != NULL);
-	printf("%s\n" , strtab);
+	
+	printf("strtab begin:\n%s\n:end\n" , strtab);
 	for(i=0; i<10; i++)
-	printf("%c\n" , symtab[i].st_value); 
+	printf("%x\n" , symtab[i].st_name); 
 	printf("MZYDEBUG!!\n"); 
+	
 	fclose(fp);
 }
 
