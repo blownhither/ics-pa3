@@ -105,6 +105,7 @@ static bool make_token(char *e) {
 				}
 				switch(rules[i].token_type) {
 					case NOTYPE:
+						rules[i].token_type = SYMB; 
 						break;   
 					default:
 						//plain recording
