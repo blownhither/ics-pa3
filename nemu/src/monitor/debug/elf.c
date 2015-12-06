@@ -78,7 +78,7 @@ void load_elf_tables(int argc, char *argv[]) {
 	free(sh);
 	free(shstrtab);
 	assert(strtab != NULL && symtab != NULL);
-#define MZYDEBUG
+//#define MZYDEBUG
 #ifdef	MZYDEBUG	
 	printf(".symtab is");
 	for(i=0; i<nr_symtab_entry; i++) {
@@ -90,14 +90,19 @@ void load_elf_tables(int argc, char *argv[]) {
 	fclose(fp);
 }
 
-void query_symbol(char *tar){
-/*	int i;
-//	char *cur; 
+uint32_t query_symbol(char *tar , bool *ok){
+	int i;
+	char *cur; 
 	for(i=0; i<nr_symtab_entry; i++){
 		if(symtab[i].st_info != 0x11) continue; 
-		char *cur = strtab + symtab[i].st_name; 	
+		cur = strtab + symtab[i].st_name;
+		if(!strcmp(cur , tar)){
+			printf("found %s at 0x%x\n" , cur , symtab[i].st_value);
+			*ok = true; 
+			return symtab[i].st_value; 
+		}
 	}
-	i= cur - (cur-1); 
-*/
+	*ok = false; 
+	return 0; 
 }
 
