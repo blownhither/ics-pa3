@@ -38,7 +38,8 @@ static struct rule {
 	{"\\*" , '*'} ,				    //multiply
 	{"/" , '/'} ,			    	//devide
 	{"\\$[a-zA-Z]{2,3}" , REG} ,    //register
-	//{"[a-zA-Z]+", SYMB} ,			//global symbol 
+	{"[a-zA-Z_][a-zA-Z0-9_]*", SYMB} ,			//global symbol 
+
 	{"\\\(" , '('} , {"\\)" , ')'} ,//parenthesis
 	{"%" , '%'} , 					//mod
 	{"&&" , AND} , 
