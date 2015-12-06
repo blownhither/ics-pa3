@@ -21,7 +21,7 @@ int main() {
 	nemu_assert(i == NR_DATA);
 	nemu_assert(j == NR_DATA);
 
-	str[31]='\0';
+	//str[31]='\0';
 	nemu_assert(str[0] == 't');
 	HIT_GOOD_TRAP;
 
