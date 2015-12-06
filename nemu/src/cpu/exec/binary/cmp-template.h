@@ -11,6 +11,7 @@ static void do_execute () {
 	eflags.eflags.SF = MSB(result);
 	//eflags.eflags.AF = 
 	eflags.eflags.PF = parity_check(result);
+	print_asm_template2();
 }
 
 
