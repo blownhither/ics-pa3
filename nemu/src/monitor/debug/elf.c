@@ -78,6 +78,7 @@ void load_elf_tables(int argc, char *argv[]) {
 	free(sh);
 	free(shstrtab);
 	assert(strtab != NULL && symtab != NULL);
+#define MZYDEBUG
 #ifdef	MZYDEBUG	
 	printf(".symtab is");
 	for(i=0; i<nr_symtab_entry; i++) {
