@@ -14,7 +14,7 @@ make_helper(ret){
 	cpu.esp += 4;
 	//cpu.eip &= 0x0000ffff;
 	print_asm("ret");
-	return 1;
+	return 0;
 
 }
 /*
