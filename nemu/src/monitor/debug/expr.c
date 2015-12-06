@@ -157,7 +157,9 @@ bool check_parentheses(int p , int q){
 
 int get_operator_priority(int operator){
 	switch(operator){
-		case NEG:case DREF:case '!':case '~':case SYMB:
+		case SYMB:
+			return 19;  
+		case NEG:case DREF:case '!':case '~':
 			return 18; 
 		case '/':case '*':case '%':
 			return 17; 
