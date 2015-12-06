@@ -11,6 +11,7 @@ static void do_execute(){
 	extern bool parity_check(uint32_t ); 
 	eflags.eflags.PF = parity_check(ans );
 	eflags.eflags.CF = op_src->val > ans;
+	print_asm_template2(); 
 }
 
 make_instr_helper(i2a)
