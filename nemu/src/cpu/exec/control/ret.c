@@ -10,9 +10,9 @@
 //only 0xc3 and 0xc2 !
 make_helper(ret){
 	
-	cpu.eip = MEM_R(cpu.esp);
-	cpu.esp += 4;			//return address
-	cpu.eip = cpu.eip & 0x0000ffff;
+	DATA_TYPE ip = MEM_R(cpu.esp);
+	cpu.esp += 4;
+	cpu.eip = ip & 0x0000ffff;
 	print_asm("ret");
 	return 1;
 
