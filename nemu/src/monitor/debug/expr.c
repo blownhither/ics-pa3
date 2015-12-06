@@ -277,13 +277,12 @@ uint32_t eval(int p , int q){
 			return get_register_value(reg); 
 		}
 		else if(tokens[p].type==SYMB){
-			//char *cur = strtab; 
-			//char symbol_name[128]; 
-			//int i; 
-			//for(i=0; i<)
-			//sscanf(strtab , "%s" , symbol_name); 
 			bool ok; 
-			printf("test data at 0x%x\n" , query_symbol("test_data" , &ok)); 
+			uint32_t symb_addr = query_symbol(tokens[p].str , &ok); 
+			if(!ok){
+				printf("Undefined symbol %s in current context" , tokens[p].str); 
+			}
+			return symb_addr; 
 		}
 		else {
 			invalid_flag=1; 
@@ -333,7 +332,6 @@ uint32_t eval(int p , int q){
 				invalid_flag=1; 
 				return 0; 
 			}
-			printf("derf src is %x" , temp); 
 			return swaddr_read(eval(op+1 , q) , 4);
 		}
 		uint32_t val1 = eval(p , op-1); 
