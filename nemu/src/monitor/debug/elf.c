@@ -79,9 +79,11 @@ void load_elf_tables(int argc, char *argv[]) {
 	free(shstrtab);
 	assert(strtab != NULL && symtab != NULL);
 	
-	printf("strtab begin:\n%s\n:end\n" , strtab+0x32);
-	for(i=0; i<nr_symtab_entry; i++)
-	printf("%x\t%x\t%x\t%x\n" , symtab[i].st_name , symtab[i].st_value , symtab[i].st_info , symtab[i].st_shndx); 
+	//printf("strtab begin:\n%s\n:end\n" , strtab+0x32);
+	for(i=0; i<nr_symtab_entry; i++){
+		printf("%x\t%x\t%x\t%x\n" , symtab[i].st_name , symtab[i].st_value , symtab[i].st_info , symtab[i].st_shndx); 
+		printf("%s\n" , strtab+symtab[i].st_name); 
+	}
 	printf("MZYDEBUG!!\n"); 
 	
 	fclose(fp);
