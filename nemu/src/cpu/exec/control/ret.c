@@ -12,7 +12,7 @@ make_helper(ret){
 	
 	cpu.eip = MEM_R(cpu.esp);
 	cpu.esp += 4;
-	//cpu.eip &= 0x0000ffff;
+	//cpu.eip &= 0x0000ffff;	//no good doing this?
 	print_asm("ret");
 	return 0;
 
