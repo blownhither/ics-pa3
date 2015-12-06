@@ -3,16 +3,16 @@
 #ifdef DATA_BYTE
 #undef DATA_BYTE
 #endif
-#define DATA_BYTE 2
+#define DATA_BYTE 4
 
 #include "cpu/exec/template-start.h"
 
 //only 0xc3 and 0xc2 !
 make_helper(ret){
 	
-	DATA_TYPE ip = MEM_R(cpu.esp);
+	cpu.eip = MEM_R(cpu.esp);
 	cpu.esp += 4;
-	cpu.eip = ip & 0x0000ffff;
+	cpu.eip &= 0x0000ffff;
 	print_asm("ret");
 	return 1;
 
