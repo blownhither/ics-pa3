@@ -20,7 +20,7 @@ int main() {
 	//set_bp();
 	nemu_assert(i == NR_DATA);
 	nemu_assert(j == NR_DATA);
-
+	char *str[] = "this is a const string for test ^_^";
 	HIT_GOOD_TRAP;
 
 	return 0;
