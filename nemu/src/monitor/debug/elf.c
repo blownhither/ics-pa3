@@ -107,4 +107,3 @@ uint32_t query_symbol(char *tar , bool *ok){
 	*ok = false; 
 	return 0; 
 }
-
