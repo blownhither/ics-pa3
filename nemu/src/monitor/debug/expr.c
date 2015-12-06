@@ -7,7 +7,7 @@
 #include<string.h>
 enum {
 	NOTYPE = 256, EQ , DEC  , HEX , REG , NEG , LE , GE=263 , 
-	DREF = 264 , SL , SR , NEQ , AND , OR
+	DREF = 264 , SL , SR , NEQ , AND , OR , SYMB
 	/* TODO: Add more token types */
 
 };
@@ -38,8 +38,9 @@ static struct rule {
 	{"\\*" , '*'} ,				    //multiply
 	{"/" , '/'} ,			    	//devide
 	{"\\$[a-zA-Z]{2,3}" , REG} ,    //register
+	{"[a-zA-Z]+", SYMB} ,			//global symbol 
 	{"\\\(" , '('} , {"\\)" , ')'} ,//parenthesis
-	{"%" , '%'} , 						//mod
+	{"%" , '%'} , 					//mod
 	{"&&" , AND} , 
 	{"\\|\\|" , OR} , 
 	{"&" , '&'} , 
@@ -154,7 +155,7 @@ bool check_parentheses(int p , int q){
 
 int get_operator_priority(int operator){
 	switch(operator){
-		case NEG:case DREF:case '!':case '~':
+		case NEG:case DREF:case '!':case '~':case SYMB:
 			return 18; 
 		case '/':case '*':case '%':
 			return 17; 
@@ -273,6 +274,14 @@ uint32_t eval(int p , int q){
 			strcpy(reg , &tokens[p].str[1]) ;		//first ch is '$'
 			tool_to_upper_case(reg);  
 			return get_register_value(reg); 
+		}
+		else if(tokens[p].type==SYMB){
+			//char *cur = strtab; 
+			//char symbol_name[128]; 
+			//int i; 
+			//for(i=0; i<)
+			//sscanf(strtab , "%s" , symbol_name); 
+
 		}
 		else {
 			invalid_flag=1; 

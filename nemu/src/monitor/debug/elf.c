@@ -4,8 +4,8 @@
 
 char *exec_file = NULL;
 
-char *strtab = NULL;
-Elf32_Sym *symtab = NULL;
+static char *strtab = NULL;
+static Elf32_Sym *symtab = NULL;
 static int nr_symtab_entry;
 
 void load_elf_tables(int argc, char *argv[]) {
@@ -80,12 +80,23 @@ void load_elf_tables(int argc, char *argv[]) {
 	assert(strtab != NULL && symtab != NULL);
 #ifdef	MZYDEBUG	
 	printf(".symtab is");
-	for(i=0; i<nr_symtab_entry; i++){
-		printf("%x\t%x\t%x\t%x\n" , symtab[i].st_name , symtab[i].st_value , symtab[i].st_info , symtab[i].st_shndx); 
+	for(i=0; i<nr_symtab_entry; i++) {
+		printf("%x\t%x\t%c\t%x\n" , symtab[i].st_name , symtab[i].st_value , symtab[i].st_info , symtab[i].st_shndx); 
 		printf("%s\n" , strtab+symtab[i].st_name); 
 	}
 	printf("MZYDEBUG!!\n"); 
 #endif
 	fclose(fp);
+}
+
+void query_symbol(char *tar){
+/*	int i;
+//	char *cur; 
+	for(i=0; i<nr_symtab_entry; i++){
+		if(symtab[i].st_info != 0x11) continue; 
+		char *cur = strtab + symtab[i].st_name; 	
+	}
+	i= cur - (cur-1); 
+*/
 }
 
