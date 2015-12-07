@@ -196,7 +196,7 @@ extern bool query_func(uint32_t eip, char *func_name);
 static int cmd_bt(char *args){
 	static char func_name[256];	
 	query_func(cpu.eip,func_name);
-	printf("in cmd %s\n",func_name);
+	printf("in %s\n",func_name);
 	return 0;
 }
 

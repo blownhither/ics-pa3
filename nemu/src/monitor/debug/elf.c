@@ -116,7 +116,7 @@ bool query_func(uint32_t eip, char *func_name){
 		end = start + symtab[i].st_size;
 		if(eip<=end && eip>=start){
 			strcpy(func_name,strtab + symtab[i].st_name);
-			printf("found is%s\n",func_name);
+			//printf("found is%s\n",func_name);
 			return true;
 		}
 	}	
