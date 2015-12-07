@@ -200,13 +200,13 @@ static int cmd_bt(char *args){
 	int cnt=0;
 	while(1){			
 		if(cur_eip==FUNC_START || cur_ebp == 0){
-			printf("%d in start\n",cnt++);
+			printf("#%d 0x%x in start ()\n",cnt++,cur_eip);
 			break;
 		}
 		if(query_func(cur_eip-1,func_name))
-			printf("%d in %s\n",cnt++,func_name);
+			printf("#%d 0x%x in %s ()\n",cnt++,cur_eip,func_name);
 		else
-			printf("%d in \?\?()\n",cnt++);
+			printf("#%d 0x%x in \?\?()\n",cnt++,cur_eip);
 		cur_eip = swaddr_read(cur_ebp+4,4);	//return address
 		cur_ebp = swaddr_read(cur_ebp,4);	//previous bottom
 	}
