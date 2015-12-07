@@ -198,16 +198,18 @@ static int cmd_bt(char *args){
 	uint32_t cur_ebp = cpu.ebp,	cur_eip = cpu.eip;	
 	//printf("ebp:0x%x,eip:0x%x\n",cur_ebp,cur_eip);
 	query_func(cpu.eip,func_name);
-	printf("in %s\n",func_name);
+	//printf("in %s\n",func_name);
 	while(cur_ebp){			// ?!
 		//if(cur_ebp==0)break;
-		cur_eip = swaddr_read(cur_ebp+4,4);	//return address
-		cur_ebp = swaddr_read(cur_ebp,4);	//previous bottom
+		//cur_eip = swaddr_read(cur_ebp+4,4);	//return address
+		//cur_ebp = swaddr_read(cur_ebp,4);	//previous bottom
 		//printf("ebp:%x,eip:%x\n",cur_ebp,cur_eip);
 		if(query_func(cur_eip-1,func_name))
 			printf("in %s\n",func_name);
 		else
-			printf("in ? ?()\n");
+			printf("in \?\?()\n");
+		cur_eip = swaddr_read(cur_ebp+4,4);	//return address
+		cur_ebp = swaddr_read(cur_ebp,4);	//previous bottom
 	}	
 	return 0;
 }
