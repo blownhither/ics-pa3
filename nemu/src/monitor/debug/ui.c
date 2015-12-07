@@ -74,7 +74,8 @@ uint32_t swaddr_read_safe(swaddr_t addr , size_t len){
 		info_register_overflow_flag = true; 
 		return -1; 
 	} 
-	else return swaddr_read(addr , len); 
+	info_register_overflow_flag = false;
+	return swaddr_read(addr , len); 
 }
 void print_eflags(){
 	EFLAGS_bit t = eflags.eflags;
@@ -197,7 +198,10 @@ void print_stack_parameter(uint32_t cur_ebp){
 	int i;
 	for(i=0;i<PRINT_N_STACK_PARAMETER;i++){
 		uint32_t ans = swaddr_read_safe(cur_ebp - (i<<2),4);
-		printf("\t0x%x\tat 0x%x\n",ans,cur_ebp - (i<<2));
+		if(!info_register_overflow_flag)
+			printf("\t0x%x\tat 0x%x\n",ans,cur_ebp - (i<<2));
+		else
+			printf("\t0x????\tat 0x%x\n",cur_ebp - (i<<2));
 	}
 }
 
@@ -219,7 +223,7 @@ static int cmd_bt(char *args){
 			printf("#%d 0x%x in %s ()\n",cnt++,cur_eip,func_name);
 		else 											//unamed function
 			printf("#%d 0x%x in \?\?()\n",cnt++,cur_eip);
-		if(args[0]!='-')		
+		//if(args[0]!='-')		
 			print_stack_parameter(cur_ebp);		
 		cur_eip = swaddr_read(cur_ebp+4,4);	//return address
 		cur_ebp = swaddr_read(cur_ebp,4);	//previous bottom
