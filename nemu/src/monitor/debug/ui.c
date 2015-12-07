@@ -205,7 +205,7 @@ static int cmd_bt(char *args){
 		//cur_eip = swaddr_read(cur_ebp+4,4);	//return address
 		//cur_ebp = swaddr_read(cur_ebp,4);	//previous bottom
 		//printf("ebp:%x,eip:%x\n",cur_ebp,cur_eip);
-		if(cur_eip==FUNC_START){
+		if(cur_eip==FUNC_START || cur_ebp == 0){
 			printf("in start\n");
 			break;
 		}
