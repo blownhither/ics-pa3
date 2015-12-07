@@ -67,7 +67,7 @@ static int cmd_q(char *args) {
 
 static int cmd_help(char *args);
 
-bool info_register_overflow_flag = false; 
+static bool info_register_overflow_flag = false; 
 uint32_t swaddr_read(swaddr_t addr, size_t len);
 uint32_t swaddr_read_safe(swaddr_t addr , size_t len){
 	if(addr >= 1<<27){
