@@ -201,6 +201,7 @@ static int cmd_bt(char *args){
 		cur_ebp = swaddr_read(cur_ebp,4);
 		cur_eip = swaddr_read(cur_ebp+1,4);
 		printf("ebp%x,eip%x\n",cur_ebp,cur_eip);
+		if(cur_eip<=0)break;
 		query_func(cur_eip,func_name);
 		printf("in %s\n",func_name);
 	}	
