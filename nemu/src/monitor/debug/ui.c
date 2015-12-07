@@ -223,7 +223,7 @@ static int cmd_bt(char *args){
 		else 											//unamed function
 			printf("#%d 0x%x in \?\?()\n",cnt++,cur_eip);
 		
-		if(strcmp(args,"--neat"))	
+		if(strncmp(args,"--neat",6))	
 			print_stack_parameter(cur_ebp);		
 		cur_eip = swaddr_read_safe(cur_ebp+4,4);	//return address
 		if(info_register_overflow_flag)break;info_register_overflow_flag=false;
