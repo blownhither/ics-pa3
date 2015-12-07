@@ -8,8 +8,8 @@
 #include "cpu/exec/template-start.h"
 make_helper(leave){
 	cpu.esp = cpu.ebp;
-	cpu.ebp = MEM_R(cpu.esp);
-	cpu.esp += 4;			//return address
+	cpu.ebp = MEM_R(cpu.esp);	//same as swaddr_write
+	cpu.esp += 4;				//return address
 	print_asm("leave");
 	return 1;
 

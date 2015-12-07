@@ -9,7 +9,7 @@ static void do_execute(){
 	eflags.eflags.SF = MSB(ans);
 	eflags.eflags.OF = (MSB(ans)!=MSB(op_dest->val)) && (MSB(ans)!=MSB(op_src->val));
 	extern bool parity_check(uint32_t ); 
-	eflags.eflags.PF = parity_check(ans );
+	eflags.eflags.PF = parity_check(ans);
 	eflags.eflags.CF = op_src->val > ans;
 	print_asm_template2(); 
 }
