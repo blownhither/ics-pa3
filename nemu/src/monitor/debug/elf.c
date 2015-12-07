@@ -82,7 +82,7 @@ void load_elf_tables(int argc, char *argv[]) {
 #ifdef	MZYDEBUG	
 	printf(".symtab is");
 	for(i=0; i<nr_symtab_entry; i++) {
-		printf("%x\t%x\t%c\t%x\n" , symtab[i].st_name , symtab[i].st_value , symtab[i].st_info , symtab[i].st_shndx); 
+		printf("%x\t%x\t%x\t%x\n" , symtab[i].st_name , symtab[i].st_value , symtab[i].st_info , symtab[i].st_shndx); 
 		printf("%s\n" , strtab+symtab[i].st_name); 
 	}
 	printf("MZYDEBUG!!\n"); 
