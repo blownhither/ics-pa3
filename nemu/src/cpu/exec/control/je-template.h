@@ -10,7 +10,7 @@ make_helper(concat(je_i_ , SUFFIX)){
 	if(!!eflags.eflags.ZF){
 		cpu.eip += offset; 
 	}
-	print_asm("je 0x%x <offset = 0x%x\n>",cpu.eip,offset);
+	print_asm("je 0x%x <offset = 0x%x\n>",cpu.eip+DATA_BYTE,offset);
 	return DATA_BYTE + 1;
 }
 
