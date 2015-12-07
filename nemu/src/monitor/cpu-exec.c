@@ -83,7 +83,7 @@ void cpu_exec(volatile uint32_t n) {
 		} 
 
 		if(nemu_state != RUNNING) { return; }
-		printf("cpu.eip is %x in rear cpu-exec.c\n",cpu.eip);
+		//printf("cpu.eip is %x in rear cpu-exec.c\n",cpu.eip);
 	}
 
 	if(nemu_state == RUNNING) { nemu_state = STOP; }
