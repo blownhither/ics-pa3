@@ -16,7 +16,7 @@ make_helper(concat(je_i_ , SUFFIX)){
 	print_asm("je 0x%x <offset = 0x%x\n>",cpu.eip+DATA_BYTE+1,offset);
 	printf("eip now is %x\n",cpu.eip);
 
-	return 2;	//?!
+	return DATA_BYTE + 1;	//?!
 }
 
 #undef instr
