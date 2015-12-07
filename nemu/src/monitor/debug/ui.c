@@ -191,6 +191,15 @@ static int cmd_d(char *args){
 	delete_wp(num_2_delete); 
 	return 0; 
 }
+
+extern bool query_func(uint32_t eip, char *func_name);
+static int cmd_bt(char *args){
+	static char func_name[256];	
+	query_func(cpu.eip,func_name);
+	printf("in cmd %s\n",func_name);
+	return 0;
+}
+
 static struct {
 	char *name;
 	char *description;
@@ -204,7 +213,8 @@ static struct {
 	{"x","Examine memory: x [N] ADDRESS",cmd_x} , 
 	{"p" , "Print value of expression EXP." , cmd_p} , 
 	{"w" , "Stop execution whenever the value of an expression changes." , cmd_w} ,   
-	{"d" , "Delete breakpoints or auto-display expressions." , cmd_d} , 
+	{"d" , "Delete breakpoints or auto-display expressions." , cmd_d} ,
+	{"bt","Print backtrace of all stack frames",cmd_bt}, 
 	/* TODO: Add more commands */
 
 };

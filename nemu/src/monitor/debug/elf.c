@@ -109,19 +109,18 @@ uint32_t query_symbol(char *tar , bool *ok){
 }
 
 bool query_func(uint32_t eip, char *func_name){
-	/*int i;
+	int i;uint32_t start, end;
 	for(i=0; i<nr_symtab_entry; i++){
 		if(symtab[i].st_info != 0x12) continue; 
-		cur = strtab + symtab[i].st_name;
-		if(!strcmp(cur , tar)){
-#ifdef MZYDEBUG
-			printf("found %s at 0x%x\n" , cur , symtab[i].st_value);
-#endif
-			*ok = true; 
-			return symtab[i].st_value; 
+		start = symtab[i].st_value;
+		end = start + symtab[i].st_size;
+		if(eip<=end && eip>=start){
+			strcpy(func_name,strtab + symtab[i].st_name);
+			printf("found is%s\n",func_name);
+			return true;
 		}
-	}*/	
-	return true;
+	}	
+	return false;
 }
 
 
