@@ -196,14 +196,14 @@ extern bool query_func(uint32_t eip, char *func_name);
 static int cmd_bt(char *args){
 	static char func_name[256];	
 	uint32_t cur_ebp = cpu.ebp,	cur_eip = cpu.eip;	
-	printf("ebp%x,eip%x\n",cur_ebp,cur_eip);
+	printf("ebp:0x%x,eip:0x%x\n",cur_ebp,cur_eip);
 	query_func(cpu.eip,func_name);
 	while(1){
 		printf("asd\n");
 		if(cur_eip<=0 || cur_ebp<=0)break;
 		cur_ebp = swaddr_read(cur_ebp,4);
 		if(cur_eip<=0 || cur_ebp<=0)break;
-		cur_eip = swaddr_read(cur_ebp+1,4);
+		cur_eip = swaddr_read(cur_ebp+4,4);
 		if(cur_eip<=0 || cur_ebp<=0)break;
 		printf("ebp%x,eip%x\n",cur_ebp,cur_eip);
 		
