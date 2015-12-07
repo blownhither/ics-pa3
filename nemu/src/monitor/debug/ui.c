@@ -220,9 +220,9 @@ static int cmd_bt(char *args){
 			printf("#%d 0x%x in %s ()\n",cnt++,cur_eip,func_name);			
 		else if(query_func(cur_eip,func_name))			//if eip-1 fail try eip
 			printf("#%d 0x%x in %s ()\n",cnt++,cur_eip,func_name);
-		else if(strcmp(args,"-"))						//unamed function
+		else 											//unamed function
 			printf("#%d 0x%x in \?\?()\n",cnt++,cur_eip);
-		if(strcmp(args,"-"))		
+		//if(args[0]!='-')		
 			print_stack_parameter(cur_ebp);		
 		cur_eip = swaddr_read_safe(cur_ebp+4,4);	//return address
 		if(info_register_overflow_flag)break;info_register_overflow_flag=false;
