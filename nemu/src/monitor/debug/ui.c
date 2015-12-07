@@ -198,6 +198,7 @@ static int cmd_bt(char *args){
 	uint32_t cur_ebp = cpu.ebp,	cur_eip = cpu.eip;	
 	query_func(cpu.eip,func_name);
 	while(1){
+		printf("asd\n");
 		cur_ebp = swaddr_read(cur_ebp,4);
 		cur_eip = swaddr_read(cur_ebp+1,4);
 		printf("ebp%x,eip%x\n",cur_ebp,cur_eip);
