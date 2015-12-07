@@ -7,7 +7,7 @@ make_helper(concat(jbe_si_ , SUFFIX)){
 
 		//if(offset<0)
 		//cpu.eip += (offset | 0xffffff00);
-		if(offset<0)
+		if(!MSB(offset))
 		cpu.eip += offset;
 		else
 		cpu.eip -= ~offset + 1;
