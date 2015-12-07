@@ -202,7 +202,7 @@ static int cmd_bt(char *args){
 	while(1){			// ?!
 		printf("asd\n");
 		cur_eip = swaddr_read(cur_ebp+4,4);
-		if(cur_eip<=0 || cur_ebp<=0)break;
+		//if(cur_eip<=0 || cur_ebp<=0)break;
 		cur_ebp = swaddr_read(cur_ebp,4);
 		if(cur_eip<=0 || cur_ebp<=0)break;
 		
