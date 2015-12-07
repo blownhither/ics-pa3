@@ -30,7 +30,7 @@ make_helper(je_i_b){
 	print_asm("je 0x%x <offset = 0x%x\n>",cpu.eip+DATA_BYTE+1,offset);
 	printf("eip now is %x\n",cpu.eip);
 	printf("DATA_BYTE is %x\n",DATA_BYTE);
-	return DATA_BYTE + 1;	//?!
+	return 2;	//?!
 }
 
 #endif
