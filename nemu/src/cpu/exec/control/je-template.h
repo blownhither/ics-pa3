@@ -11,7 +11,7 @@ make_helper(concat(je_i_ , SUFFIX)){
 		cpu.eip += offset; 
 	}
 	print_asm("je 0x%x <offset = 0x%x\n>",cpu.eip+DATA_BYTE+1,offset);
-	return DATA_BYTE;
+	return DATA_BYTE;	//omit +1
 }
 
 #undef instr
