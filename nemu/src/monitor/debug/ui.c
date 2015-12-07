@@ -196,6 +196,7 @@ extern bool query_func(uint32_t eip, char *func_name);
 static int cmd_bt(char *args){
 	static char func_name[256];	
 	uint32_t cur_ebp = cpu.ebp,	cur_eip = cpu.eip;	
+	printf("ebp%x,eip%x\n",cur_ebp,cur_eip);
 	query_func(cpu.eip,func_name);
 	while(1){
 		printf("asd\n");
