@@ -192,6 +192,15 @@ static int cmd_d(char *args){
 	return 0; 
 }
 
+#define PRINT_N_STACK_PARAMETER 4
+void print_stack_parameter(uint32_t cur_ebp){
+	int i;
+	for(i=0;i<PRINT_N_STACK_PARAMETER;i++){
+		uint32_t ans = swaddr_read_safe(cur_ebp - (i<<2),4);
+		printf("\t0x%x\tat 0x%x\n",ans,cur_ebp - (i<<2));
+	}
+}
+
 #define FUNC_START 0x100000
 extern bool query_func(uint32_t eip, char *func_name);
 static int cmd_bt(char *args){
@@ -204,14 +213,14 @@ static int cmd_bt(char *args){
 			printf("#%d 0x%x in start ()\n",cnt++,cur_eip);
 			break;
 		}
-		if(query_func(cur_eip-1,func_name))
+		if(query_func(cur_eip-1,func_name))				//try avoid tail call
+			printf("#%d 0x%x in %s ()\n",cnt++,cur_eip,func_name);			
+		else if(query_func(cur_eip,func_name))			//if eip-1 fail try eip
 			printf("#%d 0x%x in %s ()\n",cnt++,cur_eip,func_name);
-		else{
-			if(query_func(cur_eip,func_name))
-				printf("#%d 0x%x in %s ()\n",cnt++,cur_eip,func_name);
-			else 
-				printf("#%d 0x%x in \?\?()\n",cnt++,cur_eip);
-		}		
+		else 											//unamed function
+			printf("#%d 0x%x in \?\?()\n",cnt++,cur_eip);
+		if(args[0]=='-')		
+			print_stack_parameter(cur_ebp);		
 		cur_eip = swaddr_read(cur_ebp+4,4);	//return address
 		cur_ebp = swaddr_read(cur_ebp,4);	//previous bottom
 	}
