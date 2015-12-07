@@ -213,11 +213,10 @@ static int cmd_bt(char *args){
 	int cnt=0;
 	
 	while(1){			
-		if(cur_eip==FUNC_START || cur_ebp == 0){
+		if(cur_eip==FUNC_START || cur_ebp == 0){		//start() saftey
 			printf("#%d 0x%x in start ()\n",cnt++,cur_eip);
-			break;
 		}
-		if(query_func(cur_eip-1,func_name))				//try avoid tail call
+		else if(query_func(cur_eip-1,func_name))		//try avoid tail-call
 			printf("#%d 0x%x in %s ()\n",cnt++,cur_eip,func_name);			
 		else if(query_func(cur_eip,func_name))			//if eip-1 fail try eip
 			printf("#%d 0x%x in %s ()\n",cnt++,cur_eip,func_name);
