@@ -6,7 +6,7 @@
 //#if DATA_BYTE == 4 || DATA_BYTE == 2
 make_helper(concat(je_i_ , SUFFIX)){
 
-	DATA_TYPE offset = instr_fetch(eip+1 , DATA_BYTE); 
+	DATA_TYPE_S offset = instr_fetch(eip+1 , DATA_BYTE); 
 	if(!!eflags.eflags.ZF){
 		cpu.eip += offset; 
 	}
