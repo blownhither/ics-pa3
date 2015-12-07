@@ -7,8 +7,10 @@ make_helper(concat(jbe_si_ , SUFFIX)){
 
 		//if(offset<0)
 		//cpu.eip += (offset | 0xffffff00);
-
+		if(offset<0)
 		cpu.eip += offset;
+		else
+		cpu.eip += ~offset + 1;
  
 	}
 	print_asm("jbe ""0x%x <offset = 0x%x\n>",cpu.eip+DATA_BYTE+1,offset);
