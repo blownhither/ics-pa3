@@ -207,7 +207,7 @@ static int cmd_bt(char *args){
 		if(query_func(cur_eip-1,func_name))
 			printf("in %s\n",func_name);
 		else
-			printf("in \?\?()\n");
+			printf("in ? ?()\n");
 	}	
 	return 0;
 }
