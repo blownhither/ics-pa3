@@ -57,7 +57,7 @@ void cpu_exec(volatile uint32_t n) {
 			fputc('.', stderr);
 		}
 #endif
-		printf("cpu.eip is %x in front cpu-exec.c\n",cpu.eip);
+		//printf("cpu.eip is %x in front cpu-exec.c\n",cpu.eip);
 		/* Execute one instruction, including instruction fetch,
 		 *  instruction decode, and the actual execution. */
 		int instr_len = exec(cpu.eip);
