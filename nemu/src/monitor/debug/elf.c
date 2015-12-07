@@ -119,7 +119,8 @@ bool query_func(uint32_t eip, char *func_name){
 			//printf("found is%s\n",func_name);
 			return true;
 		}
-	}	
+	}
+	*func_name = '\0';	
 	return false;
 }
 

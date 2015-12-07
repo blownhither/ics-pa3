@@ -204,7 +204,7 @@ static int cmd_bt(char *args){
 		cur_eip = swaddr_read(cur_ebp+4,4);	//return address
 		cur_ebp = swaddr_read(cur_ebp,4);	//previous bottom
 		//printf("ebp:%x,eip:%x\n",cur_ebp,cur_eip);
-		query_func(cur_eip,func_name);
+		query_func(cur_eip-1,func_name);
 		printf("in %s\n",func_name);
 	}	
 	return 0;
