@@ -110,14 +110,14 @@ uint32_t query_symbol(char *tar , bool *ok){
 
 bool query_func(uint32_t eip, char *func_name){
 	int i;uint32_t start, end;
-	printf("eip got is 0x%x",eip);
+	//printf("eip got is 0x%x",eip);
 	for(i=0; i<nr_symtab_entry; i++){
 		if(symtab[i].st_info != 0x12) continue; 
 		start = symtab[i].st_value;
 		end = start + symtab[i].st_size;
 		if(eip<=end && eip>=start){
 			strcpy(func_name,strtab + symtab[i].st_name);
-			printf("found is%s\n",func_name);
+			//printf("found is%s\n",func_name);
 			return true;
 		}
 	}

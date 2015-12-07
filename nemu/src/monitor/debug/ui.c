@@ -198,6 +198,7 @@ static int cmd_bt(char *args){
 	static char func_name[256];	
 	uint32_t cur_ebp = cpu.ebp,	cur_eip = cpu.eip;	
 	int cnt=0;
+	
 	while(1){			
 		if(cur_eip==FUNC_START || cur_ebp == 0){
 			printf("#%d 0x%x in start ()\n",cnt++,cur_eip);
@@ -205,8 +206,12 @@ static int cmd_bt(char *args){
 		}
 		if(query_func(cur_eip-1,func_name))
 			printf("#%d 0x%x in %s ()\n",cnt++,cur_eip,func_name);
-		else
-			printf("#%d 0x%x in \?\?()\n",cnt++,cur_eip);
+		else{
+			if(query_func(cur_eip,func_name))
+				printf("#%d 0x%x in %s ()\n",cnt++,cur_eip,func_name);
+			else 
+				printf("#%d 0x%x in \?\?()\n",cnt++,cur_eip);
+		}		
 		cur_eip = swaddr_read(cur_ebp+4,4);	//return address
 		cur_ebp = swaddr_read(cur_ebp,4);	//previous bottom
 	}
