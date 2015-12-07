@@ -198,6 +198,7 @@ static int cmd_bt(char *args){
 	uint32_t cur_ebp = cpu.ebp,	cur_eip = cpu.eip;	
 	printf("ebp:0x%x,eip:0x%x\n",cur_ebp,cur_eip);
 	query_func(cpu.eip,func_name);
+	printf("in %s\n",func_name);
 	while(1){
 		printf("asd\n");
 		if(cur_eip<=0 || cur_ebp<=0)break;
