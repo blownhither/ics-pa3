@@ -61,8 +61,8 @@ void cpu_exec(volatile uint32_t n) {
 		/* Execute one instruction, including instruction fetch,
 		 *  instruction decode, and the actual execution. */
 		int instr_len = exec(cpu.eip);
-		printf("cpu.eip is %x in cpu-exec.c\n",instr_len);
-		printf("cpu.eip is %x in cpu-exec.c\n",cpu.eip);
+		//printf("instr_len is %x in cpu-exec.c\n",instr_len);
+		//printf("cpu.eip is %x in cpu-exec.c\n",cpu.eip);
 		cpu.eip += instr_len;
 		printf("cpu.eip is %x in cpu-exec.c\n",cpu.eip);
 		
@@ -83,6 +83,7 @@ void cpu_exec(volatile uint32_t n) {
 		} 
 
 		if(nemu_state != RUNNING) { return; }
+printf("cpu.eip is %x in cpu-exec.c\n",cpu.eip);
 	}
 
 	if(nemu_state == RUNNING) { nemu_state = STOP; }
