@@ -14,7 +14,7 @@ make_helper(concat(jbe_si_ , SUFFIX)){
  
 	}
 	print_asm("jbe ""0x%x <offset = 0x%x\n>",cpu.eip+DATA_BYTE+1,offset);
-	return DATA_BYTE + 1;
+	return DATA_BYTE ;
 }
 #undef instr
 #include "cpu/exec/template-end.h"
