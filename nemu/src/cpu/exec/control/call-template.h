@@ -9,7 +9,7 @@ static void do_execute(){
 	//DATA_TYPE temp = reg_w(4);
 	//	MEM_W(reg_l(R_ESP) , cpu.eip); //TODO: why not working?	
 	swaddr_write(reg_l(R_ESP) , 4 , cpu.eip+DATA_BYTE+1); 
-	//printf("write %x", cpu.eip+DATA_BYTE+1);
+	printf("write %x", cpu.eip+DATA_BYTE+1);
 	//TODO: currently only 0xe8 implemented
 #if DATA_BYTE == 2
 	cpu.eip = (cpu.eip + op_src->simm) & 0xffff; 
