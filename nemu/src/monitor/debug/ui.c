@@ -227,9 +227,9 @@ static int cmd_bt(char *args){
 		
 		//if(strncmp(args,"--neat",6))	
 			print_stack_parameter(cur_ebp);		
-		cur_eip = swaddr_read_safe(cur_ebp+4,4);	//return address
+		cur_eip = swaddr_read_safe(cur_ebp+4,4);		//return address
 		if(info_register_overflow_flag)break;info_register_overflow_flag=false;
-		cur_ebp = swaddr_read_safe(cur_ebp,4);		//previous bottom
+		cur_ebp = swaddr_read_safe(cur_ebp,4);			//previous stack bottom
 		if(info_register_overflow_flag)break;info_register_overflow_flag=false;
 	}
 	
