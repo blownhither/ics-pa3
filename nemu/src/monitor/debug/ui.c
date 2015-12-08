@@ -215,6 +215,7 @@ static int cmd_bt(char *args){
 	while(1){			
 		if(cur_eip==FUNC_START || cur_ebp == 0){		//start() saftey
 			printf("#%d 0x%x in start ()\n",cnt++,cur_eip);
+			print_stack_parameter(cur_ebp);	
 			break;
 		}
 		else if(query_func(cur_eip-1,func_name))		//try avoid tail-call
