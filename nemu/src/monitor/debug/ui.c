@@ -22,8 +22,8 @@ static int cmd_si(char *args){//int_cpu_exec
 	if(!len)ans=1;
 	else{
 		if(len>10) { 
-		printf("invalid argument for cpu execution.\n");
-		return 0;
+			printf("invalid argument for cpu execution.\n");
+			return 0;
 		}  
 		int i;
 		for (i=0;i<len;i++){
@@ -220,7 +220,7 @@ static int cmd_bt(char *args){
 			print_stack_parameter(cur_ebp);	
 			break;
 		}
-		else if(query_func(cur_eip-1,func_name))		//try avoid tail-call
+		else if(cnt!=0 && query_func(cur_eip-1,func_name))		//try avoid tail-call
 			printf("#%d 0x%x in %s ()\n",cnt++,cur_eip,func_name);			
 		else if(query_func(cur_eip,func_name))			//if eip-1 fail try eip
 			printf("#%d 0x%x in %s ()\n",cnt++,cur_eip,func_name);
