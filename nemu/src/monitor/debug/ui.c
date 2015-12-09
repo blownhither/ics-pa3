@@ -23,14 +23,16 @@ static int cmd_si(char *args){//int_cpu_exec
 	else{
 		if(len>10) { 
 		printf("invalid argument for cpu execution.\n");
-		return -1;
+		return 0;
 		}  
 		int i;
 		for (i=0;i<len;i++){
-		if('0'<=args[i]&&args[i]<='9')
-			ans=ans*10+args[i]-'0';
-		else return 0;
-
+			if('0'<=args[i]&&args[i]<='9')
+				ans=ans*10+args[i]-'0';
+			else{
+				printf("invalid argument for cpu execution.\n");
+				return 0;
+			}
 		} 
 	}
 	cpu_exec(ans);
