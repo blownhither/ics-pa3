@@ -215,7 +215,7 @@ static int cmd_bt(char *args){
 	uint32_t cur_ebp = cpu.ebp,	cur_eip = cpu.eip;	
 	int cnt=0;
 	while(1){			
-		if(cnt!= 0 &&( cur_eip==FUNC_START || cur_ebp == 0)){		//start() saftey
+		if(( cur_eip==FUNC_START || cur_ebp == 0)){		//start() saftey
 			printf("#%d 0x%x in start ()\n",cnt++,cur_eip);
 			print_stack_parameter(cur_ebp);	
 			break;
