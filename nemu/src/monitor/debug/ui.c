@@ -27,9 +27,10 @@ static int cmd_si(char *args){//int_cpu_exec
 		}  
 		int i;
 		for (i=0;i<len;i++){
-		Assert('0'<=args[i]&&args[i]<='9',"invalid argument for cpu execution.");
-		//ToCheck maybe not assert?
-		ans=ans*10+args[i]-'0';
+		if('0'<=args[i]&&args[i]<='9')
+			ans=ans*10+args[i]-'0';
+		else return 0;
+
 		} 
 	}
 	cpu_exec(ans);
