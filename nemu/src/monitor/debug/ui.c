@@ -211,14 +211,13 @@ static int cmd_bt(char *args){
 	static char func_name[256];	
 	uint32_t cur_ebp = cpu.ebp,	cur_eip = cpu.eip;	
 	int cnt=0;
-	
 	while(1){			
 		if(cur_eip==FUNC_START || cur_ebp == 0){		//start() saftey
 			printf("#%d 0x%x in start ()\n",cnt++,cur_eip);
 			print_stack_parameter(cur_ebp);	
 			break;
 		}
-		else if(query_func(cur_eip,func_name))		//try avoid tail-call
+		else if(query_func(cur_eip-1,func_name))		//try avoid tail-call
 			printf("#%d 0x%x in %s ()\n",cnt++,cur_eip,func_name);			
 		else if(query_func(cur_eip,func_name))			//if eip-1 fail try eip
 			printf("#%d 0x%x in %s ()\n",cnt++,cur_eip,func_name);
@@ -232,6 +231,7 @@ static int cmd_bt(char *args){
 		cur_ebp = swaddr_read_safe(cur_ebp,4);			//previous stack bottom
 		if(info_register_overflow_flag)break;info_register_overflow_flag=false;
 	}
+	if(cnt==0)printf("no stack.\n");
 	return 0;
 }
 
