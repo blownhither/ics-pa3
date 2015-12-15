@@ -87,6 +87,7 @@ void load_elf_tables(int argc, char *argv[]) {
 	}
 	printf("MZYDEBUG!!\n"); 
 #endif
+	printf("\n%d%d",STT_FUNC,STB_GLOBAL);
 	fclose(fp);
 }
 
@@ -104,7 +105,7 @@ uint32_t query_symbol(char *tar , bool *ok){
 			return symtab[i].st_value; 
 		}
 	}
-	printf("%d%d",STT_FUNC,STB_GLOBAL);
+	
 	*ok = false; 
 	return 0; 
 }
