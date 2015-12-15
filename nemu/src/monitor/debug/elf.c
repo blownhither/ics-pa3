@@ -104,6 +104,7 @@ uint32_t query_symbol(char *tar , bool *ok){
 			return symtab[i].st_value; 
 		}
 	}
+	printf("%d%d",STT_FUNC,STB_GLOBAL);
 	*ok = false; 
 	return 0; 
 }
