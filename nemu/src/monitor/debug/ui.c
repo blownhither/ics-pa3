@@ -219,10 +219,11 @@ static int cmd_bt(char *args){
 		query_func(cpu.eip,caller_name);	
 	}
 	while(1){
-		if(cnt==0){
-			
+		if(cnt==0 && swaddr_read_safe(cpu.eip-1,1)==0x55){
+			printf("ex#%d 0x%x in %s ()\n",cnt++,cur_eip,caller_name);
+				
 		}			
-		if(( cur_eip==FUNC_START || cur_ebp == 0)){		//start() saftey
+		else if(( cur_eip==FUNC_START || cur_ebp == 0)){		//start() saftey
 			printf("#%d 0x%x in start ()\n",cnt++,cur_eip);
 			print_stack_parameter(cur_ebp);	
 			break;
@@ -230,7 +231,7 @@ static int cmd_bt(char *args){
 		else if(cnt!=0 && query_func(cur_eip-1,func_name))		//try avoid tail-call
 			printf("#%d 0x%x in %s ()\n",cnt++,cur_eip,func_name);			
 		else if(query_func(cur_eip,func_name))			//if eip-1 fail try eip
-			printf("sad#%d 0x%x in %s ()\n",cnt++,cur_eip,func_name);
+			printf("#%d 0x%x in %s ()\n",cnt++,cur_eip,func_name);
 		else 											//unamed function
 			printf("#%d 0x%x in \?\?()\n",cnt++,cur_eip);
 		
