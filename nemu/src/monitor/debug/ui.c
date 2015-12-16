@@ -222,7 +222,7 @@ static int cmd_bt(char *args){
 		}
 		else if(cnt!=0 && query_func(cur_eip-1,func_name))		//try avoid tail-call
 			printf("#%d 0x%x in %s ()\n",cnt++,cur_eip,func_name);			
-		else if(query_func(cur_eip,func_name))			//if eip-1 fail try eip
+		else if(query_func(cur_ebp,func_name))			//if eip-1 fail try eip
 			printf("sad#%d 0x%x in %s ()\n",cnt++,cur_eip,func_name);
 		else 											//unamed function
 			printf("#%d 0x%x in \?\?()\n",cnt++,cur_eip);
