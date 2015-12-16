@@ -87,7 +87,7 @@ void load_elf_tables(int argc, char *argv[]) {
 	}
 	printf("MZYDEBUG!!\n"); 
 #endif
-	printf("\n%x %x",STT_OBJECT,STB_GLOBAL);
+	printf("\n%d %x",STT_OBJECT,STB_GLOBAL);
 	fclose(fp);
 }
 
