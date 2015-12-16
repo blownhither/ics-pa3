@@ -22,9 +22,7 @@ int main() {
 	nemu_assert(j == NR_DATA);
 	//char str2[] = "this is another const string for test ^_^";
 	//str2[34] = '\0';
-	//for(i=0;i<3;i++){
-	//	if(str2[i]=='s')HIT_BAD_TRAP;
-	//}
+	//nemu_assert(str2[0] == 't');
 	//nemu_assert(str[0] == 't');
 	HIT_GOOD_TRAP;
 
