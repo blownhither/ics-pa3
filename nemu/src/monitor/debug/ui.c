@@ -216,16 +216,16 @@ static int cmd_bt(char *args){
 	int cnt=0;
 	while(1){			
 		if(( cur_eip==FUNC_START || cur_ebp == 0)){		//start() saftey
-			printf("#%d 0x%x in start ()\n",cnt++,cur_eip);
+			printf("a#%d 0x%x in start ()\n",cnt++,cur_eip);
 			print_stack_parameter(cur_ebp);	
 			break;
 		}
 		else if(cnt==0 && query_func(cur_eip-1,func_name))		//try avoid tail-call
-			printf("#%d 0x%x in %s ()\n",cnt++,cur_eip,func_name);			
+			printf("b#%d 0x%x in %s ()\n",cnt++,cur_eip,func_name);			
 		else if(query_func(cur_eip,func_name))			//if eip-1 fail try eip
-			printf("#%d 0x%x in %s ()\n",cnt++,cur_eip,func_name);
+			printf("c#%d 0x%x in %s ()\n",cnt++,cur_eip,func_name);
 		else 											//unamed function
-			printf("#%d 0x%x in \?\?()\n",cnt++,cur_eip);
+			printf("d#%d 0x%x in \?\?()\n",cnt++,cur_eip);
 		
 		//if(strncmp(args,"--neat",6))	
 		print_stack_parameter(cur_ebp);		
