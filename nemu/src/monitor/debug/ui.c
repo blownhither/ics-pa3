@@ -212,18 +212,10 @@ void print_stack_parameter(uint32_t cur_ebp){
 extern bool query_func(uint32_t eip, char *func_name);
 static int cmd_bt(char *args){
 	static char func_name[256];	
-	static char caller_name[256];
 	uint32_t cur_ebp = cpu.ebp,	cur_eip = cpu.eip;	
 	int cnt=0;
-	if(swaddr_read_safe(cpu.eip,1)==0xe8){
-		query_func(cpu.eip,caller_name);	
-	}
-	while(1){
-		if(cnt==0 && swaddr_read_safe(cpu.eip-1,1)==0x55){
-			printf("ex#%d 0x%x in %s ()\n",cnt++,cur_eip,caller_name);
-				
-		}			
-		else if(( cur_eip==FUNC_START || cur_ebp == 0)){		//start() saftey
+	while(1){			
+		if(( cur_eip==FUNC_START || cur_ebp == 0)){		//start() saftey
 			printf("#%d 0x%x in start ()\n",cnt++,cur_eip);
 			print_stack_parameter(cur_ebp);	
 			break;
