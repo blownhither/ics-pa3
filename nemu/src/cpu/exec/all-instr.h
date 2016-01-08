@@ -14,8 +14,9 @@
 #include "arith/add.h"
 
 #include "binary/cmp.h"
+#include "binary/and.h"
 
-#include "logic/and.h"
+//#include "logic/and.h"
 #include "logic/or.h"
 #include "logic/not.h"
 #include "logic/xor.h"
