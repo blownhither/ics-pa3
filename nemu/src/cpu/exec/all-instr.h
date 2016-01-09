@@ -12,6 +12,7 @@
 #include "arith/div.h"
 #include "arith/sub.h"
 #include "arith/add.h"
+#include "arith/adc.h"
 
 #include "binary/cmp.h"
 #include "binary/and.h"
