@@ -1,15 +1,16 @@
 #include "cpu/exec/template-start.h"
 
-#define instr push
+#define instr pop
 
 
 static void do_execute () {
-#if DATA_BYTE == 2
-	cpu.esp -= 2;
-#elif DATA_BYTE == 4
-	cpu.esp -= 4;
-#endif
-	MEM_W(cpu.esp,op_src->val);
+	OPERAND_W(op_src,MEM_R(cpu.esp));
+//#if DATA_BYTE == 2
+	cpu.esp += DATA_BYTE;
+//#elif DATA_BYTE == 4
+//	cpu.esp += 4;
+//#endif
+	
 	print_asm_template1();
 }
 
@@ -33,4 +34,5 @@ make_helper(pushr){
 }
 */
 make_instr_helper(r)
+//make_instr_helper(m)
 #include "cpu/exec/template-end.h"
