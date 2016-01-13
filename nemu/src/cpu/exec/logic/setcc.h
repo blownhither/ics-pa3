@@ -1,7 +1,7 @@
 #ifndef __SETCC_H__
 #define __SETCC_H__
 
-make_helper(setcc_r2rm_b);
+make_helper(setcc_rm_b);
 //make_helper(seto_b);	//0F90
 //make_helper(setno_b);	//0F91
 //make_helper(setc_b);	//0F92

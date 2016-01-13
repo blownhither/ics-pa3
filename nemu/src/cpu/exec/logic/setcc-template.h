@@ -4,8 +4,8 @@
 
 static void do_execute () {
 	
-	printf("%x\n%x\n",op_src->reg,op_dest->val);
-
+	uint8_t condition = instr_fetch(cpu.eip-1,1);
+	printf("%x\n",condition);
 	/* There is no need to update EFLAGS, since no other instructions 
 	 * in PA will test the flags updated by this instruction.
 	 */
@@ -13,5 +13,5 @@ static void do_execute () {
 //	print_asm_template2();
 }
 
-make_instr_helper(r2rm)
+make_instr_helper(rm)
 #include "cpu/exec/template-end.h"
