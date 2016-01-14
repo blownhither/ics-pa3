@@ -4,7 +4,7 @@
 
 static void do_execute () {
 	
-	uint8_t condition = instr_fetch(cpu.eip-2,1), ans;
+	uint8_t condition = instr_fetch(cpu.eip+1,1), ans;
 	printf("%x",condition);
 	switch(condition){
 		case 0x90: ans = eflags.eflags.OF;break;
