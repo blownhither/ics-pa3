@@ -5,7 +5,7 @@
 static void do_execute () {
 	
 	uint8_t condition = instr_fetch(cpu.eip+1,1), ans;
-	printf("%x",condition);
+	//printf("%x",condition);
 	switch(condition){
 		case 0x90: ans = eflags.eflags.OF;break;
 		case 0x91: ans = !eflags.eflags.OF;break;
@@ -21,7 +21,8 @@ static void do_execute () {
 		case 0x9b: ans = !eflags.eflags.PF;break;
 		case 0x9c: ans = (eflags.eflags.OF != eflags.eflags.SF);break;
 		case 0x9d: ans = (eflags.eflags.OF == eflags.eflags.SF);break;
-		case 0x9e: case 0x9f:ans = (eflags.eflags.ZF || eflags.eflags.SF!=eflags.eflags.OF);break;
+		case 0x9e: ans = (eflags.eflags.ZF || eflags.eflags.SF!=eflags.eflags.OF);break;
+		case 0x9f: ans = (!eflags.eflags.ZF && eflags.eflags.SF==eflags.eflags.OF);break;
 		 //ans = !eflags.eflags.OF;break;
 		default: panic("exception for setcc!\n");
 		
