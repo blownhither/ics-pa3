@@ -32,7 +32,7 @@ static void do_execute () {
 	 * in PA will test the flags updated by this instruction.
 	 */
 
-	print_asm_template2();
+	print_asm_template1();
 }
 
 make_instr_helper(rm)
