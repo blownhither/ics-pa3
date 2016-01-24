@@ -432,7 +432,7 @@ uint32_t expr_cmd_x(char *e , bool *success){
 
 		if(tokens[i].type == '-' && (i==0 || get_operator_priority(tokens[i-1].type) !=-1))
 			tokens[i].type= NEG;
-		if(tokens[i].type == DREF || tokens[i].type == REG)
+		if(tokens[i].type == DREF || tokens[i].type == REG || tokens[i].type == SYMB)
 			flag_const_watchpoint = false; 
 	}
 	uint32_t ans = eval(0 , nr_token-1);
