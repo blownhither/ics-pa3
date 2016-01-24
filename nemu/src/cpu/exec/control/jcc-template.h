@@ -7,21 +7,26 @@
                             if(reg==1)cpu.eip += offs + DATA_BYTE + 1;\
                             return 0;
 
+#define JCC_MAKER(reg1) make_helper(concat3(instr,_si_,SUFFIX)){\
+                           JCC_CONDITION(reg1);\
+                          }
 
 //make_helper(jo_si_v); //0x0f 80
+#define instr jo
+#undef instr
 //make_helper(jno_si_v); //0x0f 81
 //make_helper(jb_si_v); //0x0f 82
 //make_helper(jnb_si_v); //0x0f 83
 //make_helper(je_si_v); //0x0f 84
 #define instr je
-make_helper(concat(je_si_,SUFFIX)){
+/*make_helper(concat(je_si_,SUFFIX)){
 	//DATA_TYPE_S offs = instr_fetch(cpu.eip+1,DATA_BYTE);
-    //JCC_ROUTINE;
  	//if(eflags.eflags.ZF)cpu.eip += offs + DATA_BYTE + 1;    
 	//print_asm(str(instr)" 0x%x <offs=0x%x>\n",cpu.eip+offs+DATA_BYTE+1,offs);
 	//return 0;
     JCC_CONDITION(eflags.eflags.ZF);
-}
+}*/
+JCC_MAKER(eflags.eflags.ZF);
 //make_helper(jne_si_v); //0x0f 85
 #undef instr
 #define instr jne
