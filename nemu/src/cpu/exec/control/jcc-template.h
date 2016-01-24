@@ -13,7 +13,7 @@ make_helper(concat(je_si_,SUFFIX)){
 	DATA_TYPE_S offs = instr_fetch(cpu.eip+1,DATA_BYTE);
 	//printf("je %x\n",offs);
  	if(eflags.eflags.ZF)cpu.eip += offs + DATA_BYTE + 1;    
-	print_asm("instr"" 0x%x <offs=0x%x>\n",cpu.eip+offs+DATA_BYTE+1,offs);
+	print_asm(str(instr)" 0x%x <offs=0x%x>\n",cpu.eip+offs+DATA_BYTE+1,offs);
 	return 0;
 }
 //make_helper(jne_si_v); //0x0f 85
