@@ -190,6 +190,7 @@ static int cmd_w(char *args){
 }
 extern void delete_wp(int num_2_delete); 
 static int cmd_d(char *args){
+	if(args==NULL)return 0; 
 	int num_2_delete; 
 	sscanf(args , "%d" , &num_2_delete); 
 	delete_wp(num_2_delete); 
