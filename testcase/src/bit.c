@@ -18,9 +18,9 @@ void setbit(void *buf, int offset, bool bit){
 	uint8_t * volatile p = buf + byte;
 	*p = (bit == 0 ? (*p & ~mask) : (*p | mask));
 }
-
+uint8_t buf[2];
 int main() {
-	uint8_t buf[2];
+	
 
 	buf[0] = 0xaa; 
 	nemu_assert(getbit(buf, 0) == 0);
