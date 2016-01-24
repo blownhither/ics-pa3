@@ -4,8 +4,8 @@
                     print_asm(str(instr)" 0x%x <offs=0x%x>",cpu.eip+offs+DATA_BYTE+1,offs);
 
 #define JCC_CONDITION(reg) JCC_ROUTINE\
-                            if((reg)==1)cpu.eip += offs + DATA_BYTE + 1;\
-                            return 0;
+                            if((reg)==1)cpu.eip += offs;\
+                            return DATA_BYTE + 1;
 
 #define JCC_MAKER(reg1) make_helper(concat3(instr,_si_,SUFFIX)){\
                            JCC_CONDITION(reg1);\
