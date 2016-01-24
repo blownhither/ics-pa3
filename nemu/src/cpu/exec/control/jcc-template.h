@@ -7,7 +7,7 @@
 //make_helper(je_si_v); //0x0f 84
 #define instr je
 make_helper(concat(je_si_,SUFFIX)){
-	printf("je %x\n",op_src->val);
+	printf("je %x\n",op_dest->val);
     if(eflags.eflags.ZF)cpu.eip += op_src->val + DATA_BYTE + 1;    
 	//print_asm("jmp 0x%x <offset = 0x%x\n>",cpu.eip+1+DATA_BYTE,op_src->val);
 	return 0;
