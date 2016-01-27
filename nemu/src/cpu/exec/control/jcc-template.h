@@ -3,6 +3,8 @@
 #define JCC_ROUTINE DATA_TYPE_S offs = instr_fetch(eip+1,DATA_BYTE);\
                     print_asm(str(instr)" 0x%x <offs=0x%x>",eip+offs+DATA_BYTE+1,offs);
 
+//using eip in the first macro because 0x0f offer extra eip offs 
+
 #define JCC_CONDITION(reg) JCC_ROUTINE\
                             if((reg)==1)cpu.eip += offs;\
                             return DATA_BYTE + 1;
