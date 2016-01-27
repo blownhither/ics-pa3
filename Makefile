@@ -54,7 +54,7 @@ clean: clean-cpp
 ROOT=`pwd`
 count: 
 	find . -name "*.[dch]"|xargs cat|grep -v ^$$|wc -l
-USERPROG := obj/testcase/fact
+USERPROG := obj/testcase/fib
 ENTRY := $(USERPROG)
 
 entry: $(ENTRY)
