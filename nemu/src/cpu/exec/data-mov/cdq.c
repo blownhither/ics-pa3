@@ -3,8 +3,8 @@
 #define instr cdq
 make_helper(cdq){
 	cpu.edx = 0 - (MSB(cpu.eax)==1);
-	printf("%x",cpu.edx);	
-	print_asm("cdq/cltq");
+	//printf("%x",cpu.edx);	
+	print_asm("cdq/cltd");
 	return 1;
 }
 
