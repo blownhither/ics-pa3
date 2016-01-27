@@ -2,7 +2,7 @@
 #include "cpu/exec/template-start.h"
 #define instr cdq
 make_helper(cdq){
-	cpu.edx = (uint32_t)(0 - (MSB(cpu.eax)==1));
+	cpu.edx = (uint32_t) (0 - (MSB(cpu.eax)==1));
 	//printf("%x",cpu.edx);	
 	print_asm("cdq/cltd");
 	return 1;
