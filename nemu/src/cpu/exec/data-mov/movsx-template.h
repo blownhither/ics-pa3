@@ -3,8 +3,8 @@
 #define instr movsx
 
 static void do_execute() {
-	//DATA_TYPE_S ans = op_src->val
-	OPERAND_W(op_dest, (uint32_t)op_src->val);
+	uint32_t ans = (uint32_t)(DATA_TYPE_S)op_src->val;
+	OPERAND_W(op_dest, ans);
 	print_asm_template2();
 }
 
