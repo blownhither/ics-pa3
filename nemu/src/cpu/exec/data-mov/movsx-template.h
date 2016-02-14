@@ -16,8 +16,8 @@ static void do_execute() {
 #if DATA_BYTE==4
 static void do_execute() {
 	uint32_t ans = (op_src->val & (uint32_t)0xff);
-	ans |= ((op_src->val >> 7)&(uint32_t)1)<<31>>31;
-	printf("src:%x, ans:%x, dest:%x\n",op_src->val,ans,op_dest->val);
+	ans |= ((op_src->val >> 7)&(uint32_t)1)<<31>>15;
+	printf("src:%x, key:%x, ans:%x, dest:%x\n",op_src->val,(op_src->val>>7)&(uint32_t)1,ans,op_dest->val);
 	OPERAND_W(op_dest, ans);
 	print_asm_template2();
 }
