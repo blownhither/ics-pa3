@@ -6,8 +6,8 @@
 //make_helper(movsx_rm_w2r_b);
 //make_helper(movsx_rm_b2r_v);
 //make_helper(movsx_rm_w2r_v);
-make_helper(movsbl_rm_b);
-make_helper(movswl_rm_w);
+make_helper(movsbl_rm_l);
+make_helper(movswl_rm_l);
 
 #endif
 

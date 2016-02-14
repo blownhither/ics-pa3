@@ -13,7 +13,7 @@ static void do_execute() {
 //make_instr_helper(rm_w2r)
 
 #define instr movsbl
-#if DATA_BYTE==1
+#if DATA_BYTE==4
 static void do_execute() {
 	uint32_t ans = (op_src->val & (uint32_t)0xff);
 	ans |= ((op_src->val >> 7)&(uint32_t)1)<<31>>31;
@@ -26,7 +26,7 @@ make_instr_helper(rm)
 #undef instr
 
 #define instr movswl
-#if DATA_BYTE==2
+#if DATA_BYTE==4
 static void do_execute() {
 	uint32_t ans = (op_src->val & (uint32_t)0xffff);
 	ans |= ((op_src->val >> 15)&(uint32_t)1)<<31>>31;
