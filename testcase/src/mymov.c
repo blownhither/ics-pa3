@@ -22,6 +22,5 @@ int main() {
 	nemu_assert(A[5] == 3);
 
 	HIT_GOOD_TRAP;
-
 	return 0;
 }
