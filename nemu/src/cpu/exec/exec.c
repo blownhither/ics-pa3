@@ -160,9 +160,9 @@ helper_fun opcode_table [256] = {
 /* 0xe8 */	call_si_v, jmp_si_v, inv, jmp_si_b,
 /* 0xec */	inv, inv, inv, inv,
 /* 0xf0 */	inv, inv, inv, inv,
-/* 0xf4 */	inv, inv, group3_b, group3_v,
-/* 0xf8 */	inv, inv, inv, inv,
-/* 0xfc */	inv, inv, group4, group5
+/* 0xf4 */	inv, cmc, group3_b, group3_v,
+/* 0xf8 */	clc, stc, inv, inv,
+/* 0xfc */	cld, std, group4, group5
 };
 //TODO call_si_v is variable signed imm
 
