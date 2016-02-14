@@ -35,10 +35,10 @@
 #include "control/push.h"
 #include "control/pop.h"
 #include "control/jmp.h"
-//#include "control/jbe.h"
 #include "control/leave.h"
 #include "control/ret.h"
 #include "control/jcc.h"
+#include "control/cld.h"
 
 #include "string/rep.h"
 
