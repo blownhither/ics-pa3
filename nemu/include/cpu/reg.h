@@ -54,6 +54,8 @@ typedef struct {
 
 	//uint32_t eax, ecx, edx, ebx, esp, ebp, esi, edi;
 #define eax gpr[0]._32
+#define ax  gpr[0]._16
+#define al  gpr[0]._8[0] 
 #define ecx gpr[1]._32
 #define edx gpr[2]._32
 #define ebx gpr[3]._32
