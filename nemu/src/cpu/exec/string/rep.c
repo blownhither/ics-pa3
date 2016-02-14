@@ -29,7 +29,7 @@ make_helper(rep) {
 			/* TODO: Jump out of the while loop if necessary. */
 			
 			//REPE
-			if(!eflags.eflags.ZF && 
+			if(!repne_flag && !eflags.eflags.ZF && 
 				(  ops_decoded.opcode == 0xa6 
 				|| ops_decoded.opcode == 0xa7 
 				|| ops_decoded.opcode == 0xae 
