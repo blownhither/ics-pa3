@@ -25,5 +25,6 @@ int main() {
 	nemu_assert(memcmp(memset(str, '#', 5), s[5], 5) == 0);
 
 	HIT_GOOD_TRAP;
+
 	return 0;
 }

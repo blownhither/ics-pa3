@@ -17,7 +17,7 @@ static void do_execute() {
 static void do_execute() {
 	uint32_t ans = (op_src->val & (uint32_t)0xff);
 	ans |= ((op_src->val >> 7)&(uint32_t)1) ? 0xffffff00 : 0;
-	printf("src:%x, key:%x, ans:%x, dest:%x\n",op_src->val,(op_src->val>>7)&(uint32_t)1,ans,op_dest->val);
+//	printf("src:%x, key:%x, ans:%x, dest:%x\n",op_src->val,(op_src->val>>7)&(uint32_t)1,ans,op_dest->val);
 	OPERAND_W(op_dest, ans);
 	print_asm_template2();
 }
@@ -30,7 +30,7 @@ make_instr_helper(rm)
 static void do_execute() {
 	uint32_t ans = (op_src->val & (uint32_t)0xffff);
 	ans |= ((op_src->val >> 15)&(uint32_t)1) ? 0xffff0000 : 0;
-	printf("src:%x, ans:%x, dest:%x\n",op_src->val,ans,op_dest->val);
+//	printf("src:%x, ans:%x, dest:%x\n",op_src->val,ans,op_dest->val);
 	OPERAND_W(op_dest, ans);
 	print_asm_template2();
 }
