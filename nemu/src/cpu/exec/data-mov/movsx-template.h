@@ -1,4 +1,4 @@
-#include "cpu/exec/template-start.h"
+/*#include "cpu/exec/template-start.h"
 
 #define instr movsx
 
@@ -8,6 +8,7 @@ static void do_execute() {
 	print_asm_template2();
 }
 
-make_instr_helper(rm2r)
+make_instr_helper(rm_b2r)
+make_instr_helper(rm_w2r)
 
-#include "cpu/exec/template-end.h"
+#include "cpu/exec/template-end.h"*/
