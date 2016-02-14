@@ -1,4 +1,3 @@
-/*
 #include "cpu/exec/helper.h"
 
 #define DATA_BYTE 1
@@ -9,9 +8,11 @@
 #include "movsx-template.h"
 #undef DATA_BYTE
 
-#define DATA_BYTE 4
-#include "movsx-template.h"
-#undef DATA_BYTE
+//#define DATA_BYTE 4
+//#include "movsx-template.h"
+//#undef DATA_BYTE
 
-make_helper_v(movsx_rm_b2r)
-make_helper_v(movsx_rm_w2r)*/
+//make_helper_v(movsbl_rm)
+//make_helper_v(movswl_rm)
+//make_helper_v(movsx_rm_b2r)
+//make_helper_v(movsx_rm_w2r)

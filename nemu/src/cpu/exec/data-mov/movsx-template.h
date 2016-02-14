@@ -1,5 +1,5 @@
-/*#include "cpu/exec/template-start.h"
-
+#include "cpu/exec/template-start.h"
+/*
 #define instr movsx
 
 static void do_execute() {
@@ -7,8 +7,35 @@ static void do_execute() {
 	OPERAND_W(op_dest, ans);
 	print_asm_template2();
 }
+*/
 
-make_instr_helper(rm_b2r)
-make_instr_helper(rm_w2r)
+//make_instr_helper(rm_b2r)
+//make_instr_helper(rm_w2r)
 
-#include "cpu/exec/template-end.h"*/
+#define instr movsbl
+#if DATA_BYTE==1
+static void do_execute() {
+	uint32_t ans = (op_src->val & (uint32_t)0xff);
+	ans |= ((op_src->val >> 7)&(uint32_t)1)<<31>>31;
+	printf("src:%x, ans:%x, dest:%x\n",op_src->val,ans,op_dest->val);
+	OPERAND_W(op_dest, ans);
+	print_asm_template2();
+}
+make_instr_helper(rm)
+#endif
+#undef instr
+
+#define instr movswl
+#if DATA_BYTE==2
+static void do_execute() {
+	uint32_t ans = (op_src->val & (uint32_t)0xffff);
+	ans |= ((op_src->val >> 15)&(uint32_t)1)<<31>>31;
+	printf("src:%x, ans:%x, dest:%x\n",op_src->val,ans,op_dest->val);
+	OPERAND_W(op_dest, ans);
+	print_asm_template2();
+}
+make_instr_helper(rm)
+#endif 
+#undef instr
+
+#include "cpu/exec/template-end.h"
