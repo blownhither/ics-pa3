@@ -15,6 +15,10 @@ static void do_execute() {
 #define instr movsbl
 #if DATA_BYTE==4
 static void do_execute() {
+
+	//TODO: use ops_decoded.is_data_size_16 to implement b2w
+
+
 	uint32_t ans = (op_src->val & (uint32_t)0xff);
 	ans |= ((op_src->val >> 7)&(uint32_t)1) ? 0xffffff00 : 0;
 //	printf("src:%x, key:%x, ans:%x, dest:%x\n",op_src->val,(op_src->val>>7)&(uint32_t)1,ans,op_dest->val);
