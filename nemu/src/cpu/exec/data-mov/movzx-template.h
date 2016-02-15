@@ -3,8 +3,10 @@
 #define instr movzbl
 #if DATA_BYTE==4
 static void do_execute() {
-	//uint32_t ans = (op_src & (uint32_t)0xff);
-	OPERAND_W(op_dest, op_src->val & 0xff);
+	uint32_t ans = op_src->val & (uint32_t)0xff;
+	if(ops_decoded.is_data_size_16)
+		ans |= (op_dest->val&0xffff0000); 
+	OPERAND_W(op_dest, ans);
 	print_asm_template2();
 }
 make_instr_helper(rm2r)
