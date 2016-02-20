@@ -14,9 +14,8 @@ static void do_execute(){
 #else
 	a = op_src->val; 
 #endif
-*/
+*///TODO: check si
 	DATA_TYPE result = b-a;
-#define MZYDEBUG
 #ifdef MZYDEBUG
 	printf("%x - %x = %x\n",b,a,result);
 #endif
