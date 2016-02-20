@@ -4,7 +4,7 @@
 
 
 static void do_execute(){
-	DATA_TYPE a = op_src->val + eflags.eflags.CF?1:0;
+	DATA_TYPE a = op_src->val + (eflags.eflags.CF?1:0);
 	DATA_TYPE b = op_dest->val; 
 /*
 #if DATA_BYTE == 4
