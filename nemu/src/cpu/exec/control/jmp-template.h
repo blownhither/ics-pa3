@@ -1,6 +1,7 @@
 #include "cpu/exec/template-start.h"
 
-#define instr jmp
+//relative jump
+#define instr jmpr	
 static void do_execute(){
     cpu.eip += op_src->val;    
 	print_asm("jmp 0x%x <offset = 0x%x\n>",cpu.eip+1+DATA_BYTE,op_src->val);
@@ -8,8 +9,17 @@ static void do_execute(){
 }
 
 make_instr_helper(si);
-#if DATA_BYTE == 2 || DATA_BYTE ==4
+#undef instr
+
+//direct jump
+#define instr jmp	
+static void do_execute(){
+    cpu.eip = op_src->val;    
+	print_asm_template1();
+    return ;
+}
 make_instr_helper(rm);
-#endif
+#undef instr
+
 #include "cpu/exec/template-end.h"
 
