@@ -18,7 +18,7 @@ static void do_execute(){
 	DATA_TYPE result = b-a;
 #define MZYDEBUG
 #ifdef MZYDEBUG
-	printf("%x - %x = %x",b,a,result);
+	printf("%x - %x = %x\n",b,a,result);
 #endif
 	eflags.eflags.CF = (a > b);
 	extern bool parity_check(uint32_t ); 
