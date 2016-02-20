@@ -14,7 +14,7 @@ make_instr_helper(si);
 //direct jump
 #define instr jmp	
 static void do_execute(){
-    cpu.eip = op_src->val;    
+    cpu.eip = op_src->val -2;	//TODO: check 2    
 	print_asm_template1();
     return ;
 }
