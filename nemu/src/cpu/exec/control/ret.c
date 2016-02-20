@@ -7,22 +7,36 @@
 
 #include "cpu/exec/template-start.h"
 
-//only 0xc3 and 0xc2 !
 make_helper(ret){
-	
 	cpu.eip = MEM_R(cpu.esp);
 	cpu.esp += 4;
-	//cpu.eip &= 0x0000ffff;	//no good doing this?
 	print_asm("ret");
 	return 0;
-
 }
-/*
-make_helper(ret_i_w){
+make_helper(retf) {
 	cpu.eip = MEM_R(cpu.esp);
-	cpu.esp += 4;			//return address
-	cpu.esp += op_src->imm;
-	print_asm("ret");
-	return 1;
-}*/
+	cpu.esp += 4;
+	uint16_t CS = MEM_R(cpu.esp) & 0xffff;
+	cpu.esp += 4;
+	print_asm("ret far (CS offs:%x)",CS);
+	return 0;
+}
+make_helper(ret_i) {
+	cpu.eip = MEM_R(cpu.esp);
+	cpu.esp += 4;
+	int16_t imm = instr_fetch(eip,2);
+	cpu.esp += imm;
+	print_asm("ret offs:%x",imm);
+	return 0;
+}
+make_helper(retf_i) {
+	cpu.eip = MEM_R(cpu.esp);
+	cpu.esp += 4;
+	uint16_t CS = MEM_R(cpu.esp) & 0xffff;
+	cpu.esp += 4;
+	int16_t imm = instr_fetch(eip,2);
+	cpu.esp += imm;
+	print_asm("ret far offs:%x(CS offs:%x)",imm,CS);
+	return 0;
+}
 #include "cpu/exec/template-end.h"
