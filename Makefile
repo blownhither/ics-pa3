@@ -55,7 +55,7 @@ ROOT=`pwd`
 count: 
 	find . -name "*.[dch]"|xargs cat|grep -v ^$$|wc -l
 
-USERPROG := obj/testcase/struct
+USERPROG := obj/testcase/sub-longlong
 ENTRY := $(USERPROG)
 
 entry: $(ENTRY)
