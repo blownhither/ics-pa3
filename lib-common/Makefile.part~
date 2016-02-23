@@ -2,7 +2,7 @@
 
 ###replace ".a" with ".o" ###
 FLOAT_OBJ := $(FLOAT:.a=.o)
-
+FLOAT_SRC := $(LIB_COMMON_DIR)/FLOAT.c
 #FLOAT_BIN := FLOAT
 ### make target ###
 $(FLOAT): $(FLOAT_OBJ)
@@ -12,5 +12,5 @@ $(FLOAT): $(FLOAT_OBJ)
 
 FLOAT_CFLAGS_EXTRA := -c -m32 -fno-builtin
 
-$(FLOAT_OBJ): 
-	$(CC) $(FLOAT_CFLAGS_EXTRA) $(LIB_COMMON_DIR)/FLOAT.c -I $(LIB_COMMON_DIR) -o obj/$(LIB_COMMON_DIR)/FLOAT.o
+$(FLOAT_OBJ): $(FLOAT_SRC)
+	$(CC) $(FLOAT_CFLAGS_EXTRA) $(FLOAT_SRC) -I $(LIB_COMMON_DIR) -o obj/$(LIB_COMMON_DIR)/FLOAT.o
