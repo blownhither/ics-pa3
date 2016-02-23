@@ -4,7 +4,7 @@ typedef long long uint64_t;
 FLOAT F_mul_F(FLOAT a, FLOAT b) {
 	FLOAT ret = ((uint64_t)a*b)>>16;	//TODO:check
 #ifdef MZYDEBUG
-	print_asm("F_mul_F(FLOAT 0x%x, FLOAT 0x%x): 0x%x\n",a,b,ret);
+	printf("F_mul_F(FLOAT 0x%x, FLOAT 0x%x): 0x%x\n",a,b,ret);
 #endif
 	return ret ;
 }

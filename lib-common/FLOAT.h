@@ -3,17 +3,20 @@
 
 #include "trap.h"
 
+
 typedef int FLOAT;
 #define MZYDEBUG
 #ifdef MZYDEBUG
-#define print_asm(...)
+#include "cpu/exec/helper.h"
 #endif
+
+
 
 static inline int F2int(FLOAT a) {
 	int ret = ((a>>16)&0xffff) | ((a>>31)?0xffff0000:0);//always round lower
 	ret += (a>>15)&1;//round by 0.5
 #ifdef MZYDEBUG
-	print_asm("F2int(FLOAT 0x%x): 0x%x\n",a,ret);
+	printf("F2int(FLOAT 0x%x): 0x%x\n",a,ret);
 #endif
 	return ret;
 }
@@ -23,7 +26,7 @@ static inline FLOAT int2F(int a) {
 	nemu_assert((a>>15)==0||(a>>15)==0xffffffff);	
 	//the first 17 bits must be same to avoid overflow
 #ifdef MZYDEBUG
-	print_asm("int2F(int 0x%x): 0x%x\n",a,ret);
+	printf("int2F(int 0x%x): 0x%x\n",a,ret);
 #endif	
 	return ret;
 }
@@ -31,7 +34,7 @@ static inline FLOAT int2F(int a) {
 static inline FLOAT F_mul_int(FLOAT a, int b) {
 	FLOAT ret = a*b;
 #ifdef MZYDEBUG
-	print_asm("F_mul_int(FLOAT 0x%x, int 0x%x): 0x%x\n",a,b,ret);
+	printf("F_mul_int(FLOAT 0x%x, int 0x%x): 0x%x\n",a,b,ret);
 #endif
 	return ret;
 }
@@ -39,7 +42,7 @@ static inline FLOAT F_mul_int(FLOAT a, int b) {
 static inline FLOAT F_div_int(FLOAT a, int b) {
 	FLOAT ret = a/b;
 #ifdef MZYDEBUG
-	print_asm("F_mul_int(FLOAT 0x%x, int 0x%x): 0x%x\n",a,b,ret);
+	printf("F_mul_int(FLOAT 0x%x, int 0x%x): 0x%x\n",a,b,ret);
 #endif
 	return ret;
 }
