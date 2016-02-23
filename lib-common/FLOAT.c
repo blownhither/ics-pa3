@@ -1,22 +1,22 @@
 #include "FLOAT.h"
 
 FLOAT F_mul_F(FLOAT a, FLOAT b) {
-	nemu_assert(0);
-	return 0;
+	FLOAT ret = ((uint64_t)a*b)>>16;	//TODO:check
+	return ret;
 }
 
 FLOAT F_div_F(FLOAT a, FLOAT b) {
-	nemu_assert(0);
+	FLOAT ret = (a/b)<16;			//TODO:check
 	return 0;
 }
 
 FLOAT f2F(float a) {
-	nemu_assert(0);
+	
 	return 0;
 }
 
 FLOAT Fabs(FLOAT a) {
-	nemu_assert(0);
+	FLOAT ret = (a>>31)? -a : a;		//TODO:check
 	return 0;
 }
 
