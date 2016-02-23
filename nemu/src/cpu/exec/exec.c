@@ -210,7 +210,7 @@ helper_fun _2byte_opcode_table [256] = {
 /* 0xa0 */	inv, inv, inv, inv, 
 /* 0xa4 */	inv, inv, inv, inv,
 /* 0xa8 */	inv, inv, inv, inv,
-/* 0xac */	inv, inv, inv, imul_rm2r_v,
+/* 0xac */	shrdi_v, inv, inv, imul_rm2r_v,
 /* 0xb0 */	inv, inv, inv, inv, 
 /* 0xb4 */	inv, inv, movzbl_rm2r_l, movzwl_rm2r_l,/*mov_rm2r_v, mov_rm2r_b,*/ 	
 /* 0xb8 */	inv, inv, inv, inv,
