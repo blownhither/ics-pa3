@@ -2,7 +2,7 @@
 
 typedef long long uint64_t;
 FLOAT F_mul_F(FLOAT a, FLOAT b) {
-	FLOAT ret = ((uint64_t)a*b)>>16;	//TODO:check
+	FLOAT ret = ((long long)a*b)>>16;	//TODO:check
 	return ret ;
 }
 
