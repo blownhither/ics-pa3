@@ -2,7 +2,7 @@
 
 ###replace ".a" with ".o" ###
 FLOAT_OBJ := $(FLOAT:.a=.o)
-
+FLOAT_SRC := $(FLOAT:.a=.c)
 ### make target ###
 $(FLOAT): $(FLOAT_OBJ)
 	ar r $(FLOAT) $(FLOAT_OBJ)
@@ -10,6 +10,6 @@ $(FLOAT): $(FLOAT_OBJ)
 # TODO: write a rule for generating $(FLOAT_OBJ)
 
 CFLAGS_EXTRA := -m32 -fno-builtin
-
-$(FLOAT_OBJ): FLOAT.c
-	$(CC) $(CFLAGS) $(CFLAGS_EXTRA) -o $(FLOAT_OBJ) FLOAT.c
+vpath % lib-common
+$(FLOAT_OBJ): $(FLOAT_SRC)
+	$(call make_command, $(CC),$(FLOAT_CFLAGS_EXTRA), cc $@, $^)

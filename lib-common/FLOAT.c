@@ -11,7 +11,7 @@ FLOAT F_div_F(FLOAT a, FLOAT b) {
 }
 
 FLOAT f2F(float a) {
-	
+	 
 	return 0;
 }
 
