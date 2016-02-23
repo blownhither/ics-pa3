@@ -14,4 +14,4 @@ FLOAT_CFLAGS_EXTRA := -c -m32 -fno-builtin -I $(LIB_COMMON_DIR)
 ##$(CC) $(FLOAT_CFLAGS_EXTRA) $(FLOAT_SRC) -o $(FLOAT_OBJ) 
 
 $(FLOAT_OBJ): $(FLOAT_SRC)
-	$(call make_command, $(CC), $(FLOAT_CFLAGS_EXTRA), gcc $@, $^)
+	$(call make_command, $(CC), $(FLOAT_CFLAGS_EXTRA), $(CC) $@, $^)

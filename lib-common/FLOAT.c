@@ -13,7 +13,7 @@ FLOAT F_div_F(FLOAT a, FLOAT b) {
 	FLOAT ret = (a/b)<16;			//TODO:check
 	return 0;
 }
-//askdijadohfahios
+//askdhios
 FLOAT f2F(float a) {
 	 
 	return 0;
