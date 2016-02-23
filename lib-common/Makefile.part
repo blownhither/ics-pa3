@@ -2,14 +2,15 @@
 
 ###replace ".a" with ".o" ###
 FLOAT_OBJ := $(FLOAT:.a=.o)
-FLOAT_SRC := $(FLOAT:.a=.c)
+
+#FLOAT_BIN := FLOAT
 ### make target ###
 $(FLOAT): $(FLOAT_OBJ)
 	ar r $(FLOAT) $(FLOAT_OBJ)
 
 # TODO: write a rule for generating $(FLOAT_OBJ)
 
-CFLAGS_EXTRA := -m32 -fno-builtin
-vpath % lib-common
-$(FLOAT_OBJ): $(FLOAT_SRC)
-	$(call make_command, $(CC),$(FLOAT_CFLAGS_EXTRA), cc $@, $^)
+FLOAT_CFLAGS_EXTRA := -c -m32 -fno-builtin
+
+$(FLOAT_OBJ): 
+	$(CC) $(FLOAT_CFLAGS_EXTRA) $(LIB_COMMON_DIR)/FLOAT.c -I $(LIB_COMMON_DIR) -o obj/$(LIB_COMMON_DIR)/FLOAT.o
