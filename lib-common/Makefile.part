@@ -13,4 +13,5 @@ $(FLOAT): $(FLOAT_OBJ)
 FLOAT_CFLAGS_EXTRA := -c -m32 -fno-builtin -I $(LIB_COMMON_DIR)
 
 $(FLOAT_OBJ): $(FLOAT_SRC)
-	$(CC) $(FLOAT_CFLAGS_EXTRA) $(FLOAT_SRC) -o $(FLOAT_OBJ) 
+	##$(CC) $(FLOAT_CFLAGS_EXTRA) $(FLOAT_SRC) -o $(FLOAT_OBJ) 
+	$(call make_common_rules,$(FLOAT_OBJ),$(FLOAT_CFLAGS_EXTRA))
