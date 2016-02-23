@@ -26,7 +26,7 @@ static void do_execute(){
 #if DATA_BYTE == 2
 	cpu.eip = op_src->val & 0xffff; 
 #elif DATA_BYTE == 4
-	cpu.eip = op_src->val;		//decode_si saves result at simm 
+	cpu.eip = op_src->val - 2;	//TODO: check -2
 #endif
 	print_asm_template1(); 
 	return; 
