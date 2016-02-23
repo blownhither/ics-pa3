@@ -5,13 +5,6 @@
 
 
 typedef int FLOAT;
-#define MZYDEBUG
-#ifdef MZYDEBUG
-#include "cpu/exec/helper.h"
-#endif
-
-
-
 static inline int F2int(FLOAT a) {
 	int ret = ((a>>16)&0xffff) | ((a>>31)?0xffff0000:0);//always round lower
 	ret += (a>>15)&1;//round by 0.5
