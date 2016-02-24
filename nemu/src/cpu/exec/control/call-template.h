@@ -3,9 +3,6 @@
 //relative call, call rel16/32
 #define instr callr
 //0xe8
-
-#define MZYDEBUG
-
 static void do_execute(){
 	cpu.esp -= 4;
 	swaddr_write(cpu.esp , 4 , cpu.eip+DATA_BYTE+1); 
