@@ -125,7 +125,7 @@ static int cmd_x(char *args){
 		n=1; 
 	}
 	bool success=true;  
-	int addr = expr_cmd_x(args2 , &success); 
+	unsigned int addr = expr_cmd_x(args2 , &success); 
 	if(!success){
 		printf("Invalid expression.\n"); 
 		return 0; 
