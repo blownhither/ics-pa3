@@ -4,7 +4,7 @@
 #define instr callr
 //0xe8
 
-#define MZYBEBUG
+#define MZYDEBUG
 
 static void do_execute(){
 	cpu.esp -= 4;
