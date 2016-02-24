@@ -6,12 +6,11 @@
 #define DATA_BYTE 4
 
 #include "cpu/exec/template-start.h"
-#define MZYDEBUG
 make_helper(ret){
 	cpu.eip = swaddr_read(cpu.esp,4);
 	cpu.esp += 4;
 #ifdef MZYDEBUG
-	printf("ret: eip=0x%x(esp=0x%x)",cpu.eip,cpu.esp);
+	printf("ret: eip=0x%x(esp=0x%x)\n",cpu.eip,cpu.esp);
 #endif
 	print_asm("ret");
 	return 0;
