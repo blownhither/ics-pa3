@@ -6,6 +6,7 @@
 static void do_execute(){
 	cpu.esp -= 4;
 	swaddr_write(cpu.esp , 4 , cpu.eip+DATA_BYTE+1); 
+	printf("callr %x,\t%x\n",cpu.esp,cpu.eip+DATA_BYTE+1);
 #if DATA_BYTE == 2
 	cpu.eip = (cpu.eip + op_src->simm) & 0xffff; 
 #elif DATA_BYTE == 4
