@@ -9,14 +9,14 @@ FLOAT F_mul_F(FLOAT a, FLOAT b) {
 }
 
 FLOAT F_div_F(FLOAT a, FLOAT b) {
-	FLOAT ret = (a/b)<16;			//TODO:check
+	FLOAT ret = (a/b)<<16;			//TODO:check
 	return ret;
 }
 	
 FLOAT f2F(float a) {
 	uint32_t bin = *(uint32_t *)&a;
-	uint8_t exp = (bin>>23)&0xff, sign = (bin>>31)&1;
 	uint32_t manti = bin & 0x7fffff;
+	uint8_t exp = (bin>>23)&0xff, sign = (bin>>31)&1;
 	FLOAT ret;
 	nemu_assert(exp!=0xff);		//NaN, inf, -inf
 	if(exp>0) {
@@ -24,7 +24,7 @@ FLOAT f2F(float a) {
 		ret = (manti | 0x800000) << (exp-134);
 	}
 	else {
-		ret = 0;				//Denormalized
+		ret = 0;		//Denormalized
 	}
 	return ret;
 }
