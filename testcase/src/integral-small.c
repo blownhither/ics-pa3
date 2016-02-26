@@ -3,8 +3,8 @@
 FLOAT a,c;
 int b;
 int main(){
-	for(c=-100;c<=0x10000;++c){
-		nemu_assert(int2F(c) == (c<<16));
+	for(c=-(0x8000);c<0x8000;++c){
+		nemu_assert(c==(F2int(int2F(c))));
 	}
 	set_bp();
 	a = f2F(2.0);
