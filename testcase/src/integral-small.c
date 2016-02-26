@@ -1,8 +1,10 @@
 #include "trap.h"
 #include "FLOAT.h"
-FLOAT a;
+FLOAT a,c;
 int b;
 int main(){
+	c = int2F(9);
+	nemu_assert(c==0x9000);
 	a = f2F(2.0);
 	nemu_assert(0x2ffff==a);
 	b = F2int(a);
