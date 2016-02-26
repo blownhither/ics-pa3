@@ -29,6 +29,8 @@ FLOAT f2F(float a) {
 	else {
 		ret = 0;		//Denormalized
 	}
+	if(sign)
+		ret = -ret;
 	return ret;
 }
 
