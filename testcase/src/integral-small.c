@@ -11,6 +11,7 @@ int main(){
 	float f = 2.0;
 	unsigned int u = *(unsigned int *)&f;
 	nemu_assert(u>0);
+	set_bp();
 	a = f2F(2.0);
 	nemu_assert((int2F(2)-a)<10);
 	set_bp();
