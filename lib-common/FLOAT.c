@@ -21,7 +21,7 @@ FLOAT f2F(float a) {
 	nemu_assert(exp!=0xff);		//NaN, inf, -inf
 	if(exp>0) {
 		nemu_assert(exp <= 142);//overflow
-		ret = (manti | 0x800000) << (exp-134);
+		ret = (manti | 0x800000) >> (-exp+134);
 	}
 	else {
 		ret = 0;		//Denormalized
