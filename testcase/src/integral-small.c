@@ -4,7 +4,7 @@ FLOAT a,c;
 int b;
 int main(){
 	c = int2F(9);
-	nemu_assert(c==(9<<16));
+	nemu_assert(c==0x90000);
 	set_bp();
 	a = f2F(2.0);
 	nemu_assert(0x2ffff==a);
