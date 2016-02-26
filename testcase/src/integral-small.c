@@ -3,12 +3,13 @@
 FLOAT a;
 int b;
 unsigned int u;
+float f;
 int main(){
 //	for(c=-(0x8000);c<0x8000;++c){
 //		nemu_assert(c==(F2int(int2F(c))));
 //	}
 //	set_bp();
-	float f = 2.0;
+	f = 2.0;
 	unsigned int u = *(unsigned int *)&f;
 	nemu_assert(u>0);
 	set_bp();
