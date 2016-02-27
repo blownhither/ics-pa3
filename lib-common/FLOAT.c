@@ -9,7 +9,6 @@ FLOAT F_mul_F(FLOAT a, FLOAT b) {
 }
 
 FLOAT F_div_F(FLOAT a, FLOAT b) {
-/*
 	uint64_t bin = ((uint64_t)a)<<16;		
 	uint8_t sa = (a>>31)&1, sb = (b>>31)&1;
 	if(sa) a=-a;
@@ -22,8 +21,6 @@ FLOAT F_div_F(FLOAT a, FLOAT b) {
 	if(sa^sb)
 		ret = -ret;
 	return ret;
-*/
-	return f2F(((float)(int)a)/b);
 }
 	
 FLOAT f2F(float a) {
