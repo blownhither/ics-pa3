@@ -25,16 +25,15 @@ FLOAT F_div_F(FLOAT a, FLOAT b) {
 		ret = -ret;
 	return ret;
 */
-	FLOAT l = 0, r = 0x80000000-1, mid;
+	FLOAT l = 0, r = 0x80000000-1, mid = (l+r)/2;
 	while(l<r) {
-		mid = (l+r)/2;
 		if(mid*b == bin) break;
 		else if(mid*b < bin)
 			l = mid + 1;
 		else
 			r = mid - 1;
+		mid = (l+r)/2;
 	}
-	mid = (l+r)/2;
 	if(sa^sb)
 		mid = -mid;
 	return mid;
