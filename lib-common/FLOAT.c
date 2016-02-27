@@ -14,10 +14,12 @@ FLOAT F_div_F(FLOAT a, FLOAT b) {
 	if(sa) a=-a;
 	if(sb) b=-b;
 	FLOAT ret = 0;	
-	while(bin>0){	//TODO: ...
+	while(bin>b){	//TODO: ...
 		bin -= b;
 		ret ++;
 	}
+	if(bin>(b>>1))
+		ret ++;
 	if(sa^sb)
 		ret = -ret;
 	return ret;
