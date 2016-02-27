@@ -18,7 +18,7 @@ FLOAT F_div_F(FLOAT a, FLOAT b) {
 		bin -= b;
 		ret ++;
 	}
-	if(a^b)
+	if(sa^sb)
 		ret = -ret;
 	return ret;
 }
