@@ -9,8 +9,12 @@ FLOAT F_mul_F(FLOAT a, FLOAT b) {
 }
 
 FLOAT F_div_F(FLOAT a, FLOAT b) {
-	FLOAT ret = ((uint64_t)a)<<16;		//TODO:check
-	ret /= b;
+	uint64_t bin = ((uint64_t)a)<<16;		//TODO:check
+	FLOAT ret = 0;	
+	while(bin>0){
+		bin -= b;
+		ret ++;
+	}
 	return ret;
 }
 	
