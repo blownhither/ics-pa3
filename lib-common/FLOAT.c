@@ -1,7 +1,7 @@
 #include "FLOAT.h"
 
 FLOAT F_mul_F(FLOAT a, FLOAT b) {
-	FLOAT ret = ((uint64_t)a*b)>>16;	//TODO:check
+	FLOAT ret = ((uint64_t)a*b)>>16;	
 #ifdef MZYDEBUG
 	printf("F_mul_F(FLOAT 0x%x, FLOAT 0x%x): 0x%x\n",a,b,ret);
 #endif
@@ -9,12 +9,17 @@ FLOAT F_mul_F(FLOAT a, FLOAT b) {
 }
 
 FLOAT F_div_F(FLOAT a, FLOAT b) {
-	uint64_t bin = ((uint64_t)a)<<16;		//TODO:check
+	uint64_t bin = ((uint64_t)a)<<16;		
+	uint8_t sa = (a>>31)&1, sb = (b>>31)&1;
+	if(sa) a=-a;
+	if(sb) b=-b;
 	FLOAT ret = 0;	
-	while(bin>0){
+	while(bin>0){	//TODO: ...
 		bin -= b;
 		ret ++;
 	}
+	if(a^b)
+		ret = -ret;
 	return ret;
 }
 	
@@ -40,7 +45,7 @@ FLOAT f2F(float a) {
 }
 
 FLOAT Fabs(FLOAT a) {
-	FLOAT ret = (a>>31)? -a : a;		//TODO:check
+	FLOAT ret = (a>>31)? -a : a;		
 	return ret;
 }
 
