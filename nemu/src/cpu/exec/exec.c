@@ -164,7 +164,6 @@ helper_fun opcode_table [256] = {
 /* 0xf8 */	clc, stc, inv, inv,
 /* 0xfc */	cld, std, group4, group5
 };
-//TODO call_si_v is variable signed imm
 
 helper_fun _2byte_opcode_table [256] = {
 /* 0x00 */	group6, group7, inv, inv, 
@@ -208,7 +207,7 @@ helper_fun _2byte_opcode_table [256] = {
 /* 0x98 */	setcc_rm_b, setcc_rm_b, setcc_rm_b, setcc_rm_b,
 /* 0x9c */	setcc_rm_b, setcc_rm_b, setcc_rm_b, setcc_rm_b,
 /* 0xa0 */	inv, inv, inv, inv, 
-/* 0xa4 */	inv, inv, inv, inv,
+/* 0xa4 */	shld_si_rm2r_v, inv, inv, inv,
 /* 0xa8 */	inv, inv, inv, inv,
 /* 0xac */	shrdi_v, inv, inv, imul_rm2r_v,
 /* 0xb0 */	inv, inv, inv, inv, 
