@@ -3,7 +3,13 @@
 
 FLOAT f(FLOAT x) { 
 	/* f(x) = 1/(1+25x^2) */
-	FLOAT ret = F_div_F(int2F(1), int2F(1) + F_mul_int(F_mul_F(x, x), 25));
+	FLOAT ret = F_mul_F(x, x);
+	set_bp();
+	ret = F_mul_int(ret , 25);
+	set_bp();
+	ret += int2F(1);
+	set_bp();
+	ret = F_div_F(int2F(1), ret);
 	set_bp();
 	return ret;
 }
