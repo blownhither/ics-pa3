@@ -35,6 +35,8 @@ FLOAT F_div_F(FLOAT a, FLOAT b) {
 			r = mid - 1;
 	}
 	mid = (l+r)/2;
+	if(sa^sb)
+		mid = -mid;
 	return mid;
 }
 	
