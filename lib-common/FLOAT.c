@@ -13,6 +13,7 @@ FLOAT F_div_F(FLOAT a, FLOAT b) {
 	if(sa) a=-a;
 	if(sb) b=-b;
 	uint64_t bin = ((uint64_t)a)<<16;
+/*
 	FLOAT ret = 0;	
 	while(bin>b){	//TODO: ...
 		bin -= b;
@@ -23,6 +24,17 @@ FLOAT F_div_F(FLOAT a, FLOAT b) {
 	if(sa^sb)
 		ret = -ret;
 	return ret;
+*/
+	FLOAT l = 0, r = 0x80000000, mid;
+	while(l<r) {
+		mid = (l+r)/2;
+		if(mid*b == bin) break;
+		else if(mid*b < bin)
+			l = mid + 1;
+		else
+			r = mid - 1;
+	}
+	return l;
 }
 	
 FLOAT f2F(float a) {
