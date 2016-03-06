@@ -25,7 +25,7 @@ FLOAT F_div_F(FLOAT a, FLOAT b) {
 		ret = -ret;
 	return ret;
 */
-
+	/*	using binary search	*/
 	FLOAT l = 0, r = 0x80000000-1, mid = (l+r)/2;
 	while(l<r) {
 		if(((uint64_t)mid)*b == bin) break;

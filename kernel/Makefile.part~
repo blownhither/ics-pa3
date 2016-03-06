@@ -1,6 +1,6 @@
 
 kernel_CFLAGS_EXTRA := -m32 -O2 -fno-builtin -fno-stack-protector  -fno-omit-frame-pointer  \
-	-I$(LIB_COMMON_DIR) -I$(NEWLIBC_DIR)/include 
+-I$(LIB_COMMON_DIR) -I$(NEWLIBC_DIR)/include 
 
 # 
 $(eval $(call make_common_rules,kernel,$(kernel_CFLAGS_EXTRA)))
