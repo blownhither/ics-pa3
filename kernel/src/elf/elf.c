@@ -27,10 +27,10 @@ uint32_t loader() {
 #else
 	ramdisk_read(buf, ELF_OFFSET_IN_DISK, 4096);
 #endif
-
+	set_bp();
 	elf = (void*)buf;
 	/* TODO: fix the magic number with the correct one */
-	const uint32_t elf_magic = 0;	//TODO: why 0!
+	const uint32_t elf_magic = 0x464c457f;	//TODO: why 0!
 	uint32_t *p_magic = (void *)buf;
 	set_bp();
 	nemu_assert(*p_magic == elf_magic);
