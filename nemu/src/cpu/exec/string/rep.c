@@ -6,15 +6,14 @@ make_helper(rep) {
 	int len;
 	int count = 0;
 	bool repne_flag = (instr_fetch(eip,1)==0xf2);
-
-	printf("in rep\n");
 	if(instr_fetch(eip + 1, 1) == 0xc3) {
 		/* repz ret */
 		exec(eip + 1);
 		len = 0;
 	}
 	else {
-		printf("in else");
+		printf("in else,");
+		printf("ecx = %x\n",cpu.ecx);
 		while(cpu.ecx) {
 			exec(eip + 1);
 			printf("rep executing opcode %x", swaddr_read(eip+1,1));
