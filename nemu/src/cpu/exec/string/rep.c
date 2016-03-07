@@ -12,8 +12,6 @@ make_helper(rep) {
 		len = 0;
 	}
 	else {
-		//printf("in else,");
-		//printf("ecx = %x\n",cpu.ecx);
 		while(cpu.ecx) {
 			exec(eip + 1);
 			//printf("rep executing opcode %x\n", swaddr_read(eip+1,1));
