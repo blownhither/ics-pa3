@@ -27,7 +27,7 @@ int main() {
 	//str2[34] = '\0';
 	//nemu_assert(str2[0] == 't');
 	//nemu_assert(str[0] == 't');
-=======
+//=======
 
 	nemu_assert(loop == NR_DATA * NR_DATA);
 
