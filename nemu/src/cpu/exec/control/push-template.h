@@ -6,7 +6,7 @@
 static void do_execute () {
 	
 #if DATA_BYTE == 1
-	cpu.esp -= 2;
+	cpu.esp -= 4;
 #else
 	cpu.esp -= DATA_BYTE;
 #endif
