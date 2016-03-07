@@ -8,9 +8,11 @@ make_helper(rep) {
 	bool repne_flag = (instr_fetch(eip,1)==0xf2);
 
 	printf("in rep\n");
-
 	if(instr_fetch(eip + 1, 1) == 0xc3) {
 		/* repz ret */
+
+		printf("in here\n");
+
 		exec(eip + 1);
 		len = 0;
 	}
