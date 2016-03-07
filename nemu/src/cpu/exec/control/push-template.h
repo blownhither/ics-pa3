@@ -4,7 +4,14 @@
 
 
 static void do_execute () {
+	
+#if DATA_BYTE == 1
+	cpu.esp -= 2;
+#else
 	cpu.esp -= DATA_BYTE;
+#endif
+
+
 	//MEM_W(cpu.esp,op_src->val);
 	swaddr_write(cpu.esp, DATA_BYTE, op_src->val);
 	printf("eip=0x%x, esp=0x%x, DATA_BYTE=%d, op_src->val=0x%x\n",cpu.eip, cpu.esp, DATA_BYTE, op_src->val);
