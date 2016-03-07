@@ -7,7 +7,7 @@
 //0xe8
 static void do_execute(){
 	cpu.esp -= 4;
-	swaddr_write(cpu.esp , 4 , cpu.eip + 4);//cpu.eip+DATA_BYTE+1); 
+	swaddr_write(cpu.esp , 4 , cpu.eip + DATA_BYTE + 1);//cpu.eip+DATA_BYTE+1); 
 #ifdef MZYDEBUG
 	printf("callr %x,\t%x\n",cpu.esp,cpu.eip+DATA_BYTE+1);
 #endif
