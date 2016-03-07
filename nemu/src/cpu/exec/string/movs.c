@@ -5,6 +5,7 @@ make_helper(exec);
 make_helper(movs_b) {
 	const int ES = 0;	//TODO: check ES
 	swaddr_write(ES + cpu.edi, 1, swaddr_read(cpu.esi,1));
+	printf("cpu.edi = 0x%x, *cpu.esi = 0x%x", cpu.edi, swaddr_read(cpu.esi,1));
 	cpu.edi += eflags.eflags.DF? -1:1;
 	cpu.esi += eflags.eflags.DF? -1:1;
 	return 1;

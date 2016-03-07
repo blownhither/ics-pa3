@@ -16,6 +16,7 @@ void ramdisk_read(uint8_t *buf, uint32_t offset, uint32_t len) {
 	set_bp();
 
 	memcpy(buf, RAMDISK_START + offset, len);
+	set_bp();
 }
 
 /* write `len` bytes starting from `buf` into the `offset` of ramdisk */

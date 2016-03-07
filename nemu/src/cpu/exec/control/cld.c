@@ -18,6 +18,7 @@ make_helper(cmc) {
 }
 make_helper(cld) {
 	eflags.eflags.DF = 0;
+	print_asm("cld");
 	return 1;
 }
 make_helper(std) {
