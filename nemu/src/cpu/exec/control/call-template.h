@@ -1,11 +1,13 @@
 #include "cpu/exec/template-start.h"
 
+
+
 //relative call, call rel16/32
 #define instr callr
 //0xe8
 static void do_execute(){
 	cpu.esp -= 4;
-	swaddr_write(cpu.esp , 4 , cpu.eip+DATA_BYTE+1); 
+	swaddr_write(cpu.esp , 4 , cpu.eip + 4);//cpu.eip+DATA_BYTE+1); 
 #ifdef MZYDEBUG
 	printf("callr %x,\t%x\n",cpu.esp,cpu.eip+DATA_BYTE+1);
 #endif
@@ -19,6 +21,7 @@ static void do_execute(){
 }
 make_instr_helper(si); 
 #undef instr
+
 
 //direct call direct, call rm
 #define instr call
@@ -34,13 +37,8 @@ static void do_execute(){
 	print_asm_template1(); 
 	return; 
 }
-make_instr_helper(rm); 
+make_instr_helper(rm)
 #undef instr
 
 
 #include "cpu/exec/template-end.h"
-
-
-
-
-
