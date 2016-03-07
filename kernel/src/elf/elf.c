@@ -30,10 +30,11 @@ uint32_t loader() {
 
 	elf = (void*)buf;
 	/* TODO: fix the magic number with the correct one */
-	const uint32_t elf_magic = 0x464c457f;	//TODO: why 0!
+	const uint32_t elf_magic = 0;	//TODO: why 0!
 	uint32_t *p_magic = (void *)buf;
 	set_bp();
 	nemu_assert(*p_magic == elf_magic);
+	set_bp();
 	int i;
 	/* Load each program segment */
 	ph = (void *)buf + elf->e_phoff;	//TODO: check
