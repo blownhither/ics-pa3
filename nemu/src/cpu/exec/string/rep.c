@@ -10,13 +10,11 @@ make_helper(rep) {
 	printf("in rep\n");
 	if(instr_fetch(eip + 1, 1) == 0xc3) {
 		/* repz ret */
-
-		printf("in here\n");
-
 		exec(eip + 1);
 		len = 0;
 	}
 	else {
+		printf("in else");
 		while(cpu.ecx) {
 			exec(eip + 1);
 			printf("rep executing opcode %x", swaddr_read(eip+1,1));
