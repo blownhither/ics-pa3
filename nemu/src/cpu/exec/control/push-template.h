@@ -8,6 +8,7 @@ static void do_execute () {
 	cpu.esp -= DATA_BYTE;
 	//MEM_W(cpu.esp,op_src->val);
 	swaddr_write(cpu.esp, DATA_BYTE, op_src->val);
+	printf("esp=0x%x, op_src->val=0x%x\n",cpu.esp, op_src->val);
 	print_asm_template1();
 }
 
