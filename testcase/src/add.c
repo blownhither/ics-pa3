@@ -12,11 +12,14 @@ int ans[] = {0, 0x1, 0x2, 0x7fffffff, 0x80000000, 0x80000001, 0xfffffffe, 0xffff
 //char str[] = "this is a const string for test ^_^";
 int main() {
 	int i, j, ans_idx = 0;
+	int loop = 0;
 	for(i = 0; i < NR_DATA; i ++) {
 		for(j = 0; j < NR_DATA; j ++) {
 			nemu_assert(add(test_data[i], test_data[j]) == ans[ans_idx ++]);
+			loop ++;
 		}
 	}
+<<<<<<< HEAD
 	set_bp();
 	nemu_assert(i == NR_DATA);
 	nemu_assert(j == NR_DATA);
@@ -24,6 +27,11 @@ int main() {
 	//str2[34] = '\0';
 	//nemu_assert(str2[0] == 't');
 	//nemu_assert(str[0] == 't');
+=======
+
+	nemu_assert(loop == NR_DATA * NR_DATA);
+
+>>>>>>> 7df28c500f3c4415ec2a5a5777e2849d54783fb3
 	HIT_GOOD_TRAP;
 
 	return 0;
