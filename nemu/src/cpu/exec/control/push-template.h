@@ -4,6 +4,7 @@
 
 
 static void do_execute () {
+
 #if DATA_BYTE == 2
 	cpu.esp -= 2;
 #elif DATA_BYTE == 4
