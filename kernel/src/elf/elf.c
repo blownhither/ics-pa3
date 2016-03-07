@@ -21,20 +21,16 @@ uint32_t loader() {
 	Elf32_Phdr *ph = NULL;
 
 	uint8_t buf[4096];  
-	set_bp();
 #ifdef HAS_DEVICE
 	ide_read(buf, ELF_OFFSET_IN_DISK, 4096);
 #else
 	ramdisk_read(buf, ELF_OFFSET_IN_DISK, 4096);
 #endif
-	//set_bp();
 	elf = (void*)buf;
 	/* TODO: fix the magic number with the correct one */
 	const uint32_t elf_magic = 0;//0x464c457f;	//TODO: why 0!
 	uint32_t *p_magic = (void *)buf;
-	//set_bp();
 	nemu_assert(*p_magic == elf_magic);
-	//set_bp();
 	int i;
 	/* Load each program segment */
 	ph = (void *)buf + elf->e_phoff;	//TODO: check
@@ -70,7 +66,6 @@ uint32_t loader() {
 	}
 
 	volatile uint32_t entry = elf->e_entry;
-	//set_bp();
 #ifdef IA32_PAGE
 	mm_malloc(KOFFSET - STACK_SIZE, STACK_SIZE);
 
