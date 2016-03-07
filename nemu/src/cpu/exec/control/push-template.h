@@ -5,12 +5,9 @@
 
 static void do_execute () {
 
-#if DATA_BYTE == 2
-	cpu.esp -= 2;
-#elif DATA_BYTE == 4
-	cpu.esp -= 4;
-#endif
-	MEM_W(cpu.esp,op_src->val);
+	cpu.esp -= DATA_BYTE;
+	//MEM_W(cpu.esp,op_src->val);
+	swaddr_write(cpu.esp, op_src->val, DATA_BYTE);
 	print_asm_template1();
 }
 
