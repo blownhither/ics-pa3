@@ -19,7 +19,7 @@ int main() {
 			loop ++;
 		}
 	}
-<<<<<<< HEAD
+//<<<<<<< HEAD
 	set_bp();
 	nemu_assert(i == NR_DATA);
 	nemu_assert(j == NR_DATA);
@@ -31,7 +31,7 @@ int main() {
 
 	nemu_assert(loop == NR_DATA * NR_DATA);
 
->>>>>>> 7df28c500f3c4415ec2a5a5777e2849d54783fb3
+//>>>>>>> 7df28c500f3c4415ec2a5a5777e2849d54783fb3
 	HIT_GOOD_TRAP;
 
 	return 0;
