@@ -60,8 +60,9 @@ uint32_t loader() {
 			if(brk < new_brk) { brk = new_brk; }
 #endif
 		}
-		ph += 32;//elf->e_phentsize;
 		set_bp();
+		ph += 32;//elf->e_phentsize;
+		
 	}
 
 	volatile uint32_t entry = elf->e_entry;
