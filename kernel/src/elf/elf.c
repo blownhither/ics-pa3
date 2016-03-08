@@ -39,7 +39,7 @@ uint32_t loader() {
 	for(i=0; i < elf->e_phnum ; i++) {	//e_phnum counts program headers
 		/* Scan the program header table, load each segment into memory */
 
-		ph = (void *)buf + elf->e_ehsize + i * elf->e_phentsize;
+		//ph = (void *)buf + elf->e_ehsize + i * elf->e_phentsize;
 	
 		if(ph->p_type == PT_LOAD) {	//PT_LOAT=1, Loadable program segment 
 
@@ -63,7 +63,7 @@ uint32_t loader() {
 			if(brk < new_brk) { brk = new_brk; }
 #endif
 		}
-		//ph += ph->p_filesz;
+		ph += ph->p_filesz;
 
 	}
 
