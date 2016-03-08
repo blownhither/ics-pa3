@@ -17,6 +17,11 @@ make_helper(rep) {
 			//printf("rep executing opcode %x\n", swaddr_read(eip+1,1));
 			count ++;
 			cpu.ecx --;
+			if(eflags.eflags.ZF) {
+				printf("ZF!\n");			
+				break;
+
+			}
 			assert(ops_decoded.opcode == 0xa4	// movsb
 				|| ops_decoded.opcode == 0xa5	// movsw
 				|| ops_decoded.opcode == 0xaa	// stosb
