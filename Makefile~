@@ -56,10 +56,10 @@ count:
 	find . -name "*.[dch]"|xargs cat|grep -v ^$$|wc -l
 
 USERPROG := obj/testcase/wanshu
-ENTRY := $(USERPROG)
+#ENTRY := $(USERPROG)
 
 #kernel version
-#ENTRY = $(kernel_BIN)
+ENTRY = $(kernel_BIN)
 
 entry: $(ENTRY)
 	objcopy -S -O binary $(ENTRY) entry
