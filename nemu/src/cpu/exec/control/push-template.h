@@ -7,7 +7,7 @@ static void do_execute () {
 	
 #if DATA_BYTE == 1
 	cpu.esp -= 4;		//note that push_i_b takes 4B
-	swaddr_write(cpu.esp, 4, op_src->val);
+	swaddr_write(cpu.esp, 4, op_src->val);	//so other 3B must be written 0
 #else
 	cpu.esp -= DATA_BYTE;
 	swaddr_write(cpu.esp, DATA_BYTE, op_src->val);
