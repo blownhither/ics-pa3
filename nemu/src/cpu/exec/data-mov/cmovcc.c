@@ -2,7 +2,7 @@
 
 #define ef eflags.eflags
 inline bool check_cmovcc_condition(uint8_t op) {
-	Log("%x",op);	
+	//Log("%x",op);	
 	switch(op) {
 		case 0x44: return (ef.ZF);
 		default: Log("cmovcc encounter unexpected opcode");return 0;
