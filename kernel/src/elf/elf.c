@@ -26,16 +26,17 @@ uint32_t loader() {
 #else
 	ramdisk_read(buf, ELF_OFFSET_IN_DISK, 4096);
 #endif
+
 	elf = (void*)buf;
-	/* TODO: fix the magic number with the correct one */
-	const uint32_t elf_magic = 0x464c457f;	//TODO: why 0!
-	set_bp();
+	const uint32_t elf_magic = 0x464c457f;
 	uint32_t *p_magic = (void *)buf;
 	nemu_assert(*p_magic == elf_magic);
+	set_bp();
+	
 	int i;
 	/* Load each program segment */
 	ph = (void *)buf + elf->e_phoff;	//TODO: check
-	for(i=0; i < elf->e_phnum ; i++) {	//e_shnum counts program headers
+	for(i=0; i < elf->e_phnum ; i++) {	//e_phnum counts program headers
 		/* Scan the program header table, load each segment into memory */
 
 		ph = (void *)buf + elf->e_ehsize + i * elf->e_phentsize;
