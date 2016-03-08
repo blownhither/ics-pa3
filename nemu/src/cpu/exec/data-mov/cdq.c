@@ -6,7 +6,6 @@ make_helper(cdq){
 
 	//TODO: unchecked  ops_decoded.is_data_size_16
 
-	//printf("%x",cpu.edx);	
 	print_asm("cdq/cltd");
 	return 1;
 }
