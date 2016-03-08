@@ -18,7 +18,7 @@ make_helper(stos_v) {
 	}
 	else{
 
-		printf("ecx=0x%x, edi=0x%x, eax=0x%x\n",cpu.ecx, cpu.edi, cpu.eax);
+		//printf("ecx=0x%x, edi=0x%x, eax=0x%x\n",cpu.ecx, cpu.edi, cpu.eax);
 	
 		swaddr_write(ES + cpu.edi, 4, cpu.eax);
 		cpu.edi += eflags.eflags.DF? -4:4;
