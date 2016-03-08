@@ -24,3 +24,5 @@ inline bool check_cmovcc_condition(uint8_t op) {
 #include "cmovcc-template.h"
 #undef DATA_BYTE
 
+make_helper_v(cmovcc_rm2r)
+
