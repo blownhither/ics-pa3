@@ -5,7 +5,7 @@
 
 
 static void do_execute() {	
-	if(check_cmovcc_condition(swaddr_read(cpu.eip+1,1))) 
+	if(check_cmovcc_condition(swaddr_read(cpu.eip+1,1))) //function in cmovcc.cs
 		OPERAND_W(op_dest, op_src->val);
 	print_asm_template2();
 }
