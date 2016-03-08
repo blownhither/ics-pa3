@@ -18,7 +18,7 @@ make_helper(rep) {
 			count ++;
 			cpu.ecx --;
 			if(eflags.eflags.ZF) {
-				printf("ZF!\n");			
+				//printf("ZF!\n");			
 				break;
 
 			}
