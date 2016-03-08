@@ -15,11 +15,11 @@ int main(){
 	nemu_assert(u>0);
 	set_bp();
 */
-	a = f2F(20000.0);
-	nemu_assert((int2F(20000)-a)<5);
+	//a = f2F(20000.0);
+	//nemu_assert((int2F(20000)-a)<5);
 	//set_bp();
-	b = F2int(a);
-	nemu_assert(2==b);
+	//b = F2int(a);
+	//nemu_assert(2==b);
 
 	HIT_GOOD_TRAP;
 	return 0;
