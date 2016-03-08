@@ -42,7 +42,7 @@ uint32_t loader() {
 		//ph = (void *)buf + elf->e_ehsize + i * elf->e_phentsize;
 	
 		if(ph->p_type == PT_LOAD) {	//PT_LOAT=1, Loadable program segment 
-
+			set_bp();
 			/* TODO: read the content of the segment from the ELF file 
 			 * to the memory region [VirtAddr, VirtAddr + FileSiz)
 			 */
