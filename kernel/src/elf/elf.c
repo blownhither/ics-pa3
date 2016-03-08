@@ -61,7 +61,7 @@ uint32_t loader() {
 #endif
 		}
 		set_bp();
-		ph += 32;//elf->e_phentsize;
+		ph += 1;//elf->e_phentsize;
 		
 	}
 
