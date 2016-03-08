@@ -35,7 +35,6 @@ uint32_t loader() {
 	int i;
 	/* Load each program segment */
 	ph = (void *)buf + elf->e_phoff;	//TODO: check
-	set_bp();
 	for(i=0; i < elf->e_phnum ; i++) {	//e_phnum counts program headers
 		/* Scan the program header table, load each segment into memory */
 
@@ -45,6 +44,7 @@ uint32_t loader() {
 			/* TODO: read the content of the segment from the ELF file 
 			 * to the memory region [VirtAddr, VirtAddr + FileSiz)
 			 */
+			set_bp();
 			uint32_t malloc_addr = mm_malloc(ph->p_vaddr, ph->p_memsz);
 			set_bp();
 			ramdisk_read((void *)malloc_addr, ELF_OFFSET_IN_DISK + ph->p_offset, ph->p_filesz);
