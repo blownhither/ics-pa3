@@ -45,16 +45,15 @@ uint32_t loader() {
 			 * to the memory region [VirtAddr, VirtAddr + FileSiz)
 			 */
 			set_bp();
-			uint32_t malloc_addr = mm_malloc(ph->p_vaddr, ph->p_memsz);
+			ramdisk_read((void *)ph->p_vaddr, ELF_OFFSET_IN_DISK + ph->p_offset, ph->p_filesz);
 			set_bp();
-			ramdisk_read((void *)malloc_addr, ELF_OFFSET_IN_DISK + ph->p_offset, ph->p_filesz);
 			//memcpy((void *)malloc_addr, (void *)(mm_malloc), ph->p_filesz);
 			
 			/* TODO: zero the memory region 
 			 * [VirtAddr + FileSiz, VirtAddr + MemSiz)
 			 */
 			
-			memset((void *)malloc_addr + ph->p_vaddr, 0, ph->p_memsz - ph->p_filesz);
+			//memset((void *)malloc_addr + ph->p_vaddr, 0, ph->p_memsz - ph->p_filesz);
 
 #ifdef IA32_PAGE
 			/* Record the program break for future use. */
