@@ -62,7 +62,7 @@ uint32_t loader() {
 			if(brk < new_brk) { brk = new_brk; }
 #endif
 		}
-		ph += ph->p_filesz;
+		ph += elf->e_phentsize;
 
 	}
 
