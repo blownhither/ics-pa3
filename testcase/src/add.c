@@ -20,7 +20,7 @@ int main() {
 		}
 	}
 //<<<<<<< HEAD
-	set_bp();
+	//set_bp();
 	nemu_assert(i == NR_DATA);
 	nemu_assert(j == NR_DATA);
 	//char str2[] = "this is another const string for test ^_^";
