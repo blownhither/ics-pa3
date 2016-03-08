@@ -42,13 +42,13 @@ uint32_t loader() {
 		//ph = (void *)buf + elf->e_ehsize + i * elf->e_phentsize;
 	
 		if(ph->p_type == PT_LOAD) {	//PT_LOAT=1, Loadable program segment 
-			set_bp();
 			/* TODO: read the content of the segment from the ELF file 
 			 * to the memory region [VirtAddr, VirtAddr + FileSiz)
 			 */
 			uint32_t malloc_addr = mm_malloc(ph->p_vaddr, ph->p_memsz);
-			ramdisk_read((void *)mm_malloc, ph->p_offset, ph->p_filesz);
-			memcpy((void *)malloc_addr, (void *)(mm_malloc), ph->p_filesz);
+			set_bp();
+			ramdisk_read((void *)malloc_addr, ELF_OFFSET_IN_DISK + ph->p_offset, ph->p_filesz);
+			//memcpy((void *)malloc_addr, (void *)(mm_malloc), ph->p_filesz);
 			
 			/* TODO: zero the memory region 
 			 * [VirtAddr + FileSiz, VirtAddr + MemSiz)
