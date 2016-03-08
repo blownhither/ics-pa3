@@ -44,7 +44,6 @@ uint32_t loader() {
 			/* TODO: read the content of the segment from the ELF file 
 			 * to the memory region [VirtAddr, VirtAddr + FileSiz)
 			 */
-			set_bp();
 			ramdisk_read((void *)ph->p_vaddr, ELF_OFFSET_IN_DISK + ph->p_offset, ph->p_filesz);
 			//memcpy((void *)malloc_addr, (void *)(mm_malloc), ph->p_filesz);
 			
@@ -60,7 +59,6 @@ uint32_t loader() {
 			if(brk < new_brk) { brk = new_brk; }
 #endif
 		}
-		set_bp();
 		ph ++;//elf->e_phentsize;
 		
 	}
