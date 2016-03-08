@@ -55,7 +55,7 @@ ROOT=`pwd`
 count: 
 	find . -name "*.[dch]"|xargs cat|grep -v ^$$|wc -l
 
-USERPROG := obj/testcase/string
+USERPROG := obj/testcase/add
 #ENTRY := $(USERPROG)
 
 #kernel version
