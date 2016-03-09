@@ -1,5 +1,4 @@
 #include "cpu/exec/helper.h"
-
 //make_helper(exec);
 
 make_helper(movs_b) {
@@ -8,6 +7,7 @@ make_helper(movs_b) {
 	printf("cpu.edi = 0x%x, cpu.esi = 0x%x, data=0x%x\n", cpu.edi, cpu.esi, swaddr_read(cpu.esi,1));
 	cpu.edi += eflags.eflags.DF? -1:1;
 	cpu.esi += eflags.eflags.DF? -1:1;
+
 	return 1;
 }
 
