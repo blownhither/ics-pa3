@@ -14,7 +14,7 @@ make_helper(rep) {
 	else {
 		while(cpu.ecx) {
 			exec(eip + 1);
-			//printf("rep executing opcode %x\n", swaddr_read(eip+1,1));
+			printf("rep executing opcode %x\n, ecx=%d", swaddr_read(eip+1,1), cpu.ecx);
 			count ++;
 			cpu.ecx --;
 /*
