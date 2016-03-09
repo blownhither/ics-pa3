@@ -1,18 +1,18 @@
 #include "cpu/exec/helper.h"
 
-make_helper(exec);
+//make_helper(exec);
 
 make_helper(movs_b) {
-	const int ES = 0;	//TODO: check ES
+	const int ES = 0;
 	swaddr_write(ES + cpu.edi, 1, swaddr_read(cpu.esi,1));
-	printf("cpu.edi = 0x%x, *cpu.esi = 0x%x\n", cpu.edi, swaddr_read(cpu.esi,1));
+	printf("cpu.edi = 0x%x, *cpu.esi = 0x%x\nd", cpu.edi, swaddr_read(cpu.esi,1));
 	cpu.edi += eflags.eflags.DF? -1:1;
 	cpu.esi += eflags.eflags.DF? -1:1;
 	return 1;
 }
 
 make_helper(movs_v) {
-	const int ES = 0;	//TODO: check ES
+	const int ES = 0;
 	if(ops_decoded.is_data_size_16){
 		swaddr_write(ES + cpu.edi, 2, swaddr_read(cpu.esi,2));
 		cpu.edi += eflags.eflags.DF? -2:2;
