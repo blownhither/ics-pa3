@@ -16,8 +16,8 @@ void *sbrk(int incr) {
 char *str = "he";
 
 int main() {
-	//sprintf(buf,"%d",1);
-	sprintf(buf,"%s",str);
+	sprintf(buf,"%d",1);
+	//sprintf(buf,"%s",str);
 	nemu_assert(strcmp(buf,str)==0);
 	set_bp();
 	sprintf(buf, "%s", "Hello world!\n");
