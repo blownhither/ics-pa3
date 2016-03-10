@@ -13,12 +13,11 @@ void *sbrk(int incr) {
 	return NULL;
 }
 
-char *str = "he";
 
 int main() {
-	sprintf(buf,"%d",1);
+	sprintf(buf,"%s","he");
 	//sprintf(buf,"%s",str);
-	nemu_assert(strcmp(buf,str)==0);
+	nemu_assert(strcmp(buf,"he")==0);
 	set_bp();
 	sprintf(buf, "%s", "Hello world!\n");
 	set_bp();
