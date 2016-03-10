@@ -4,7 +4,6 @@
 
 static void do_execute() {
 	OPERAND_W(op_dest, op_src->val);
-	Log("dest=0x%x,src=0x%x", op_dest->val, op_src->val);
 	print_asm_template2();
 }
 
@@ -23,8 +22,9 @@ make_helper(concat(mov_a2moffs_, SUFFIX)) {
 
 make_helper(concat(mov_moffs2a_, SUFFIX)) {
 	swaddr_t addr = instr_fetch(eip + 1, 4);
-	REG(R_EAX) = MEM_R(addr);
-
+	//REG(R_EAX) = MEM_R(addr);
+	cpu.eax = MEM_R(addr);
+	Log("addr=0x%x, eax=0x%x", addr, cpu.eax);
 	print_asm("mov" str(SUFFIX) " 0x%x,%%%s", addr, REG_NAME(R_EAX));
 	return 5;
 }
