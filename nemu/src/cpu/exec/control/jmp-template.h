@@ -15,6 +15,9 @@ make_instr_helper(si);
 #define instr jmp	
 static void do_execute(){
     cpu.eip = op_src->val -2;	//TODO: check 2    
+
+	Log("in jmp_rm, eip=0x%x\n",cpu.eip);
+
 	print_asm_template1();
     return ;
 }
