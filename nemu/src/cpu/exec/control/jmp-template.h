@@ -14,7 +14,7 @@ make_instr_helper(si);
 //direct jump
 #define instr jmp	
 static void do_execute(){
-    cpu.eip = op_src->val - DATA_BYTE - 1;	//TODO: check 2    
+    cpu.eip = op_src->val - op_src->size - 1;	//TODO: check 2    
 
 	Log("in jmp_rm, eip=0x%x\n",cpu.eip);
 
