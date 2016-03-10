@@ -3,9 +3,17 @@
 #define instr movzbl
 #if DATA_BYTE==4
 static void do_execute() {
+
 	uint32_t ans = op_src->val & (uint32_t)0xff;
-	if(ops_decoded.is_data_size_16)
+#ifdef MZYDEBUG
+	Log("src=0x%x, ans=0x%x\n", op_src->val, ans);
+#endif
+	if(ops_decoded.is_data_size_16){
 		ans |= (op_dest->val&0xffff0000); 
+#ifdef MZYDEBUG
+		Log("ans_16=0x%x\n",ans);
+#endif
+	}
 	OPERAND_W(op_dest, ans);
 	print_asm_template2();
 }
