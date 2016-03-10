@@ -9,7 +9,7 @@ static void do_execute () {
 	eflags.eflags.ZF = !ans;
 	eflags.eflags.PF = parity_check(ans);
 	eflags.eflags.SF = MSB(ans);
-	Log("test:	0x%x & 0x%x = 0x%x\n",op_src->val, op_dest->val, ans);
+	//Log("test:	0x%x & 0x%x = 0x%x\n",op_src->val, op_dest->val, ans);
 	print_asm_template2();
 }
 
