@@ -20,8 +20,8 @@ int main() {
 	nemu_assert(strcmp(buf,"he")==0);
 	set_bp();
 */
-	sprintf(buf, "%s", "Helloworld!");
-	nemu_assert(strcmp(buf, "Helloworld!") == 0);
+	sprintf(buf, "%s", "Hello world!");
+	nemu_assert(strcmp(buf, "Hello world!") == 0);
 	set_bp();
 	sprintf(buf, "%d + %d = %d\n", 1, 1, 2);
 	nemu_assert(strcmp(buf, "1 + 1 = 2\n") == 0);
