@@ -25,10 +25,10 @@ static void do_execute(){
 make_instr_helper(rm);
 #undef instr
 */
-
+extern void true_callback();
 make_helper(concat(jmp_rm_, SUFFIX)) {
 	Log("eip=0x%x to ",eip);
-	concat(decode_rm_, SUFFIX)(eip);
+	idex(eip, concat(decode_rm_, SUFFIX), true_callback);
 	cpu.eip = op_src->val;
 	Log("0x%x\n",cpu.eip);
 	return 0;
