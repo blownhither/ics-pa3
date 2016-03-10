@@ -13,8 +13,9 @@ static void do_execute () {
 	swaddr_write(cpu.esp, DATA_BYTE, op_src->val);
 #endif
 	//MEM_W(cpu.esp,op_src->val);
-
+#ifdef MZYDEBUG
 	printf("eip=0x%x, esp=0x%x, DATA_BYTE=%d, op_src->val=0x%x\n",cpu.eip, cpu.esp, DATA_BYTE, op_src->val);
+#endif
 	print_asm_template1();
 }
 

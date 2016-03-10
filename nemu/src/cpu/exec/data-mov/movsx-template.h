@@ -21,8 +21,9 @@ static void do_execute() {
 	//TODO: check necessity
 	if(ops_decoded.is_data_size_16)
 		ans = (op_dest->val&0xffff0000) | (ans&0xffff);	//upper bits remain
-
+#ifdef MZYDEBUG
 	printf("src:%x, key:%x, ans:%x, dest:%x\n",op_src->val,(op_src->val>>7)&(uint32_t)1,ans,op_dest->val);
+#endif
 	OPERAND_W(op_dest, ans);
 	print_asm_template2();
 }
