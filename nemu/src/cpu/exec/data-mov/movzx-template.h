@@ -3,6 +3,7 @@
 #define instr movzbl
 #if DATA_BYTE==4
 static void do_execute() {
+#define MZYDEBUG
 
 	uint32_t ans = op_src->val & (uint32_t)0xff;
 #ifdef MZYDEBUG
