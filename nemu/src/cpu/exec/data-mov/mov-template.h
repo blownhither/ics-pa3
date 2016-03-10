@@ -25,7 +25,7 @@ make_helper(concat(mov_moffs2a_, SUFFIX)) {
 	//REG(R_EAX) = MEM_R(addr);
 	cpu.eax = swaddr_read(addr, DATA_BYTE);
 	Log("addr=0x%x, eax=0x%x", addr, cpu.eax);
-	print_asm("mov" str(SUFFIX) " 0x%x,%%%s", addr, REG_NAME(R_EAX));
+	print_asm("mov" str(SUFFIX) " (0x%x),%%%s", addr, REG_NAME(R_EAX));
 	return 5;
 }
 
