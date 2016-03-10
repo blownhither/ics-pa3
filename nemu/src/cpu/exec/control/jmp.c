@@ -16,5 +16,5 @@ make_helper_v(jmp_rm)
 make_helper_v(jmpr_si)
 
 void true_callback() {
-	return ;
+	return ;//do nothing
 }

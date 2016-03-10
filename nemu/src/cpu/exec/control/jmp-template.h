@@ -26,11 +26,16 @@ make_instr_helper(rm);
 #undef instr
 */
 extern void true_callback();
+
 make_helper(concat(jmp_rm_, SUFFIX)) {
+#ifdef MZYDEBUG
 	Log("eip=0x%x to ",eip);
+#endif
 	idex(eip, concat(decode_rm_, SUFFIX), true_callback);
 	cpu.eip = op_src->val;
+#ifdef MZYDEBUG
 	Log("0x%x\n",cpu.eip);
+#endif
 	return 0;
 }
 /*
