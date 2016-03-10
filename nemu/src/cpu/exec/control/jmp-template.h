@@ -38,15 +38,6 @@ make_helper(concat(jmp_rm_, SUFFIX)) {
 #endif
 	return 0;
 }
-/*
-make_helper(jmp_rm_w) {
-	Log("eip=0x%x to ",eip);
-	decode_rm_w(eip);
-	cpu.eip = op_src->val;
-	Log("0x%x\n",cpu.eip);
-	return 0;
-}
-*/
 
 /*
 #define make_instr_helper(type) \
