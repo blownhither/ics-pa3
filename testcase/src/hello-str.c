@@ -15,10 +15,11 @@ void *sbrk(int incr) {
 
 
 int main() {
+/*
 	sprintf(buf,"%s","he");
-	//sprintf(buf,"%s",str);
 	nemu_assert(strcmp(buf,"he")==0);
 	set_bp();
+*/
 	sprintf(buf, "%s", "Helloworld!");
 	nemu_assert(strcmp(buf, "Helloworld!") == 0);
 	set_bp();
