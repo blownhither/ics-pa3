@@ -12,11 +12,9 @@ void *sbrk(int incr) {
 	nemu_assert(0);
 	return NULL;
 }
-char s[64];
 
 int main() {
 	sprintf(buf, "%s", "Hello world!");
-	strcpy(s,buf);
 	nemu_assert(strcmp(buf, "Hello world!") == 0);
 	set_bp();
 	sprintf(buf, "%d + %d = %d\n", 1, 1, 2);
