@@ -3,7 +3,7 @@
 ###replace ".a" with ".o" ###
 FLOAT_OBJ := $(FLOAT:.a=.o)
 FLOAT_SRC := $(LIB_COMMON_DIR)/FLOAT.c
-FLOAT_SRC_DIR := $(FLOAT_SRC)
+##FLOAT_SRC_DIR := $(FLOAT_SRC)
 ### make target ###
 $(FLOAT): $(FLOAT_OBJ)
 	ar r $(FLOAT) $(FLOAT_OBJ)
@@ -14,4 +14,5 @@ FLOAT_CFLAGS_EXTRA := -c -m32 -fno-builtin -I $(LIB_COMMON_DIR)
 ##$(CC) $(FLOAT_CFLAGS_EXTRA) $(FLOAT_SRC) -o $(FLOAT_OBJ) 
 
 $(FLOAT_OBJ): $(FLOAT_SRC)
+	mkdir -p obj/lib-common/
 	$(call make_command, $(CC), $(FLOAT_CFLAGS_EXTRA), $(CC) $@, $^)
