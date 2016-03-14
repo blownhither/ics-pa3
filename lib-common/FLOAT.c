@@ -1,11 +1,14 @@
 #include "FLOAT.h"
 
 FLOAT F_mul_F(FLOAT a, FLOAT b) {
+	uint8_t sa = (a>>31)&1, sb = (b>>31)&1;	
+	if(sa) a=-a;
+	if(sb) b=-b;
 	FLOAT ret = ((uint64_t)a*b)>>16;	
 #ifdef MZYDEBUG
 	printf("F_mul_F(FLOAT 0x%x, FLOAT 0x%x): 0x%x\n",a,b,ret);
 #endif
-	return ret ;
+	return (sa^sb)? -ret : ret ;
 }
 
 FLOAT F_div_F(FLOAT a, FLOAT b) {
