@@ -17,7 +17,7 @@ static void do_execute() {
 static void do_execute() {
 	uint32_t ans = (op_src->val & (uint32_t)0xff);
 	ans |= ((op_src->val >> 7)&(uint32_t)1) ? 0xffffff00 : 0;
-	
+	printf("s%d, d%d\n",(int)op_src->size, (int)op_dest->size);
 	//TODO: check necessity
 	if(ops_decoded.is_data_size_16)
 		ans = (op_dest->val&0xffff0000) | (ans&0xffff);	//upper bits remain

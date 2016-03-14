@@ -16,18 +16,6 @@ FLOAT F_div_F(FLOAT a, FLOAT b) {
 	if(sa) a=-a;
 	if(sb) b=-b;
 	uint64_t bin = ((uint64_t)a)<<16;
-/*
-	FLOAT ret = 0;	
-	while(bin>b){	//TODO: ...
-		bin -= b;
-		ret ++;
-	}
-	if(bin>(b>>1))
-		ret ++;
-	if(sa^sb)
-		ret = -ret;
-	return ret;
-*/
 	/*	using binary search	*/
 	FLOAT l = 0, r = 0x80000000-1, mid = (l+r)/2;
 	while(l<r) {
