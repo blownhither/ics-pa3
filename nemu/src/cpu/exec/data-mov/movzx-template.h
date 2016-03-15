@@ -1,5 +1,6 @@
 #include "cpu/exec/template-start.h"
 
+/*
 #define instr movzbl
 #if DATA_BYTE==4
 static void do_execute() {
@@ -21,6 +22,8 @@ static void do_execute() {
 make_instr_helper(rm2r)
 #endif
 #undef instr
+*/
+
 
 #define instr movzwl
 #if DATA_BYTE==4
