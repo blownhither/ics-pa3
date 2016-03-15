@@ -15,18 +15,26 @@
 #undef DATA_BYTE
 
 make_helper(movzxl) {
-	uint8_t op = instr_fetch(eip+1, 1);
-	Log("ModR/M %x\n",op);
+	ModR_M m;
+	m.val = instr_fetch(eip+1, 1);
+	Log("ModR/M %x\n",m.val);
 
 	//TODO: m.mod == 3?
 
 	if(ops_decoded.is_data_size_16){	//r/m8 -> r16
-		
+		panic("a");
 	}
-	else {								//r/m7 -> r32
+	else {								//r/m8 -> r32
 		op_src->type = OP_TYPE_REG;
-		//op_src->reg = 
+		op_src->reg = m.reg;
+		if(m.mod == 3) {
+			op_src->reg = m.R_M;
+			op_src->val = reg_b(m.R_M);
+		}
+		else {
+			panic("a");
+		}
 	}
-	return 0;
+	return 1;
 }
 
