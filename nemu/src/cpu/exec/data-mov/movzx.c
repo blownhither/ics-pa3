@@ -28,6 +28,7 @@ make_helper(movzxl) {
 	else {	
 */							//r/m8 -> r32
 	op_src->size = 1;
+	Log("eip=%x",eip);
 	int len = read_ModR_M(eip, op_src, op_dest);
 	op_dest->val = reg_b(op_dest->reg);
 	return len;
