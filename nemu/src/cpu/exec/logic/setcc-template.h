@@ -24,11 +24,11 @@ static void do_execute () {
 		case 0x9e: ans = (eflags.eflags.ZF || eflags.eflags.SF!=eflags.eflags.OF);break;
 		case 0x9f: ans = (!eflags.eflags.ZF && eflags.eflags.SF==eflags.eflags.OF);break;
 		 //ans = !eflags.eflags.OF;break;
-		default: panic("exception for setcc!\n");
+		default: panic("exception in setcc!\n");
 		
 	}
-	OPERAND_W(op_dest,ans);
-	printf("%s,%d\n",op_dest->str, ans);
+	OPERAND_W(op_src,ans);
+	printf("%s,%d\n",op_src->str, ans);
 	/* There is no need to update EFLAGS, since no other instructions 
 	 * in PA will test the flags updated by this instruction.
 	 */
