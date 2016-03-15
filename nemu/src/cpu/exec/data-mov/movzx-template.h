@@ -1,11 +1,9 @@
 #include "cpu/exec/template-start.h"
 
-/*
+
 #define instr movzbl
 #if DATA_BYTE==4
 static void do_execute() {
-
-
 	uint32_t ans = op_src->val & (uint32_t)0xff;
 #ifdef MZYDEBUG
 	Log("src=0x%x, ans=0x%x\n", op_src->val, ans);
@@ -22,7 +20,7 @@ static void do_execute() {
 make_instr_helper(rm2r)
 #endif
 #undef instr
-*/
+
 
 
 #define instr movzwl

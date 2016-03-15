@@ -13,7 +13,7 @@
 #define DATA_BYTE 4
 #include "movzx-template.h"
 #undef DATA_BYTE
-
+/*
 make_helper(movzxl) {
 	ModR_M m;
 	m.val = instr_fetch(eip+1, 1);
@@ -37,4 +37,5 @@ make_helper(movzxl) {
 	}
 	return 1;
 }
+*/
 
