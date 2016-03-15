@@ -20,6 +20,7 @@ int main() {
 	int i, ans_idx = 0;
 	for(i = 0; i < NR_DATA; i ++) {
 		nemu_assert(if_else(test_data[i]) == ans[ans_idx ++]);
+		set_bp();
 	}
 
 	nemu_assert(i == NR_DATA);
