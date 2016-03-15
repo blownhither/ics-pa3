@@ -28,6 +28,7 @@ make_helper(movzxl) {
 	else {	
 */							//r/m8 -> r32
 	if(((instr_fetch(eip+1,1)>>6)&3) == 3)op_src->size = 1;
+	else op_src->size = 4;
 	Log("eip=%x",eip+1);
 	int len = read_ModR_M(eip+1, op_src, op_dest);
 	op_dest->val = reg_b(op_dest->reg);
