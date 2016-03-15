@@ -38,7 +38,7 @@ make_helper(movzxl) {
 	
 	op_dest->val = reg_b(op_dest->reg);
 	OPERAND_W(op_dest, reg_b(op_dest->reg));
-	Log("reg=0x%x,val=0x%x",op_dest->reg,op_dest->val);
+	Log("reg=0x%x,val=0x%x",op_dest->reg,op_src->val);
 	print_asm_template2();
 	return len;
 }
