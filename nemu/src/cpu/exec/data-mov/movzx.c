@@ -1,6 +1,6 @@
 #include "cpu/exec/helper.h"
 #include "cpu/decode/modrm.h"
-//#include "cpu/exec/template-start.h"
+
 /*
 #define DATA_BYTE 1
 #include "movzx-template.h"
@@ -15,6 +15,8 @@
 #include "movzx-template.h"
 #undef DATA_BYTE
 
+#define DATA_BYTE 4
+#include "cpu/exec/template-start.h"
 make_helper(movzxl) {
 /*
 	ModR_M m;
@@ -35,9 +37,11 @@ make_helper(movzxl) {
 	len += read_ModR_M(eip+1, op_src, op_dest);
 	
 	op_dest->val = reg_b(op_dest->reg);
+	//OPERAND_W(op_dest, reg_b(op_dest->reg));
 	Log("reg=0x%x,val=0x%x",op_dest->reg,op_dest->val);
 	print_asm_template2();
 	return len;
 }
-
+#undef DATA_BYTE
+#include "cpu/exec/template-end.h"
 
