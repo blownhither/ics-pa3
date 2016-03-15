@@ -16,7 +16,7 @@
 
 make_helper(movzxl) {
 	ModR_M m;
-	m.val = instr_fetch(eip, 1);
+	m.val = instr_fetch(eip+1, 1);
 	Log("ModR/M %x\n",m.val);
 
 	//TODO: m.mod == 3?
