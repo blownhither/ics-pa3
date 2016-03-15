@@ -31,6 +31,7 @@ make_helper(movzxl) {
 	Log("eip=%x",eip+1);
 	int len = read_ModR_M(eip+1, op_src, op_dest);
 	op_dest->val = reg_b(op_dest->reg);
+	print_asm_template2();
 	return len;
 }
 
