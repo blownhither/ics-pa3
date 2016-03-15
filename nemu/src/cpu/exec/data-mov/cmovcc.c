@@ -19,7 +19,7 @@ inline bool check_cmovcc_condition(uint8_t op) {
 		case 0x4c:	return (ef.SF != ef.OF);
 		case 0x4d:	return (ef.SF == ef.OF);
 		case 0x4e:	return (ef.ZF || ef.SF!=ef.OF);
-		case 0x4f:	return (ef.ZF && ef.SF==ef.OF);
+		case 0x4f:	return (!ef.ZF && ef.SF==ef.OF);
 
 		default: Log("cmovcc encounter unexpected opcode");return 0;
 	}
