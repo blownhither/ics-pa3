@@ -30,6 +30,7 @@ make_helper(movzxl) {
 	int len = 0;
 	if(((instr_fetch(eip+1,1)>>6)&3) == 3)op_src->size = 1;
 	else op_src->size = 4, len++;
+	op_dest->size = 4;
 	Log("eip=%x",eip+1);
 	len += read_ModR_M(eip+1, op_src, op_dest);
 	op_dest->val = reg_b(op_dest->reg);
