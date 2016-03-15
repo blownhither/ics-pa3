@@ -33,7 +33,9 @@ make_helper(movzxl) {
 	op_dest->size = 4;
 	Log("eip=%x",eip+1);
 	len += read_ModR_M(eip+1, op_src, op_dest);
+	
 	op_dest->val = reg_b(op_dest->reg);
+	Log("reg=0x%x,val=0x%x",op_dest->reg,op_dest->val);
 	print_asm_template2();
 	return len;
 }
