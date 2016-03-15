@@ -12,6 +12,8 @@ int main() {
 	int i;
 	for(i = 0; i < NR_DATA; i ++) {
 		nemu_assert(is_leap_year(i + 1890) == ans[i]);
+		if(i%10==0)		
+			set_bp();
 	}
 
 	nemu_assert(i == NR_DATA);
