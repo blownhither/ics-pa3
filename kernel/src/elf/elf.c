@@ -43,12 +43,9 @@ uint32_t loader() {
 			 */
 			//ramdisk_read((void *)ph->p_vaddr, ELF_OFFSET_IN_DISK + ph->p_offset, ph->p_filesz);
 			memcpy((void *)ph->p_vaddr, (void *)buf + ph->p_offset, ph->p_filesz);
-			//memcpy((void *)malloc_addr, (void *)(mm_malloc), ph->p_filesz);
-			
 			/* TODO: zero the memory region 
 			 * [VirtAddr + FileSiz, VirtAddr + MemSiz)
 			 */
-			
 			memset((void *)ph->p_vaddr + ph->p_filesz, 0, ph->p_memsz - ph->p_filesz);
 #ifdef IA32_PAGE
 			/* Record the program break for future use. */
@@ -57,7 +54,7 @@ uint32_t loader() {
 			if(brk < new_brk) { brk = new_brk; }
 #endif
 		}
-		ph ++;//elf->e_phentsize;
+		ph ++;
 		
 	}
 
