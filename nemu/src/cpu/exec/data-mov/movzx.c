@@ -29,7 +29,7 @@ make_helper(movzxl) {
 	}
 	else {	
 */							//r/m8 -> r32
-	int len = 01;
+	int len = 1;
 	if(((instr_fetch(eip+1,1)>>6)&3) == 3)op_src->size = 1;
 	else op_src->size = 4;
 	op_dest->size = 4;
