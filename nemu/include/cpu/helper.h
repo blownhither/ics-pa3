@@ -7,9 +7,10 @@
 /* All function defined with 'make_helper' return the length of the operation. */
 #define make_helper(name) int name(swaddr_t eip)
 
-//volatile static int dummy;
+volatile static int dummy;
 
-static uint32_t instr_fetch(swaddr_t addr, size_t len) {
+static inline uint32_t instr_fetch(swaddr_t addr, size_t len) {
+	dummy++;
 	return swaddr_read(addr, len);
 }
 
