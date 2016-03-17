@@ -9,7 +9,7 @@
 
 //volatile static int dummy;
 
-static inline uint32_t instr_fetch(swaddr_t addr, size_t len) {
+static uint32_t instr_fetch(swaddr_t addr, size_t len) {
 	return swaddr_read(addr, len);
 }
 
