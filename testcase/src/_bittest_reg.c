@@ -112,10 +112,11 @@ int main()
             ret_l = naive_bt_l(base, offset);
             ret_reg2r_l = asm_bt_reg2r_l(base, offset);
             nemu_assert(ret_l == ret_reg2r_l);
-            
+            set_bp();
             ret_w = naive_bt_w(base, offset);
             ret_reg2r_w = asm_bt_reg2r_w(base, offset);
             nemu_assert(ret_w == ret_reg2r_w);
+			set_bp();
         }
     }
     
