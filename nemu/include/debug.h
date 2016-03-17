@@ -4,7 +4,7 @@
 #include <stdio.h>
 #include <assert.h>
 
-volatile static int dummy = 1;
+volatile static int dummy;
 
 extern FILE* log_fp;
 
