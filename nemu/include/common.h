@@ -18,6 +18,7 @@
 #include <assert.h>
 #include <string.h>
 #include <stdlib.h>
+#include <time.h>
 
 typedef uint8_t bool;
 typedef uint32_t hwaddr_t;
