@@ -40,8 +40,9 @@ block* read_cache_block(hwaddr_t _addr) {
 	uint32_t tag = addr->tag;
 	uint32_t index = addr->index;
 	uint32_t offs = addr->offs;
-	printf("addr=0x%x,tag=0x%x,index=0x%x,offs=0x%x\n",
-		*(unsigned int*)addr,tag,index,offs);
+	uint32_t addr_aligned = *(uint32_t *)addr - offs;
+	printf("addr=0x%x,tag=0x%x,index=0x%x,offs=0x%x,addr_align=0x%x\n",
+		*(unsigned int*)addr,tag,index,offs,addr_aligned);
 	cache_group* group = &cache[index];
 	
 	int i, empty_line = -1;
@@ -60,7 +61,9 @@ block* read_cache_block(hwaddr_t _addr) {
 		empty_line = get_rand(ASSOCT_WAY);
 	}
 	//read into cache
-	
+	for(i=0; i<BLOCK_SIZE; ++i) {
+		group->data[empty_line][i] = dram_read(addr_aligned, 1);
+	}
 	return &(group->data[empty_line]);
 }
 
