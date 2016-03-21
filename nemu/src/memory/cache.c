@@ -36,11 +36,6 @@ void init_cache() {
 extern uint32_t dram_read(hwaddr_t addr, size_t len);
 
 block* read_cache_block(hwaddr_t _addr) {
-/*
-	uint32_t tag = (addr >> (BLOCK_LEN + INDEX_LEN)) & (TAG_LEN - 1);
-	uint32_t index = (addr >> BLOCK_LEN) & (INDEX_LEN - 1);
-	uint32_t offs = addr & (BLOCK_LEN - 1);
-*/
 	cache_addr* addr =  (void *)&_addr;
 	uint32_t tag = addr->tag;
 	uint32_t index = addr->index;
