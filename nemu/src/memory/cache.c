@@ -48,8 +48,8 @@ void cache_block_read(hwaddr_t _addr, uint8_t buf[]) {
 	uint32_t offs = addr->offs;
 	uint32_t addr_aligned = *(uint32_t *)addr - offs;
 
-	cache_access++;
-	printf("access! %x",(int)cache_access);
+
+	
 	//printf("_block:addr=0x%x,tag=0x%x,\n\tindex=0x%x,offs=0x%x,addr_align=0x%x\n",*(unsigned int*)addr,tag,index,offs,addr_aligned);
 	cache_group* group = &cache[index];
 	block *ret_block = NULL;
@@ -86,6 +86,9 @@ void cache_block_read(hwaddr_t _addr, uint8_t buf[]) {
 }
 
 uint32_t cache_read(hwaddr_t addr, size_t len) {
+	cache_access++;
+	printf("access! %x",(int)cache_access);
+
 	uint8_t buf[ BLOCK_SIZE<<1 ];
 	cache_block_read(addr, buf);
 	uint32_t offs = addr&(BLOCK_SIZE - 1);
