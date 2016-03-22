@@ -77,7 +77,7 @@ void cache_block_read(hwaddr_t _addr, uint8_t buf[]) {
 			group->data[empty_line][i] = dram_read(addr_aligned + i, 1) & 0xff;	//see memory.c
 			printf("%x ",group->data[empty_line][i]);
 			group->tag[empty_line] = tag;
-			group->valid_bit[empty_line] = true;
+			//group->valid_bit[empty_line] = true;
 		}
 		ret_block = &group->data[empty_line];
 	}
