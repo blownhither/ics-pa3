@@ -40,7 +40,6 @@ uint64_t get_cache_cost (){
 }
 
 extern uint32_t dram_read(hwaddr_t addr, size_t len);
-#define MZYDEBUG
 
 void cache_block_read(hwaddr_t _addr, uint8_t buf[]) {
 	cache_addr* addr =  (void *)&_addr;					//parsing addr
