@@ -79,7 +79,7 @@ void cache_block_read(hwaddr_t _addr, uint8_t buf[]) {
 			printf("%x ",group->data[empty_line][i]);
 #endif
 			group->tag[empty_line] = tag;
-			//group->valid_bit[empty_line] = true;
+			group->valid_bit[empty_line] = true;
 		}
 		ret_block = &group->data[empty_line];
 	}
