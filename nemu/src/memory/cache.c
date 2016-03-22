@@ -54,6 +54,7 @@ void cache_block_read(hwaddr_t _addr, uint8_t buf[]) {
 	cache_group* group = &cache[index];
 	block *ret_block = NULL;
 	int i, empty_line = -1;
+	cache_access++;
 	for(i=0,empty_line = 0; i<ASSOCT_WAY; ++i) {
 		if(group->valid_bit[i]){
 			if(group->tag[i] == tag) {
@@ -86,9 +87,6 @@ void cache_block_read(hwaddr_t _addr, uint8_t buf[]) {
 }
 
 uint32_t cache_read(hwaddr_t addr, size_t len) {
-	cache_access++;
-	printf("access! %x",(int)cache_access);
-
 	uint8_t buf[ BLOCK_SIZE<<1 ];
 	cache_block_read(addr, buf);
 	uint32_t offs = addr&(BLOCK_SIZE - 1);
