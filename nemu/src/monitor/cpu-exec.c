@@ -87,7 +87,7 @@ void cpu_exec(volatile uint32_t n) {
 
 		if(nemu_state != RUNNING) { 
 			
-			printf("Cache cost = %llu\nmiss%llu, access%llu",(unsigned long long)get_cache_cost(), (unsigned long long)cache_miss, (unsigned long long)cache_access);
+			printf("Cache cost = %llu, miss%llu, access%llu\n",(unsigned long long)get_cache_cost(), (unsigned long long)cache_miss, (unsigned long long)cache_access);
 			return; 
 		}
 		//printf("cpu.eip is %x in rear cpu-exec.c\n",cpu.eip);

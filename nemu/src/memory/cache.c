@@ -35,6 +35,7 @@ void init_cache() {
 
 uint64_t cache_miss = 0, cache_access = 0;
 uint64_t get_cache_cost (){ 
+	printf("in get_:%x, %x\n", (int)cache_access%0xffff, (int)cache_miss&0xffff);
 	return cache_access * 2 + cache_miss * 198;
 }
 
