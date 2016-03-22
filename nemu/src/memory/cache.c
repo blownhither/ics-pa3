@@ -78,6 +78,8 @@ uint32_t read_cache(hwaddr_t addr, size_t len) {
 	if(((addr + len)&(BLOCK_SIZE - 1)) < (len - 1)) {	//unaligned read
 		read_cache_block(addr + len, buf + BLOCK_SIZE);
 	}
-	return unalign_rw(buf + (addr&(BLOCK_SIZE - 1)), 4);
+	uint32_t offs = addr&(BLOCK_SIZE - 1);
+	printf("buf:%x\n",buf[offs]);
+	return unalign_rw((buf + offs), 4);
 }
 
