@@ -33,7 +33,7 @@ void init_cache() {
 	memset(cache, 0, sizeof(cache));
 }
 
-static uint64_t cache_miss = 0, cache_access = 0;
+uint64_t cache_miss = 0, cache_access = 0;
 uint64_t get_cache_cost (){ 
 	return (cache_access << 1) + cache_miss * 198;
 }
