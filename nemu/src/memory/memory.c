@@ -12,9 +12,7 @@ uint32_t hwaddr_read(hwaddr_t addr, size_t len) {
 	//printf("dram:0x%x,cache:0x%x\n",ret,ret2);
 	
 	if(ret != ret2) {
-		
 		printf("eip=0x%x,addr=0x%x",cpu.eip, (uint32_t)addr);
-		
 		assert(0);
 	}
 	
