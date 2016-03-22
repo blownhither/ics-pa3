@@ -40,6 +40,7 @@ uint64_t get_cache_cost (){
 }
 
 extern uint32_t dram_read(hwaddr_t addr, size_t len);
+#define MZYDEBUG
 
 void cache_block_read(hwaddr_t _addr, uint8_t buf[]) {
 	cache_addr* addr =  (void *)&_addr;					//parsing addr
@@ -48,9 +49,9 @@ void cache_block_read(hwaddr_t _addr, uint8_t buf[]) {
 	uint32_t offs = addr->offs;
 	uint32_t addr_aligned = *(uint32_t *)addr - offs;
 
-
-	
-	//printf("_block:addr=0x%x,tag=0x%x,\n\tindex=0x%x,offs=0x%x,addr_align=0x%x\n",*(unsigned int*)addr,tag,index,offs,addr_aligned);
+#ifdef MZYDEBUG
+	printf("_block:addr=0x%x,tag=0x%x,\n\tindex=0x%x,offs=0x%x,addr_align=0x%x\n",*(unsigned int*)addr,tag,index,offs,addr_aligned);
+#endif
 	cache_group* group = &cache[index];
 	block *ret_block = NULL;
 	int i, empty_line = -1;
@@ -75,7 +76,9 @@ void cache_block_read(hwaddr_t _addr, uint8_t buf[]) {
 		//read into cache
 		for(i=0; i<BLOCK_SIZE; ++i) {
 			group->data[empty_line][i] = dram_read(addr_aligned + i, 1) & 0xff;	//see memory.c
-			//printf("%x ",group->data[empty_line][i]);
+#ifdef MZYDEBUG
+			printf("%x ",group->data[empty_line][i]);
+#endif
 			group->tag[empty_line] = tag;
 			//group->valid_bit[empty_line] = true;
 		}
