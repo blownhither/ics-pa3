@@ -50,7 +50,7 @@ void cache_block_read(hwaddr_t _addr, uint8_t buf[]) {
 
 
 	
-	//printf("_block:addr=0x%x,tag=0x%x,\n\tindex=0x%x,offs=0x%x,addr_align=0x%x\n",*(unsigned int*)addr,tag,index,offs,addr_aligned);
+	printf("_block:addr=0x%x,tag=0x%x,\n\tindex=0x%x,offs=0x%x,addr_align=0x%x\n",*(unsigned int*)addr,tag,index,offs,addr_aligned);
 	cache_group* group = &cache[index];
 	block *ret_block = NULL;
 	int i, empty_line = -1;
@@ -75,7 +75,7 @@ void cache_block_read(hwaddr_t _addr, uint8_t buf[]) {
 		//read into cache
 		for(i=0; i<BLOCK_SIZE; ++i) {
 			group->data[empty_line][i] = dram_read(addr_aligned + i, 1) & 0xff;	//see memory.c
-			//printf("%x ",group->data[empty_line][i]);
+			printf("%x ",group->data[empty_line][i]);
 			group->tag[empty_line] = tag;
 			group->valid_bit[empty_line] = true;
 		}
