@@ -72,7 +72,7 @@ void cache_block_read(hwaddr_t _addr, uint8_t buf[]) {
 		ret_block = &group->data[empty_line];
 	}
 	for(i=0; i<BLOCK_SIZE; ++i) {
-		buf[i] = *(ret_block)[i];
+		buf[i] = (* ret_block)[i];
 		//printf("%x ",buf[i]);
 	}
 	printf("\n");
