@@ -10,9 +10,11 @@
 #define MAX_INSTR_TO_PRINT 10
 
 int nemu_state = STOP;
+uint64_t cache_miss , cache_access;
 
 int exec(swaddr_t);
 uint64_t get_cache_cost ();
+extern bool check_watchpoints(); 
 
 char assembly[80];
 char asm_buf[128];
@@ -36,7 +38,7 @@ void do_int3() {
 }
 
 /* Simulate how the CPU works. */
-extern bool check_watchpoints(); 
+
 void cpu_exec(volatile uint32_t n) {
 	if(nemu_state == END) {
 		printf("Program execution has ended. To restart the program, exit NEMU and run again.\n");
@@ -84,7 +86,8 @@ void cpu_exec(volatile uint32_t n) {
 		} 
 
 		if(nemu_state != RUNNING) { 
-			printf("Cache cost = %llu\n",(unsigned long long)get_cache_cost());
+			
+			printf("Cache cost = %llu\nmiss%llu, access%llu",(unsigned long long)get_cache_cost(), (unsigned long long)cache_miss, (unsigned long long)cache_access);
 			return; 
 		}
 		//printf("cpu.eip is %x in rear cpu-exec.c\n",cpu.eip);
