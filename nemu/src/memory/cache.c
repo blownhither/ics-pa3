@@ -94,6 +94,9 @@ uint32_t cache_read(hwaddr_t addr, size_t len) {
 	cache_block_read(addr, buf);
 	uint32_t offs = addr&(BLOCK_SIZE - 1);
 	if(((addr + len)&(BLOCK_SIZE - 1)) < (len - 1)) {	//unaligned read
+#ifdef MZYDEBUG
+		printf("in unaligned\n");
+#endif
 		cache_block_read(addr + len, buf + BLOCK_SIZE);
 	}
 	return unalign_rw((buf + offs), 4);
