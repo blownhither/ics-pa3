@@ -12,6 +12,7 @@
 int nemu_state = STOP;
 
 int exec(swaddr_t);
+uint64_t get_cache_cost ();
 
 char assembly[80];
 char asm_buf[128];
@@ -82,7 +83,10 @@ void cpu_exec(volatile uint32_t n) {
 			nemu_state = STOP; 
 		} 
 
-		if(nemu_state != RUNNING) { return; }
+		if(nemu_state != RUNNING) { 
+			printf("Cache cost = %llu\n",(unsigned long long)get_cache_cost());
+			return; 
+		}
 		//printf("cpu.eip is %x in rear cpu-exec.c\n",cpu.eip);
 	}
 

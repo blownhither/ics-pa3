@@ -33,14 +33,21 @@ void init_cache() {
 	memset(cache, 0, sizeof(cache));
 }
 
+static uint64_t cache_miss = 0, cache_access = 0;
+uint64_t get_cache_cost (){ 
+	return (cache_access << 1) + cache_miss * 198;
+}
+
 extern uint32_t dram_read(hwaddr_t addr, size_t len);
 
 void cache_block_read(hwaddr_t _addr, uint8_t buf[]) {
-	cache_addr* addr =  (void *)&_addr;
+	cache_addr* addr =  (void *)&_addr;					//parsing addr
 	uint32_t tag = addr->tag;
 	uint32_t index = addr->index;
 	uint32_t offs = addr->offs;
 	uint32_t addr_aligned = *(uint32_t *)addr - offs;
+
+	cache_access++;
 	//printf("_block:addr=0x%x,tag=0x%x,\n\tindex=0x%x,offs=0x%x,addr_align=0x%x\n",*(unsigned int*)addr,tag,index,offs,addr_aligned);
 	cache_group* group = &cache[index];
 	block *ret_block = NULL;
@@ -58,6 +65,7 @@ void cache_block_read(hwaddr_t _addr, uint8_t buf[]) {
 	//TODO: check victim line
 	
 	if(ret_block == NULL){	//not found
+		cache_miss++;
 		if(empty_line < 0) {	//no empty line, create empty line
 			empty_line = get_rand(ASSOCT_WAY);
 		}
