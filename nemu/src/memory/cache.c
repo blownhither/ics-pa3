@@ -35,7 +35,7 @@ void init_cache() {
 
 extern uint32_t dram_read(hwaddr_t addr, size_t len);
 
-void read_cache_block(hwaddr_t _addr, uint8_t buf[]) {
+void cache_block_read(hwaddr_t _addr, uint8_t buf[]) {
 	cache_addr* addr =  (void *)&_addr;
 	uint32_t tag = addr->tag;
 	uint32_t index = addr->index;
@@ -56,14 +56,14 @@ void read_cache_block(hwaddr_t _addr, uint8_t buf[]) {
 			empty_line = i;
 	}		
 	//TODO: check victim line
-	//not found
-	if(!ret_block){
+	
+	if(!ret_block){	//not found
 		if(empty_line < 0) {	//no empty line, create empty line
 			empty_line = get_rand(ASSOCT_WAY);
 		}
 		//read into cache
 		for(i=0; i<BLOCK_SIZE; ++i) {
-			group->data[empty_line][i] = dram_read(addr_aligned, 1) & 0xff;	//see memory.c
+			group->data[empty_line][i] = dram_read(addr_aligned + i, 1) & 0xff;	//see memory.c
 		}
 		ret_block = &group->data[empty_line];
 	}
@@ -74,11 +74,11 @@ void read_cache_block(hwaddr_t _addr, uint8_t buf[]) {
 	printf("\n");
 }
 
-uint32_t read_cache(hwaddr_t addr, size_t len) {
+uint32_t cache_read(hwaddr_t addr, size_t len) {
 	uint8_t buf[ BLOCK_SIZE<<1 ];
-	read_cache_block(addr, buf);
+	cache_block_read(addr, buf);
 	if(((addr + len)&(BLOCK_SIZE - 1)) < (len - 1)) {	//unaligned read
-		read_cache_block(addr + len, buf + BLOCK_SIZE);
+		cache_block_read(addr + len, buf + BLOCK_SIZE);
 	}
 	uint32_t offs = addr&(BLOCK_SIZE - 1);
 	printf("buf:%x\n",buf[offs]);
