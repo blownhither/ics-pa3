@@ -7,9 +7,9 @@ typedef unsigned char uint8_t;
 typedef uint8_t block[BLOCK_SIZE];
 
 typedef struct{
-	uint32_t tag : TAG_LEN;
-	uint32_t index : INDEX_LEN;
 	uint32_t offs : BLOCK_LEN; 
+	uint32_t index : INDEX_LEN;
+	uint32_t tag : TAG_LEN;
 } cache_addr;
 
 typedef struct{
