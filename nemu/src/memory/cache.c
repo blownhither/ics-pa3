@@ -69,7 +69,9 @@ void read_cache_block(hwaddr_t _addr, uint8_t buf[]) {
 	}
 	for(i=0; i<BLOCK_SIZE; ++i) {
 		buf[i] = *(ret_block[i]);
+		printf("%x ",buf[i]);
 	}
+	printf("\n");
 }
 
 uint32_t read_cache(hwaddr_t addr, size_t len) {
