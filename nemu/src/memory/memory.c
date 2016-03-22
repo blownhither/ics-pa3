@@ -8,7 +8,7 @@ uint32_t read_cache(hwaddr_t addr, size_t len);
 uint32_t hwaddr_read(hwaddr_t addr, size_t len) {
 	uint32_t ret = dram_read(addr, len) & (~0u >> ((4 - len) << 3));
 	uint32_t ret2 = read_cache(addr, len) & (~0u >> ((4 - len) << 3));
-	printf("dram:0x%x,cache:0x%x",ret,ret2);
+	printf("dram:0x%x,cache:0x%x\n",ret,ret2);
 	return ret;
 }
 
