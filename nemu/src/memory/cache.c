@@ -35,7 +35,7 @@ void init_cache() {
 
 uint64_t cache_miss = 0, cache_access = 0;
 uint64_t get_cache_cost (){ 
-	return (cache_access << 1) + cache_miss * 198;
+	return cache_access * 2 + cache_miss * 198;
 }
 
 extern uint32_t dram_read(hwaddr_t addr, size_t len);
