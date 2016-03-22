@@ -57,7 +57,7 @@ void cache_block_read(hwaddr_t _addr, uint8_t buf[]) {
 	}		
 	//TODO: check victim line
 	
-	if(!ret_block){	//not found
+	if(ret_block == NULL){	//not found
 		if(empty_line < 0) {	//no empty line, create empty line
 			empty_line = get_rand(ASSOCT_WAY);
 		}
