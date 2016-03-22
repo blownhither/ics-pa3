@@ -50,6 +50,7 @@ void cache_block_read(hwaddr_t _addr, uint8_t buf[]) {
 		if(group->valid_bit[i]){
 			if(group->tag[i] == tag) {
 				ret_block = &group->data[i];
+				break;
 			}
 		}
 		else
@@ -71,7 +72,7 @@ void cache_block_read(hwaddr_t _addr, uint8_t buf[]) {
 		ret_block = &group->data[empty_line];
 	}
 	for(i=0; i<BLOCK_SIZE; ++i) {
-		buf[i] = *(ret_block[i]);
+		buf[i] = *(ret_block)[i];
 		//printf("%x ",buf[i]);
 	}
 	printf("\n");
@@ -85,7 +86,7 @@ uint32_t cache_read(hwaddr_t addr, size_t len) {
 		cache_block_read(addr + len, buf + BLOCK_SIZE);
 	}
 	
-	printf("buf:%x\n",buf[offs]);
+	//printf("buf:%x\n",buf[offs]);
 	return unalign_rw((buf + offs), 4);
 }
 
