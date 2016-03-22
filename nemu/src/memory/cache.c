@@ -35,7 +35,7 @@ void init_cache() {
 
 uint64_t cache_miss = 0, cache_access = 0;
 uint64_t get_cache_cost (){ 
-	printf("in get_:%x, %x\n", (int)cache_access%0xffff, (int)cache_miss&0xffff);
+	//printf("in get_:%x, %x\n", (int)cache_access%0xffff, (int)cache_miss&0xffff);
 	return cache_access * 2 + cache_miss * 198;
 }
 
@@ -49,6 +49,7 @@ void cache_block_read(hwaddr_t _addr, uint8_t buf[]) {
 	uint32_t addr_aligned = *(uint32_t *)addr - offs;
 
 	cache_access++;
+	printf("access! %x",(int)cache_access);
 	//printf("_block:addr=0x%x,tag=0x%x,\n\tindex=0x%x,offs=0x%x,addr_align=0x%x\n",*(unsigned int*)addr,tag,index,offs,addr_aligned);
 	cache_group* group = &cache[index];
 	block *ret_block = NULL;
