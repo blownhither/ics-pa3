@@ -47,6 +47,7 @@ void write_back_block(hwaddr_t _addr, block bk) {
 	int i;
 	for(i=0; i<BLOCK_SIZE; ++i) {
 		dram_write(addr + i, bk[i], 1);
+		printf("%x ",bk[i]);
 	}
 }
 
