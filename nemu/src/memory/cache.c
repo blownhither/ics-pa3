@@ -1,7 +1,7 @@
 #include "cache.h"
 #include "common.h"
 
-
+#define MZYDEBUG
 typedef unsigned char bool;
 typedef unsigned char uint8_t;
 typedef uint8_t block[BLOCK_SIZE];
@@ -102,7 +102,7 @@ uint32_t cache_read(hwaddr_t addr, size_t len) {
 	}
 	return unalign_rw((buf + offs), 4);
 }
-#define MZYDEBUG
+
 void cache_write_mask (hwaddr_t _addr, uint8_t buf[], uint8_t mask[], bool unalign_flag, size_t len){	//write under guarantee that no unaligned would happen
 
 	cache_addr* addr =  (void *)&_addr;					//parsing addr
