@@ -1,7 +1,7 @@
 #include "cache.h"
 #include "common.h"
 
-//#define MZYDEBUG
+#define MZYDEBUG
 
 extern uint32_t dram_read(hwaddr_t addr, size_t len);
 extern void dram_write(hwaddr_t addr, size_t len, uint32_t data);
