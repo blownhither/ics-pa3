@@ -143,11 +143,9 @@ find_tar_lable:
 void cache_write ( hwaddr_t _addr, size_t len, uint32_t data ) {
 	uint32_t offs = _addr&(BLOCK_SIZE - 1);
 	uint8_t buf[2 * BLOCK_SIZE], mask[2 * BLOCK_SIZE];
-	uint32_t *pos = (uint32_t *)(buf + offs);
-	*pos = data;
+	*(uint32_t *)(buf + offs) = data;
 	memset(mask, 0, sizeof(mask));
-	pos = (uint32_t *)(mask + offs);
-	*pos = ~0u >> ((4-len) << 8);
+	memset(mask+offs, 1, len);
 	cache_write_mask(_addr, buf, mask, (offs+len >= BLOCK_SIZE), len);
 }
 
