@@ -121,6 +121,7 @@ find_tar_lable:
 		if(group->valid_bit[i]){
 			if(group->tag[i] == tag) {
 				tar_block = &group->data[i];
+				printf("cache hit\n");
 				break;
 			}
 		}
