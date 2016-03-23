@@ -1,7 +1,7 @@
 #include "cache.h"
 #include "common.h"
 
-//#define MZYDEBUG
+#define MZYDEBUG
 typedef unsigned char bool;
 typedef unsigned char uint8_t;
 typedef uint8_t block[BLOCK_SIZE];
