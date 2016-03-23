@@ -133,14 +133,20 @@ find_tar_lable:
 	}
 	//now must have tar_block
 	assert(tar_block != NULL);
-	int max = (unalign_flag)?BLOCK_SIZE*2 : BLOCK_SIZE;
+	int max = (unalign_flag) ? BLOCK_SIZE*2 : BLOCK_SIZE;
 	for(i=0; i<max; ++i){
 		if(mask[i])
 			*tar_block[i] = buf[i];
+#ifdef MZYDEBUG
+			printf("%x ",*tar_block[i]);
+#endif
 	}
 }
 
 void cache_write ( hwaddr_t _addr, size_t len, uint32_t data ) {
+#ifdef MZYDEBUG
+	printf("to write 0x%x at 0x%x\n",data,_addr);
+#endif
 	uint32_t offs = _addr&(BLOCK_SIZE - 1);
 	uint8_t buf[2 * BLOCK_SIZE], mask[2 * BLOCK_SIZE];
 	*(uint32_t *)(buf + offs) = data;
