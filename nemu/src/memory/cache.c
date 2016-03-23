@@ -79,6 +79,7 @@ void cache_block_read(hwaddr_t _addr, uint8_t buf[]) {
 		cache_miss++;
 		if(empty_line < 0) {	//no empty line, choose one to write back
 			empty_line = get_rand(ASSOCT_WAY);
+			printf("write back\n");
 			write_back_block(_addr, group->data[empty_line]);
 			//TODO: write victim line
 		}
