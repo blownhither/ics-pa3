@@ -146,6 +146,6 @@ void cache_write ( hwaddr_t _addr, size_t len, uint32_t data ) {
 	*(uint32_t *)(buf + offs) = data;
 	memset(mask, 0, sizeof(mask));
 	memset(mask+offs, 1, len);
-	cache_write_mask(_addr, buf, mask, (offs+len >= BLOCK_SIZE), len);
+	cache_write_mask(_addr, buf, mask, (offs+len-1 >= BLOCK_SIZE), len);
 }
 
