@@ -77,6 +77,7 @@ void cache_block_read(hwaddr_t _addr, uint8_t buf[]) {
 	//TODO: check victim line
 	if(ret_block == NULL){		//not found
 		cache_miss++;
+		printf("cache_miss\n");
 		if(empty_line < 0) {	//no empty line, choose one to write back
 			empty_line = get_rand(ASSOCT_WAY);
 			printf("write back\n");
@@ -89,9 +90,9 @@ void cache_block_read(hwaddr_t _addr, uint8_t buf[]) {
 #ifdef MZYDEBUG
 			printf("%x ",group->data[empty_line][i]);
 #endif
-			group->tag[empty_line] = tag;
-			group->valid_bit[empty_line] = true;
 		}
+		group->tag[empty_line] = tag;
+		group->valid_bit[empty_line] = true;
 		ret_block = &group->data[empty_line];
 	}
 	for(i=0; i<BLOCK_SIZE; ++i) {
