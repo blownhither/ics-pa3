@@ -6,9 +6,6 @@ void dram_write(hwaddr_t, size_t, uint32_t);
 uint32_t cache_read(hwaddr_t addr, size_t len);
 void cache_write ( hwaddr_t _addr, size_t len, uint32_t data );
 /* Memory accessing interfaces */
-
-#define MZYDEBUG
-
 uint32_t hwaddr_read(hwaddr_t addr, size_t len) {
 	uint32_t ret2 = cache_read(addr, len) & (~0u >> ((4 - len) << 3));
 #ifdef MZYDEBUG
@@ -23,7 +20,6 @@ uint32_t hwaddr_read(hwaddr_t addr, size_t len) {
 	return ret2;
 }
 //#define MZYDEBUG
-#undef MZYDEBUG
 void hwaddr_write(hwaddr_t addr, size_t len, uint32_t data) {
 	dram_write(addr, len, data);
 	//cache_write(addr, len, data);
