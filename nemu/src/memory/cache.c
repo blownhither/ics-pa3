@@ -68,6 +68,9 @@ void cache_block_read(hwaddr_t _addr, uint8_t buf[]) {
 		if(group->valid_bit[i]){
 			if(group->tag[i] == tag) {
 				ret_block = &group->data[i];
+#ifdef MZYDEBUG
+				printf("cache hit");
+#endif
 				break;
 			}
 		}
@@ -97,6 +100,7 @@ void cache_block_read(hwaddr_t _addr, uint8_t buf[]) {
 	}
 	for(i=0; i<BLOCK_SIZE; ++i) {
 		buf[i] = (* ret_block)[i];
+		printf("%x ",buf[i]);
 	}
 }
 
