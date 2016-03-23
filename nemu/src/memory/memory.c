@@ -22,8 +22,8 @@ uint32_t hwaddr_read(hwaddr_t addr, size_t len) {
 }
 #define MZYDEBUG
 void hwaddr_write(hwaddr_t addr, size_t len, uint32_t data) {
-	//dram_write(addr, len, data);
-	cache_write(addr, len, data);
+	dram_write(addr, len, data);
+	//cache_write(addr, len, data);
 #ifdef MZYDEBUG
 	uint32_t result = hwaddr_read(addr, len);
 	printf("written:0x%x at 0x%x\tshould be 0x%x\n",result , addr, data);
