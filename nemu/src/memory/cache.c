@@ -154,6 +154,7 @@ void cache_write ( hwaddr_t _addr, size_t len, uint32_t data ) {
 	int i;
 	for(i=0; i<2*BLOCK_SIZE; ++i) {
 		printf("%x&%x ",buf[i],mask[i]);
+		if(!(i&7))printf("\n");
 	}
 #endif
 	cache_write_mask(_addr, buf, mask, (offs+len-1 >= BLOCK_SIZE), len);
