@@ -100,14 +100,14 @@ uint32_t cache_read(hwaddr_t addr, size_t len) {
 	}
 	return unalign_rw((buf + offs), 4);
 }
-
+#define MZYDEBUG
 void cache_write_mask (hwaddr_t _addr, uint8_t buf[], uint8_t mask[], bool unalign_flag, size_t len){	//write under guarantee that no unaligned would happen
 
 	cache_addr* addr =  (void *)&_addr;					//parsing addr
 	uint32_t tag = addr->tag;
 	uint32_t index = addr->index;
-	//uint32_t offs = addr->offs;
-	//uint32_t addr_aligned = *(uint32_t *)addr - offs;
+	uint32_t offs = addr->offs;
+	uint32_t addr_aligned = *(uint32_t *)addr - offs;
 
 #ifdef MZYDEBUG
 	printf("_write_mask:addr=0x%x,tag=0x%x,\n\tindex=0x%x,offs=0x%x,addr_align=0x%x\n",*(unsigned int*)addr,tag,index,offs,addr_aligned);
