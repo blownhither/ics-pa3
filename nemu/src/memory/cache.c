@@ -89,7 +89,7 @@ void cache_block_read(hwaddr_t _addr, uint8_t buf[]) {
 }
 
 uint32_t cache_read(hwaddr_t addr, size_t len) {
-	Assert(addr < 0x8000000, "physical address %x is outside of the physical memory!", addr);
+	//Assert(addr < 0x8000000, "physical address %x is outside of the physical memory!", addr);
 
 	uint8_t buf[ BLOCK_SIZE<<1 ];
 	cache_block_read(addr, buf);
