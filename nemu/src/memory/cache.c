@@ -128,7 +128,7 @@ find_tar_lable:
 //			empty_line = i;
 	}	
 	if(tar_block == NULL) {
-		printf("cache_read: 0x%x\n",_addr);
+		printf("cache_read: 0x%x, len=%d\n",_addr, (int)len);
 		cache_read(_addr, len);	//force get block
 		goto find_tar_lable;
 	}
