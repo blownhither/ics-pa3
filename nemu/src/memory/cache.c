@@ -72,7 +72,7 @@ void cache_block_read(hwaddr_t _addr, uint8_t buf[]) {
 				printf("cache hit in block_read with");
 				int j;
 				for(j=0; j<BLOCK_SIZE; ++j)
-					printf("%x ",(*ret_block)[i]);
+					printf("%x ",(*ret_block)[j]);
 				printf("\n");
 				
 #endif
