@@ -9,10 +9,13 @@ typedef unsigned char bool;
 typedef unsigned char uint8_t;
 typedef uint8_t block[BLOCK_SIZE];
 
-typedef struct{
-	uint32_t offs 	: BLOCK_LEN; 
-	uint32_t index 	: INDEX_LEN;
-	uint32_t tag 	: TAG_LEN;
+typedef union {
+	struct{
+		uint32_t offs 	: BLOCK_LEN; 
+		uint32_t index 	: INDEX_LEN;
+		uint32_t tag 	: TAG_LEN;
+	};
+	uint32_t addr;
 } cache_addr;
 
 typedef struct{
@@ -47,20 +50,20 @@ void write_back_block(uint32_t index, uint32_t tag, block bk) {
 	_addr.tag = tag;	
 	_addr.index = index;	
 	_addr.offs = 0;
-	hwaddr_t* addr = (void *)&_addr;
 	int i;
 	for(i=0; i<BLOCK_SIZE; ++i) {
-		dram_write(*addr + i, bk[i], 1);
+		dram_write(_addr.addr + i, bk[i], 1);
 		printf("%x ",bk[i]);
 	}
 }
 
 void cache_block_read(hwaddr_t _addr, uint8_t buf[]) {
-	cache_addr* addr =  (void *)&_addr;					//parsing addr
-	uint32_t tag = addr->tag;
-	uint32_t index = addr->index;
-	uint32_t offs = addr->offs;
-	uint32_t addr_aligned = *(uint32_t *)addr - offs;
+	cache_addr addr;
+	addr.addr = _addr;
+	uint32_t tag = addr.tag;
+	uint32_t index = addr.index;
+	uint32_t offs = addr.offs;
+	uint32_t addr_aligned = addr.addr - offs;
 #ifdef MZYDEBUG
 	printf("_block:addr=0x%x,tag=0x%x,\n\tindex=0x%x,offs=0x%x,addr_align=0x%x\n",*(unsigned int*)addr,tag,index,offs,addr_aligned);
 #endif
@@ -78,7 +81,6 @@ void cache_block_read(hwaddr_t _addr, uint8_t buf[]) {
 				for(j=0; j<BLOCK_SIZE; ++j)
 					printf("%x ",(*ret_block)[j]);
 				printf("\n");
-				
 #endif
 				break;
 			}
@@ -89,7 +91,9 @@ void cache_block_read(hwaddr_t _addr, uint8_t buf[]) {
 	//TODO: check victim line
 	if(ret_block == NULL){		//not found
 		cache_miss++;
+#ifdef MZYDEBUG
 		printf("cache_miss\n");
+#endif
 		if(empty_line < 0) {	//no empty line, choose one to write back
 			empty_line = get_rand(ASSOCT_WAY);
 			printf("write back\n");
@@ -103,13 +107,18 @@ void cache_block_read(hwaddr_t _addr, uint8_t buf[]) {
 			printf("%x ",group->data[empty_line][i]);
 #endif
 		}
+#ifdef MZYDEBUG
+		printf("end read into cache\n");
+#endif
 		group->tag[empty_line] = tag;
 		group->valid_bit[empty_line] = true;
 		ret_block = &group->data[empty_line];
 	}
 	for(i=0; i<BLOCK_SIZE; ++i) {
 		buf[i] = (* ret_block)[i];
+#ifdef MZYDEBUG
 		printf("%x ",buf[i]);
+#endif
 	}
 }
 
@@ -129,32 +138,34 @@ uint32_t cache_read(hwaddr_t addr, size_t len) {
 
 void cache_write_mask (hwaddr_t _addr, uint8_t buf[], uint8_t mask[], bool unalign_flag, size_t len){	//write under guarantee that no unaligned would happen
 
-	cache_addr* addr =  (void *)&_addr;					//parsing addr
-	uint32_t tag = addr->tag;
-	uint32_t index = addr->index;
+	cache_addr addr;
+	addr.addr = _addr;
+	uint32_t tag = addr.tag;
+	uint32_t index = addr.index;
 #ifdef MZYDEBUG
-	uint32_t offs = addr->offs;
-	uint32_t addr_aligned = *(uint32_t *)addr - offs;
+	uint32_t offs = addr.offs;
+	uint32_t addr_aligned = addr.addr - offs;
 	printf("_write_mask:addr=0x%x,tag=0x%x,\n\tindex=0x%x,offs=0x%x,addr_align=0x%x\n",*(unsigned int*)addr,tag,index,offs,addr_aligned);
 #endif
 	cache_group* group = &cache[index];
 	block* tar_block = NULL;
 	int i;
-//	int empty_line = -1;
 find_tar_lable:
 	for(i=0; i<ASSOCT_WAY; ++i) {
 		if(group->valid_bit[i]){
 			if(group->tag[i] == tag) {
 				tar_block = &group->data[i];
-				printf("cache hit\n");
+#ifdef MZYDEBUG				
+				printf("cache hit in _write_mask\n");
+#endif				
 				break;
 			}
 		}
-//		else
-//			empty_line = i;
 	}	
 	if(tar_block == NULL) {
-		printf("cache_read in write_mask: 0x%x, len=%d\n",_addr, (int)len);
+#ifdef MZYDEBUG	
+		printf("miss/cache_read in write_mask: 0x%x, len=%d\n",_addr, (int)len);
+#endif
 		cache_read(_addr, len);	//force get block
 		goto find_tar_lable;
 	}
@@ -167,11 +178,12 @@ find_tar_lable:
 		printf("in unalign\n");
 	}
 	for(i=0; i<max; ++i){
-		if(mask[i])
+		if(mask[i]){
 			*tar_block[i] = buf[i];
 #ifdef MZYDEBUG
-			printf("%x ",*tar_block[i]);
+			printf("%d:%x ", i, *tar_block[i]);
 #endif
+		}
 	}
 }
 
@@ -189,6 +201,6 @@ void cache_write ( hwaddr_t _addr, size_t len, uint32_t data ) {
 		printf("%x&%x ",buf[i],mask[i]);
 	}
 #endif
-	cache_write_mask(_addr, buf, mask, (offs+len-1 >= BLOCK_SIZE), len);
+	cache_write_mask(_addr, buf, mask, (offs+len > BLOCK_SIZE), len);
 }
 
