@@ -19,7 +19,7 @@ uint32_t hwaddr_read(hwaddr_t addr, size_t len) {
 	//return ret;
 	return ret2;
 }
-//#define MZYDEBUG
+#define MZYDEBUG
 void hwaddr_write(hwaddr_t addr, size_t len, uint32_t data) {
 	//dram_write(addr, len, data);
 	cache_write(addr, len, data);
