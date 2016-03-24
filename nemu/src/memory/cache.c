@@ -1,7 +1,7 @@
 #include "cache.h"
 #include "common.h"
 
-#define MZYDEBUG
+//#define MZYDEBUG
 
 extern uint32_t dram_read(hwaddr_t addr, size_t len);
 extern void dram_write(hwaddr_t addr, size_t len, uint32_t data);
@@ -42,11 +42,15 @@ uint64_t get_cache_cost (){
 	return cache_access * 2 + cache_miss * 198;
 }
 
-void write_back_block(hwaddr_t _addr, block bk) {
-	hwaddr_t addr = _addr & (BLOCK_SIZE - 1);
+void write_back_block(uint32_t index, uint32_t tag, block bk) {
+	cache_addr _addr;
+	_addr.tag = tag;	
+	_addr.index = index;	
+	_addr.offs = 0;
+	hwaddr_t* addr = (void *)&_addr;
 	int i;
 	for(i=0; i<BLOCK_SIZE; ++i) {
-		dram_write(addr + i, bk[i], 1);
+		dram_write(*addr + i, bk[i], 1);
 		printf("%x ",bk[i]);
 	}
 }
@@ -89,7 +93,7 @@ void cache_block_read(hwaddr_t _addr, uint8_t buf[]) {
 		if(empty_line < 0) {	//no empty line, choose one to write back
 			empty_line = get_rand(ASSOCT_WAY);
 			printf("write back\n");
-			write_back_block(_addr, group->data[empty_line]);
+			write_back_block(index, group->tag[empty_line], group->data[empty_line]);
 			//TODO: write victim line
 		}
 		//read into cache
