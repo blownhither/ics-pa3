@@ -69,7 +69,12 @@ void cache_block_read(hwaddr_t _addr, uint8_t buf[]) {
 			if(group->tag[i] == tag) {
 				ret_block = &group->data[i];
 #ifdef MZYDEBUG
-				printf("cache hit in block_read");
+				printf("cache hit in block_read with");
+				int j;
+				for(j=0; j<BLOCK_SIZE; ++j)
+					printf("%x",*ret_block[i]);
+				printf("\n");
+				
 #endif
 				break;
 			}
