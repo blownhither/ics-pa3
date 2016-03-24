@@ -69,7 +69,7 @@ void cache_block_read(hwaddr_t _addr, uint8_t buf[]) {
 			if(group->tag[i] == tag) {
 				ret_block = &group->data[i];
 #ifdef MZYDEBUG
-				printf("cache hit");
+				printf("cache hit in block_read");
 #endif
 				break;
 			}
@@ -145,7 +145,7 @@ find_tar_lable:
 //			empty_line = i;
 	}	
 	if(tar_block == NULL) {
-		//printf("cache_read: 0x%x, len=%d\n",_addr, (int)len);
+		printf("cache_read in write_mask: 0x%x, len=%d\n",_addr, (int)len);
 		cache_read(_addr, len);	//force get block
 		goto find_tar_lable;
 	}
