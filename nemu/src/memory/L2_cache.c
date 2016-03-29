@@ -81,7 +81,6 @@ void L2_cache_block_read(hwaddr_t _addr, uint8_t buf[]) {
 }
 
 uint32_t L2_cache_read(hwaddr_t addr, size_t len) {
-	printf("\nsizeof(L2_cache_group)=%ld\n",sizeof(L2_cache_group));
 	uint8_t buf[ BLOCK_SIZE<<1 ];
 	L2_cache_block_read(addr, buf);
 	uint32_t offs = addr&(BLOCK_SIZE - 1);
