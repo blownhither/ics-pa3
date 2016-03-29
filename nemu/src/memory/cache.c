@@ -32,7 +32,7 @@ int get_rand(int max) {
 		initialized = true;
 		srand((unsigned int) time(0));
 	}
-	return rand()%ASSOCT_WAY;
+	return rand()%max;
 }
 
 void init_cache() {
@@ -51,10 +51,12 @@ void write_back_block(uint32_t index, uint32_t tag, block bk) {
 	_addr.index = index;	
 	_addr.offs = 0;
 	int i;
+	printf("write_back_block");
 	for(i=0; i<BLOCK_SIZE; ++i) {
 		dram_write(_addr.addr + i, bk[i], 1);
 		printf("%x ",bk[i]);
 	}
+	printf("\n");
 }
 
 void cache_block_read(hwaddr_t _addr, uint8_t buf[]) {
@@ -65,7 +67,7 @@ void cache_block_read(hwaddr_t _addr, uint8_t buf[]) {
 	uint32_t offs = addr.offs;
 	uint32_t addr_aligned = addr.addr - offs;
 #ifdef MZYDEBUG
-	printf("_block:addr=0x%x,tag=0x%x,\n\tindex=0x%x,offs=0x%x,addr_align=0x%x",*(int *)(void *)&addr,tag,index,offs,addr_aligned);
+	printf("_block:addr=0x%x,tag=0x%x,\n\tindex=0x%x,offs=0x%x,addr_align=0x%x\n",*(int *)(void *)&addr,tag,index,offs,addr_aligned);
 #endif
 	cache_group* group = &cache[index];
 	block *ret_block = NULL;
