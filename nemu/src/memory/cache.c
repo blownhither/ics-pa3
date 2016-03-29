@@ -150,13 +150,13 @@ void cache_write_mask (hwaddr_t _addr, uint8_t buf[], uint8_t mask[], bool unali
 	printf("_write_mask:addr=0x%x,tag=0x%x,\n\tindex=0x%x,offs=0x%x,addr_align=0x%x\n",*(unsigned int*)(void *)&addr,tag,index,offs,addr_aligned);
 #endif
 	cache_group* group = &cache[index];
-	block* tar_block = NULL;
+	pblock tar_block = NULL;
 	int i;
 find_tar_lable:
 	for(i=0; i<ASSOCT_WAY; ++i) {
 		if(group->valid_bit[i]){
 			if(group->tag[i] == tag) {
-				tar_block = &group->data[i];
+				tar_block = group->data[i];
 #ifdef MZYDEBUG				
 				printf("cache hit in _write_mask\n");
 #endif				
@@ -181,9 +181,9 @@ find_tar_lable:
 	}
 	for(i=0; i<max; ++i){
 		if(mask[i]){
-			*tar_block[i] = buf[i];
+			tar_block[i] = buf[i];
 #ifdef MZYDEBUG
-			printf("%d:%x ", i, *tar_block[i]);
+			printf("%d:%x ", i, tar_block[i]);
 #endif
 		}
 	}
