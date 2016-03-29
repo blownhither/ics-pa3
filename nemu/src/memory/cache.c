@@ -52,7 +52,7 @@ void write_back_block(uint32_t index, uint32_t tag, block bk) {
 	_addr.index = index;	
 	_addr.offs = 0;
 	int i;
-	printf("write_back_block\n\n\n\n\n\n\n");
+	printf("write_back_block\n");
 	for(i=0; i<BLOCK_SIZE; ++i) {
 		dram_write(_addr.addr + i, bk[i], 1);
 		printf("%x ",bk[i]);
@@ -63,14 +63,12 @@ void write_back_block(uint32_t index, uint32_t tag, block bk) {
 void cache_block_read(hwaddr_t _addr, uint8_t buf[]) {
 	cache_addr addr;
 	addr.addr = _addr;
-	uint32_t tag = addr.tag;
-	uint32_t index = addr.index;
-	uint32_t offs = addr.offs;
+	uint32_t tag = addr.tag, index = addr.index, offs = addr.offs;
 	uint32_t addr_aligned = addr.addr - offs;
 #ifdef MZYDEBUG
 	printf("_block:addr=0x%x,tag=0x%x,\n\tindex=0x%x,offs=0x%x,addr_align=0x%x\n",*(int *)(void *)&addr,tag,index,offs,addr_aligned);
 #endif
-	cache_group* group = &cache[index];
+	cache_group* group = &(cache[index]);
 	//block *ret_block = NULL;
 	pblock ret_block = NULL;
 	int i, empty_line;
@@ -124,14 +122,14 @@ void cache_block_read(hwaddr_t _addr, uint8_t buf[]) {
 		printf("%x ",buf[i]);
 #endif
 	}
+	printf("\n\n\n\n\n\n");
 }
 
 uint32_t cache_read(hwaddr_t addr, size_t len) {
-	//Assert(addr < 0x8000000, "physical address %x is outside of the physical memory!", addr);
 	uint8_t buf[ BLOCK_SIZE<<1 ];
 	cache_block_read(addr, buf);
 	uint32_t offs = addr&(BLOCK_SIZE - 1);
-	if(offs+len-1 >= BLOCK_SIZE) {	//unaligned read
+	if(offs+len > BLOCK_SIZE) {	//unaligned read
 #ifdef MZYDEBUG
 		printf("in unaligned\n");
 #endif
