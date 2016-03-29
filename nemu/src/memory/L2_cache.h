@@ -1,12 +1,12 @@
 #ifndef __H_L2_CACHE_
 #define __H_L2_CACHE_
 
-#ifndef FORCE_CACHE_CONFIG
+#ifndef FORCE_L2_CACHE_CONFIG
 
 #define BLOCK_LEN 6
-#define ASSOCT_WAY 8
-#define INDEX_LEN 7
-#define TAG_LEN 14
+#define ASSOCT_WAY 16
+#define INDEX_LEN 12
+#define TAG_LEN 9
 //TAG_LEN = 27 - INDEX_LEN - BLOCK_LEN
 
 #define BLOCK_SIZE (1<<BLOCK_LEN)

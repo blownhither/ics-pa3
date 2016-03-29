@@ -1,34 +1,23 @@
-#include "cache.h"
 #include "common.h"
+#include "cache.h"
 #include "cache_defs.h"
-//#define MZYDEBUG
-
-extern uint32_t dram_read(hwaddr_t addr, size_t len);
-extern void dram_write(hwaddr_t addr, size_t len, uint32_t data);
-
-
-
-cache_group *cache;	//cache[GROUP_NUM]
-
-int get_rand(int max) {
-	static bool initialized = false;
-	if(!initialized) {
-		initialized = true;
-		srand((unsigned int) time(0));
-	}
-	return rand()%max;
-}
-
-void init_cache() {
-	cache = malloc(sizeof(cache_group)*GROUP_NUM);
-	memset(cache, 0, sizeof(cache_group)*GROUP_NUM);
-}
 
 uint64_t cache_miss = 0, cache_access = 0;
 uint64_t get_cache_cost (){ 
 	//printf("in get_:%x, %x\n", (int)cache_access%0xffff, (int)cache_miss&0xffff);
 	return cache_access * 2 + cache_miss * 198;
 }
+
+//#define MZYDEBUG
+/*
+cache_group *cache;	//cache[GROUP_NUM]
+
+void init_cache() {
+	cache = malloc(sizeof(cache_group)*GROUP_NUM);
+	memset(cache, 0, sizeof(cache_group)*GROUP_NUM);
+}
+
+
 
 void write_back_block(uint32_t index, uint32_t tag, block bk) {
 	cache_addr _addr;
@@ -74,6 +63,7 @@ void cache_block_read(hwaddr_t _addr, uint8_t buf[]) {
 		else
 			empty_line = i;
 	}		
+	//TODO:write though!!
 	//TODO: check victim line
 	if(ret_block == NULL){		//not found
 		cache_miss++;
@@ -228,3 +218,4 @@ bool check_cache_addr (hwaddr_t _addr){
 void check_cache_block(){
 	panic("implement if you want");
 }
+*/
