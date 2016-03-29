@@ -11,6 +11,10 @@ void init_L2_cache() {
 
 uint64_t L2_cache_miss = 0, L2_cache_access = 0;
 
+uint64_t L2_get_cache_cost (){ 
+	return L2_cache_access * 2 + L2_cache_miss * 198;
+}
+
 void L2_write_back_block(uint32_t index, uint32_t tag, block bk) {
 	cache_addr _addr;
 	_addr.tag = tag;	
@@ -54,7 +58,7 @@ void L2_cache_block_read(hwaddr_t _addr, uint8_t buf[]) {
 	}		
 	//TODO: check victim line
 	if(ret_block == NULL){		//not found
-		cache_miss++;
+		L2_cache_miss++;
 #ifdef MZYDEBUG
 		printf("cache_miss\n");
 #endif

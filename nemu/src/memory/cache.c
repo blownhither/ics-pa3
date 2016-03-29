@@ -2,37 +2,34 @@
 #include "cache.h"
 #include "cache_defs.h"
 
-uint64_t cache_miss = 0, cache_access = 0;
+uint64_t L1_cache_miss = 0, L1_cache_access = 0;
 uint64_t get_cache_cost (){ 
-	//printf("in get_:%x, %x\n", (int)cache_access%0xffff, (int)cache_miss&0xffff);
-	return cache_access * 2 + cache_miss * 198;
+	return L1_cache_access * 2;	//if miss, goto L2 cache
 }
 
 //#define MZYDEBUG
-/*
-cache_group *cache;	//cache[GROUP_NUM]
 
-void init_cache() {
-	cache = malloc(sizeof(cache_group)*GROUP_NUM);
-	memset(cache, 0, sizeof(cache_group)*GROUP_NUM);
+L1_cache_group *cache;	//cache[GROUP_NUM]
+
+void init_L1_cache() {
+	cache = malloc(sizeof(L1_cache_group)*GROUP_NUM);
+	memset(cache, 0, sizeof(L1_cache_group)*GROUP_NUM);
 }
 
-
-
-void write_back_block(uint32_t index, uint32_t tag, block bk) {
+void L1_write_back_block(uint32_t index, uint32_t tag, block bk) {
 	cache_addr _addr;
 	_addr.tag = tag;	
 	_addr.index = index;	
 	_addr.offs = 0;
 	int i;
-	//printf("write_back_block\n");
 	for(i=0; i<BLOCK_SIZE; ++i) {
 		dram_write(_addr.addr + i, 1, bk[i]);
-		//printf("%x ",bk[i]);
 	}
-	//printf("\n");
+	
+	//TODO:  write into L2
+	
 }
-
+/*
 void cache_block_read(hwaddr_t _addr, uint8_t buf[]) {
 	cache_addr addr;
 	addr.addr = _addr;

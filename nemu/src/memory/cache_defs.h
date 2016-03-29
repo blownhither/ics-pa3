@@ -24,7 +24,7 @@ typedef struct{
 	//no dirty bit
 	uint32_t tag[ASSOCT_WAY];
 	block data[ASSOCT_WAY];
-} cache_group;
+} L1_cache_group;
 
 extern uint32_t dram_read(hwaddr_t addr, size_t len);
 extern void dram_write(hwaddr_t addr, size_t len, uint32_t data);
@@ -37,5 +37,3 @@ static inline int get_rand(int max) {
 	}
 	return rand()%max;
 }
-
-uint64_t cache_miss, cache_access;
