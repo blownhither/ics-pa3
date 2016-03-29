@@ -239,6 +239,18 @@ static int cmd_bt(char *args){
 	return 0;
 }
 
+extern bool check_cache_addr (hwaddr_t _addr);
+static int cmd_cache(char *args){
+	if(args==NULL){
+		//TODO: print cache
+		return 0;
+	}
+	uint32_t addr;
+	sscanf(args,"%x",&addr);
+	check_cache_addr (addr);
+	return 0;
+}
+
 static struct {
 	char *name;
 	char *description;
@@ -254,6 +266,7 @@ static struct {
 	{"w" , "Stop execution whenever the value of an expression changes." , cmd_w} ,   
 	{"d" , "Delete breakpoints or auto-display expressions." , cmd_d} ,
 	{"bt","Print backtrace of all stack frames",cmd_bt}, 
+	{"cache","Search for corresponding line in cache",cmd_cache},
 	/* TODO: Add more commands */
 
 };
