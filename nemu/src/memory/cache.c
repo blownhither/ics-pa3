@@ -191,9 +191,10 @@ find_tar_lable:
 
 void cache_write ( hwaddr_t _addr, size_t len, uint32_t data ) {
 	uint32_t offs = _addr&(BLOCK_SIZE - 1);
-	uint8_t buf[2 * BLOCK_SIZE], mask[2 * BLOCK_SIZE];
+	//uint8_t buf[2 * BLOCK_SIZE], mask[2 * BLOCK_SIZE];
+	uint8_t *buf = malloc(BLOCK_SIZE * 2), *mask = malloc(BLOCK_SIZE * 2);
 	*(uint32_t *)(buf + offs) = data;
-	memset(mask, 0, sizeof(mask));
+	memset(mask, 0, 2*BLOCK_SIZE);
 	memset(mask+offs, 1, len);
 #ifdef MZYDEBUG
 	printf("to write 0x%x at 0x%x\n",data,_addr);
