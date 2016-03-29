@@ -209,6 +209,10 @@ void cache_write ( hwaddr_t _addr, size_t len, uint32_t data ) {
 }
 
 bool check_cache_addr (hwaddr_t _addr){
+	if(_addr >= (1<<27)){
+		print("physical address %x is outside of the physical memory!",_addr);
+		return;
+	}
 	cache_addr addr;
 	addr.addr = _addr;
 	uint32_t tag = addr.tag, index = addr.index;//, offs = addr.offs;
@@ -225,7 +229,7 @@ bool check_cache_addr (hwaddr_t _addr){
 			}
 		}
 	}		
-	printf("address:0x%x\tindex:0x%2x\ttag:0x%2x\tline num:%d\n",addr.addr, addr.index, addr.tag,i);
+	printf("address:0x%x\tindex:0x%2x\ttag:0x%2x\tline num:%d",addr.addr, addr.index, addr.tag,i);
 	if(ret_block == NULL){
 		printf("\tRAM block is not in cache.\n");
 		return false;
@@ -234,6 +238,7 @@ bool check_cache_addr (hwaddr_t _addr){
 		if(!(i&0xf))printf("\n\t");
 		printf("%2x ",ret_block[i]);
 	}
+	printf("\n");
 	return true;
 }
 
