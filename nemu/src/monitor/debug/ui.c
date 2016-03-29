@@ -239,7 +239,7 @@ static int cmd_bt(char *args){
 	return 0;
 }
 
-extern bool check_cache_addr (hwaddr_t _addr);
+extern bool L2_check_cache_addr (hwaddr_t _addr);
 static int cmd_cache(char *args){
 	if(args==NULL){
 		//TODO: print cache
@@ -247,7 +247,7 @@ static int cmd_cache(char *args){
 	}
 	uint32_t addr;
 	sscanf(args,"%x",&addr);
-	check_cache_addr (addr);
+	L2_check_cache_addr (addr);
 	return 0;
 }
 

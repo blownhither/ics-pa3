@@ -17,7 +17,6 @@ void L2_write_back_block(uint32_t index, uint32_t tag, block bk) {
 	_addr.index = index;	
 	_addr.offs = 0;
 	int i;
-	printf("\nsizeof(L2_cache_group)=%ld\n",sizeof(L2_cache_group));
 	//TODO:
 	for(i=0; i<BLOCK_SIZE; ++i) {
 		dram_write(_addr.addr + i, 1, bk[i]);
@@ -82,6 +81,7 @@ void L2_cache_block_read(hwaddr_t _addr, uint8_t buf[]) {
 }
 
 uint32_t L2_cache_read(hwaddr_t addr, size_t len) {
+	printf("\nsizeof(L2_cache_group)=%ld\n",sizeof(L2_cache_group));
 	uint8_t buf[ BLOCK_SIZE<<1 ];
 	L2_cache_block_read(addr, buf);
 	uint32_t offs = addr&(BLOCK_SIZE - 1);
@@ -164,15 +164,14 @@ void L2_cache_write ( hwaddr_t _addr, size_t len, uint32_t data ) {
 		L2_cache_write_mask(_addr+len, buf+BLOCK_SIZE, mask+BLOCK_SIZE, len);
 }
 
-bool check_cache_addr (hwaddr_t _addr){
+bool L2_check_cache_addr (hwaddr_t _addr){
 	if(_addr >= (1<<27)){
 		printf("physical address %x is outside of the physical memory!",_addr);
 		return false;
 	}
 	cache_addr addr;
 	addr.addr = _addr;
-	uint32_t tag = addr.tag, index = addr.index;//, offs = addr.offs;
-	//uint32_t addr_aligned = addr.addr - offs;
+	uint32_t tag = addr.tag, index = addr.index;
 	L2_cache_group* group = &(L2_cache[index]);
 	//block *ret_block = NULL;
 	pblock ret_block = NULL;
@@ -185,7 +184,9 @@ bool check_cache_addr (hwaddr_t _addr){
 			}
 		}
 	}		
+	printf("address:0x%x\tindex:0x%2x\ttag:0x%2x\tline num:%d",addr.addr, addr.index, addr.tag,i);
 	if(ret_block == NULL){
+		printf("\tRAM block is not in cache.\n");
 		return false;
 	}
 	for(i=0; i<BLOCK_SIZE; ++i){
@@ -194,8 +195,4 @@ bool check_cache_addr (hwaddr_t _addr){
 	}
 	printf("\n");
 	return true;
-}
-
-void check_cache_block(){
-	panic("implement if you want");
 }
