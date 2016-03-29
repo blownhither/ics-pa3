@@ -25,7 +25,7 @@ typedef struct{
 	block data[ASSOCT_WAY];
 } cache_group;
 
-cache_group *cache;
+cache_group *cache;	//cache[GROUP_NUM]
 
 int get_rand(int max) {
 	static bool initialized = false;
@@ -55,7 +55,7 @@ void write_back_block(uint32_t index, uint32_t tag, block bk) {
 	int i;
 	//printf("write_back_block\n");
 	for(i=0; i<BLOCK_SIZE; ++i) {
-		dram_write(_addr.addr + i, bk[i], 1);
+		dram_write(_addr.addr + i, 1, bk[i]);
 		//printf("%x ",bk[i]);
 	}
 	//printf("\n");
