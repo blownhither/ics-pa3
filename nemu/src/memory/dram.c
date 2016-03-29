@@ -117,8 +117,10 @@ uint32_t dram_read(hwaddr_t addr, size_t len) {
 
 void dram_write(hwaddr_t addr, size_t len, uint32_t data) {
 	uint32_t offset = addr & BURST_MASK;			//BURST_MASK = 7
-	uint8_t temp[2 * BURST_LEN];
-	uint8_t mask[2 * BURST_LEN];
+	//uint8_t temp[2 * BURST_LEN];
+	//uint8_t mask[2 * BURST_LEN];
+	uint8_t *temp = (uint8_t *)malloc(2 * BURST_LEN);
+	uint8_t *mask = (uint8_t *)malloc(2 * BURST_LEN);
 	memset(mask, 0, 2 * BURST_LEN);
 
 	*(uint32_t *)(temp + offset) = data;
