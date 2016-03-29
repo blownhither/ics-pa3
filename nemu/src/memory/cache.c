@@ -8,6 +8,7 @@ extern void dram_write(hwaddr_t addr, size_t len, uint32_t data);
 typedef unsigned char bool;
 typedef unsigned char uint8_t;
 typedef uint8_t block[BLOCK_SIZE];
+typedef uint8_t *pblock;
 
 typedef union {
 	struct{
@@ -70,18 +71,19 @@ void cache_block_read(hwaddr_t _addr, uint8_t buf[]) {
 	printf("_block:addr=0x%x,tag=0x%x,\n\tindex=0x%x,offs=0x%x,addr_align=0x%x\n",*(int *)(void *)&addr,tag,index,offs,addr_aligned);
 #endif
 	cache_group* group = &cache[index];
-	block *ret_block = NULL;
+	//block *ret_block = NULL;
+	pblock ret_block = NULL;
 	int i, empty_line;
 	cache_access++;
 	for(i=0, empty_line = -1; i<ASSOCT_WAY; ++i) {
 		if(group->valid_bit[i]){
 			if(group->tag[i] == tag) {
-				ret_block = &group->data[i];
+				ret_block = group->data[i];
 #ifdef MZYDEBUG
 				printf("cache hit in block_read with");
 				int j;
 				for(j=0; j<BLOCK_SIZE; ++j)
-					printf("%x ",(*ret_block)[j]);
+					printf("%x ",ret_block[j]);
 				printf("\n");
 #endif
 				break;
@@ -114,10 +116,10 @@ void cache_block_read(hwaddr_t _addr, uint8_t buf[]) {
 #endif
 		group->tag[empty_line] = tag;
 		group->valid_bit[empty_line] = true;
-		ret_block = &group->data[empty_line];
+		ret_block = group->data[empty_line];
 	}
 	for(i=0; i<BLOCK_SIZE; ++i) {
-		buf[i] = (* ret_block)[i];
+		buf[i] = ret_block[i];
 #ifdef MZYDEBUG
 		printf("%x ",buf[i]);
 #endif
