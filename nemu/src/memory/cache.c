@@ -208,3 +208,32 @@ void cache_write ( hwaddr_t _addr, size_t len, uint32_t data ) {
 	cache_write_mask(_addr, buf, mask, (offs+len > BLOCK_SIZE), len);
 }
 
+bool check_cache_addr (hwaddr_t _addr){
+	cache_addr addr;
+	addr.addr = _addr;
+	uint32_t tag = addr.tag, index = addr.index;//, offs = addr.offs;
+	//uint32_t addr_aligned = addr.addr - offs;
+	cache_group* group = &(cache[index]);
+	//block *ret_block = NULL;
+	pblock ret_block = NULL;
+	int i;
+	for(i=0; i<ASSOCT_WAY; ++i) {
+		if(group->valid_bit[i]){
+			if(group->tag[i] == tag) {
+				ret_block = group->data[i];
+				break;
+			}
+		}
+	}		
+	printf("address:0x%x\tindex:0x%2x\ttag:0x%2x\tline num:%d\n",addr.addr, addr.index, addr.tag,i);
+	if(ret_block == NULL){
+		printf("\tRAM block is not in cache.\n");
+		return false;
+	}
+	for(i=0; i<BLOCK_SIZE; ++i){
+		if(!(i&0xf))printf("\n\t");
+		printf("%2x ",ret_block[i]);
+	}
+	return true;
+}
+
