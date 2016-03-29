@@ -18,3 +18,9 @@ typedef struct{
 	uint32_t tag[ASSOCT_WAY];
 	block data[ASSOCT_WAY];
 } L2_cache_group;
+
+typedef struct{
+	bool valid_bit[ASSOCT_WAY];
+	uint32_t tag[ASSOCT_WAY];
+	block data[ASSOCT_WAY];
+} cache_group;

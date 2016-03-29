@@ -6,11 +6,7 @@
 extern uint32_t dram_read(hwaddr_t addr, size_t len);
 extern void dram_write(hwaddr_t addr, size_t len, uint32_t data);
 
-typedef struct{
-	bool valid_bit[ASSOCT_WAY];
-	uint32_t tag[ASSOCT_WAY];
-	block data[ASSOCT_WAY];
-} cache_group;
+
 
 cache_group *cache;	//cache[GROUP_NUM]
 
