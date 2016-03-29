@@ -125,7 +125,8 @@ void cache_block_read(hwaddr_t _addr, uint8_t buf[]) {
 }
 
 uint32_t cache_read(hwaddr_t addr, size_t len) {
-	uint8_t buf[ BLOCK_SIZE<<1 ];
+	//uint8_t buf[ BLOCK_SIZE<<1 ];
+	uint8_t* buf = (uint8_t *)malloc(BLOCK_SIZE<<1);
 	cache_block_read(addr, buf);
 	uint32_t offs = addr&(BLOCK_SIZE - 1);
 	if(offs+len > BLOCK_SIZE) {	//unaligned read
