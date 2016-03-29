@@ -51,7 +51,7 @@ void write_back_block(uint32_t index, uint32_t tag, block bk) {
 	_addr.index = index;	
 	_addr.offs = 0;
 	int i;
-	printf("write_back_block");
+	printf("write_back_block\n\n\n\n\n\n\n");
 	for(i=0; i<BLOCK_SIZE; ++i) {
 		dram_write(_addr.addr + i, bk[i], 1);
 		printf("%x ",bk[i]);
