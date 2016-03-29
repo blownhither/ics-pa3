@@ -1,7 +1,7 @@
 #include "cache.h"
 #include "common.h"
 
-#define MZYDEBUG
+//#define MZYDEBUG
 
 extern uint32_t dram_read(hwaddr_t addr, size_t len);
 extern void dram_write(hwaddr_t addr, size_t len, uint32_t data);
@@ -52,12 +52,12 @@ void write_back_block(uint32_t index, uint32_t tag, block bk) {
 	_addr.index = index;	
 	_addr.offs = 0;
 	int i;
-	printf("write_back_block\n");
+	//printf("write_back_block\n");
 	for(i=0; i<BLOCK_SIZE; ++i) {
 		dram_write(_addr.addr + i, bk[i], 1);
-		printf("%x ",bk[i]);
+		//printf("%x ",bk[i]);
 	}
-	printf("\n");
+	//printf("\n");
 }
 
 void cache_block_read(hwaddr_t _addr, uint8_t buf[]) {
@@ -98,7 +98,7 @@ void cache_block_read(hwaddr_t _addr, uint8_t buf[]) {
 #endif
 		if(empty_line < 0) {	//no empty line, choose one to write back
 			empty_line = get_rand(ASSOCT_WAY);
-			printf("write back\n");
+			//printf("write back\n");
 			write_back_block(index, group->tag[empty_line], group->data[empty_line]);
 			//TODO: write victim line
 		}
@@ -122,7 +122,6 @@ void cache_block_read(hwaddr_t _addr, uint8_t buf[]) {
 		printf("%x ",buf[i]);
 #endif
 	}
-	printf("\n\n\n\n\n\n");
 }
 
 uint32_t cache_read(hwaddr_t addr, size_t len) {
@@ -177,7 +176,7 @@ find_tar_lable:
 	if(unalign_flag) {
 		max = 2 * BLOCK_SIZE;
 		cache_read(_addr + len, len);
-		printf("in unalign\n");
+		//printf("in unalign\n");
 	}
 	for(i=0; i<max; ++i){
 		if(mask[i]){
@@ -187,7 +186,6 @@ find_tar_lable:
 #endif
 		}
 	}
-		printf("\n\n\n\n\n\n\n\n\n\n\n");
 }
 
 void cache_write ( hwaddr_t _addr, size_t len, uint32_t data ) {
