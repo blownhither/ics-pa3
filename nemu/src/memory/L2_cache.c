@@ -185,9 +185,7 @@ bool check_cache_addr (hwaddr_t _addr){
 			}
 		}
 	}		
-	printf("address:0x%x\tindex:0x%2x\ttag:0x%2x\tline num:%d",addr.addr, addr.index, addr.tag,i);
 	if(ret_block == NULL){
-		printf("\tRAM block is not in cache.\n");
 		return false;
 	}
 	for(i=0; i<BLOCK_SIZE; ++i){
