@@ -210,8 +210,8 @@ void cache_write ( hwaddr_t _addr, size_t len, uint32_t data ) {
 
 bool check_cache_addr (hwaddr_t _addr){
 	if(_addr >= (1<<27)){
-		print("physical address %x is outside of the physical memory!",_addr);
-		return;
+		printf("physical address %x is outside of the physical memory!",_addr);
+		return false;
 	}
 	cache_addr addr;
 	addr.addr = _addr;
@@ -242,3 +242,6 @@ bool check_cache_addr (hwaddr_t _addr){
 	return true;
 }
 
+void check_cache_block(){
+	panic("implement if you want");
+}
