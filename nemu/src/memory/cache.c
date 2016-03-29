@@ -1,7 +1,7 @@
 #include "cache.h"
 #include "common.h"
 
-//#define MZYDEBUG
+#define MZYDEBUG
 
 extern uint32_t dram_read(hwaddr_t addr, size_t len);
 extern void dram_write(hwaddr_t addr, size_t len, uint32_t data);
@@ -65,7 +65,7 @@ void cache_block_read(hwaddr_t _addr, uint8_t buf[]) {
 	uint32_t offs = addr.offs;
 	uint32_t addr_aligned = addr.addr - offs;
 #ifdef MZYDEBUG
-	printf("_block:addr=0x%x,tag=0x%x,\n\tindex=0x%x,offs=0x%x,addr_align=0x%x\n",*(unsigned int*)addr,tag,index,offs,addr_aligned);
+	printf("_block:addr=0x%x,tag=0x%x,\n\tindex=0x%x,offs=0x%x,addr_align=0x%x",*(int *)(void *)&addr,tag,index,offs,addr_aligned);
 #endif
 	cache_group* group = &cache[index];
 	block *ret_block = NULL;
@@ -145,7 +145,7 @@ void cache_write_mask (hwaddr_t _addr, uint8_t buf[], uint8_t mask[], bool unali
 #ifdef MZYDEBUG
 	uint32_t offs = addr.offs;
 	uint32_t addr_aligned = addr.addr - offs;
-	printf("_write_mask:addr=0x%x,tag=0x%x,\n\tindex=0x%x,offs=0x%x,addr_align=0x%x\n",*(unsigned int*)addr,tag,index,offs,addr_aligned);
+	printf("_write_mask:addr=0x%x,tag=0x%x,\n\tindex=0x%x,offs=0x%x,addr_align=0x%x\n",*(unsigned int*)(void *)&addr,tag,index,offs,addr_aligned);
 #endif
 	cache_group* group = &cache[index];
 	block* tar_block = NULL;
