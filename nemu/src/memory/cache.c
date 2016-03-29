@@ -25,7 +25,7 @@ typedef struct{
 	block data[ASSOCT_WAY];
 } cache_group;
 
-cache_group cache[GROUP_NUM];
+cache_group *cache;
 
 int get_rand(int max) {
 	static bool initialized = false;
@@ -37,7 +37,8 @@ int get_rand(int max) {
 }
 
 void init_cache() {
-	memset(cache, 0, sizeof(cache));
+	cache = malloc(sizeof(cache_group)*GROUP_NUM);
+	memset(cache, 0, sizeof(cache_group)*GROUP_NUM);
 }
 
 uint64_t cache_miss = 0, cache_access = 0;
