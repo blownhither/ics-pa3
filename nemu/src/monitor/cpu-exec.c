@@ -10,10 +10,11 @@
 #define MAX_INSTR_TO_PRINT 10
 
 int nemu_state = STOP;
-uint64_t cache_miss , cache_access;
+uint64_t L1_cache_miss , L1_cache_access, L2_cache_miss , L2_cache_access;
 
 int exec(swaddr_t);
-uint64_t get_cache_cost ();
+extern uint64_t L1_get_cache_cost ();
+extern uint64_t L2_get_cache_cost ();
 extern bool check_watchpoints(); 
 
 char assembly[80];
@@ -86,7 +87,7 @@ void cpu_exec(volatile uint32_t n) {
 		} 
 
 		if(nemu_state != RUNNING) { 
-			printf("Cache cost = %llu, miss_rate = %f\n",(unsigned long long)get_cache_cost(), (double)cache_miss/(double)cache_access);
+			printf("Cache cost = %llu, miss_rate = %f\n",(unsigned long long)L2_get_cache_cost(), (double)L2_cache_miss/(double)L2_cache_access);
 			return; 
 		}
 		//printf("cpu.eip is %x in rear cpu-exec.c\n",cpu.eip);

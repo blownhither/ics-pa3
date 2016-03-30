@@ -1,20 +1,22 @@
 #include "common.h"
-#include "cache.h"
+#include "L1_cache.h"
 #include "cache_defs.h"
 
 uint64_t L1_cache_miss = 0, L1_cache_access = 0;
-uint64_t get_cache_cost (){ 
+uint64_t L1_get_cache_cost (){ 
 	return L1_cache_access * 2;	//if miss, goto L2 cache
 }
 
 //#define MZYDEBUG
 
-L1_cache_group *cache;	//cache[GROUP_NUM]
+static L1_cache_group *L1_cache;	//cache[GROUP_NUM]
 
 void init_L1_cache() {
-	cache = malloc(sizeof(L1_cache_group)*GROUP_NUM);
-	memset(cache, 0, sizeof(L1_cache_group)*GROUP_NUM);
+	L1_cache = malloc(sizeof(L1_cache_group)*GROUP_NUM);
+	memset(L1_cache, 0, sizeof(L1_cache_group)*GROUP_NUM);
 }
+
+
 
 void L1_write_back_block(uint32_t index, uint32_t tag, block bk) {
 	cache_addr _addr;
@@ -29,60 +31,38 @@ void L1_write_back_block(uint32_t index, uint32_t tag, block bk) {
 	//TODO:  write into L2
 	
 }
-/*
-void cache_block_read(hwaddr_t _addr, uint8_t buf[]) {
+
+void L1_cache_block_read(hwaddr_t _addr, uint8_t buf[]) {
 	cache_addr addr;
 	addr.addr = _addr;
-	uint32_t tag = addr.tag, index = addr.index, offs = addr.offs;
-	uint32_t addr_aligned = addr.addr - offs;
+	uint32_t tag = addr.tag, index = addr.index;//, offs = addr.offs;
+	//uint32_t addr_aligned = addr.addr - offs;
 #ifdef MZYDEBUG
 	printf("_block:addr=0x%x,tag=0x%x,\n\tindex=0x%x,offs=0x%x,addr_align=0x%x\n",*(int *)(void *)&addr,tag,index,offs,addr_aligned);
 #endif
-	cache_group* group = &(cache[index]);
+	L1_cache_group* group = &(L1_cache[index]);
 	//block *ret_block = NULL;
 	pblock ret_block = NULL;
 	int i, empty_line;
-	cache_access++;
+	L1_cache_access++;
 	for(i=0, empty_line = -1; i<ASSOCT_WAY; ++i) {
 		if(group->valid_bit[i]){
 			if(group->tag[i] == tag) {
 				ret_block = group->data[i];
-#ifdef MZYDEBUG
-				printf("cache hit in block_read with");
-				int j;
-				for(j=0; j<BLOCK_SIZE; ++j)
-					printf("%x ",ret_block[j]);
-				printf("\n");
-#endif
 				break;
 			}
 		}
 		else
 			empty_line = i;
 	}		
-	//TODO:write though!!
-	//TODO: check victim line
 	if(ret_block == NULL){		//not found
-		cache_miss++;
-#ifdef MZYDEBUG
-		printf("cache_miss\n");
-#endif
-		if(empty_line < 0) {	//no empty line, choose one to write back
+		L1_cache_miss++;
+		if(empty_line < 0) {	//no empty line, choose one, no need to write back
 			empty_line = get_rand(ASSOCT_WAY);
-			//printf("write back\n");
-			write_back_block(index, group->tag[empty_line], group->data[empty_line]);
-			//TODO: write victim line
 		}
 		//read into cache
-		for(i=0; i<BLOCK_SIZE; ++i) {
-			group->data[empty_line][i] = dram_read(addr_aligned + i, 1) & 0xff;	//see memory.c
-#ifdef MZYDEBUG
-			printf("%x ",group->data[empty_line][i]);
-#endif
-		}
-#ifdef MZYDEBUG
-		printf("end read into cache\n");
-#endif
+		L1_cache_block_read(_addr, buf);
+		memcpy(group->data[empty_line], buf, BLOCK_SIZE);
 		group->tag[empty_line] = tag;
 		group->valid_bit[empty_line] = true;
 		ret_block = group->data[empty_line];
@@ -95,20 +75,20 @@ void cache_block_read(hwaddr_t _addr, uint8_t buf[]) {
 	}
 }
 
-uint32_t cache_read(hwaddr_t addr, size_t len) {
-	//uint8_t buf[ BLOCK_SIZE<<1 ];
-	uint8_t* buf = (uint8_t *)malloc(BLOCK_SIZE<<1);
-	cache_block_read(addr, buf);
+uint32_t L1_cache_read(hwaddr_t addr, size_t len) {
+	uint8_t buf[ BLOCK_SIZE<<1 ];
+	//uint8_t* buf = (uint8_t *)malloc(BLOCK_SIZE<<1);
+	L1_cache_block_read(addr, buf);
 	uint32_t offs = addr&(BLOCK_SIZE - 1);
 	if(offs+len > BLOCK_SIZE) {	//unaligned read
 #ifdef MZYDEBUG
 		printf("in unaligned\n");
 #endif
-		cache_block_read(addr + len, buf + BLOCK_SIZE);
+		L1_cache_block_read(addr + len, buf + BLOCK_SIZE);
 	}
 	return unalign_rw((buf + offs), 4);
 }
-
+/*
 void cache_write_mask (hwaddr_t _addr, uint8_t buf[], uint8_t mask[], bool unalign_flag, size_t len){	//write under guarantee that no unaligned would happen
 
 	cache_addr addr;
@@ -178,7 +158,7 @@ void cache_write ( hwaddr_t _addr, size_t len, uint32_t data ) {
 	cache_write_mask(_addr, buf, mask, (offs+len > BLOCK_SIZE), len);
 }
 
-bool check_cache_addr (hwaddr_t _addr){
+bool L1_check_cache_addr (hwaddr_t _addr){
 	if(_addr >= (1<<27)){
 		printf("physical address %x is outside of the physical memory!",_addr);
 		return false;
@@ -187,7 +167,7 @@ bool check_cache_addr (hwaddr_t _addr){
 	addr.addr = _addr;
 	uint32_t tag = addr.tag, index = addr.index;//, offs = addr.offs;
 	//uint32_t addr_aligned = addr.addr - offs;
-	cache_group* group = &(cache[index]);
+	L1_cache_group* group = &(cache[index]);
 	//block *ret_block = NULL;
 	pblock ret_block = NULL;
 	int i;

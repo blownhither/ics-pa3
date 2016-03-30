@@ -2,7 +2,7 @@
 #include "L2_cache.h"				//config
 #include "cache_defs.h"				//struct
 
-L2_cache_group *L2_cache;	//L2_cache[GROUP_NUM]
+static L2_cache_group *L2_cache;	//L2_cache[GROUP_NUM]
 
 void init_L2_cache() {
 	L2_cache = malloc(sizeof(L2_cache_group)*GROUP_NUM);
