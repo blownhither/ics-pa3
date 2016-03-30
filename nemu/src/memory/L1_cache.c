@@ -61,7 +61,7 @@ void L1_cache_block_read(hwaddr_t _addr, uint8_t buf[]) {
 			empty_line = get_rand(ASSOCT_WAY);
 		}
 		//read into cache
-		L1_cache_block_read(_addr, buf);
+		L2_cache_block_read(_addr, buf);
 		memcpy(group->data[empty_line], buf, BLOCK_SIZE);
 		group->tag[empty_line] = tag;
 		group->valid_bit[empty_line] = true;
