@@ -134,10 +134,6 @@ find_tar_lable:
 	}
 	//now must have tar_block
 	assert(tar_block != NULL);
-//	if(unalign_flag) {
-//		max = 2 * BLOCK_SIZE;
-//		cache_read(_addr + len, len);
-//	}
 	for(i=0; i<BLOCK_SIZE; ++i){
 		if(mask[i]){
 			tar_block[i] = buf[i];

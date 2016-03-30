@@ -28,6 +28,9 @@ typedef struct{
 
 extern uint32_t dram_read(hwaddr_t addr, size_t len);
 extern void dram_write(hwaddr_t addr, size_t len, uint32_t data);
+extern void L2_cache_write_mask 
+(hwaddr_t _addr, uint8_t buf[], uint8_t mask[], size_t len);
+extern void L2_cache_block_read(hwaddr_t _addr, uint8_t buf[]);
 
 static inline int get_rand(int max) {
 	static bool initialized = false;
