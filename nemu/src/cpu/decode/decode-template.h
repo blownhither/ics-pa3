@@ -31,12 +31,13 @@ make_helper(concat(decode_si_, SUFFIX)) {
 	 * it to op_src->simm.
 	 */
 	//(DATA_TYPE_S) t = instr_fetch(eip , DATA_BYTE);
-	op_src->simm = (DATA_TYPE_S)instr_fetch(eip, DATA_BYTE); 
-#if DATA_BYTE==2
-	
-#else
-
+	uint32_t temp = instr_fetch(eip, DATA_BYTE); 
+#if DATA_BYTE==1
+	op_src->simm = (temp&0x80)? (0xffffff00|temp): (0x000000ff&temp);
+#elif DATA_BYTE==2
+	op_src->simm = (temp&0x8000)? (0xffff0000|temp): (0x0000ffff&temp);
 #endif
+	op_src->simm = temp;
 	op_src->val = op_src->simm;  
 	
 
