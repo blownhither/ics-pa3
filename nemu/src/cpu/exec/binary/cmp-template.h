@@ -4,10 +4,12 @@
 
 extern bool parity_check(uint32_t );
 static void do_execute () {
+	DATA_TYPE_S result;
 	if(instr_fetch(cpu.eip,1)==0x83){
-		op_src->val = (op_src->simm&0x80)?(0xffffff00|op_src->simm):(0x00ff&op_src->simm);
+		result =op_dest->val -  (op_src->simm&0x80)?(0xffffff00|op_src->simm):(0x00ff&op_src->simm);
 	}
-	DATA_TYPE_S result = op_dest->val - (DATA_TYPE_S)op_src->val;
+	else
+		result = op_dest->val - (DATA_TYPE_S)op_src->val;
 	//!!!note that
 	//when "sign-extend is required", please use (DATA_TYPE_S)op_src->imm
 	eflags.eflags.ZF = !result;
