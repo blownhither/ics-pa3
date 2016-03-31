@@ -5,7 +5,7 @@
 extern bool parity_check(uint32_t );
 static void do_execute () {
 	DATA_TYPE_S result;
-	result = op_dest->val - op_src->val;
+	result = op_dest->val - (DATA_TYPE_S)op_src->val;
 	//!!!note that
 	//when "sign-extend is required", please use (DATA_TYPE_S)op_src->imm
 	eflags.eflags.ZF = !result;
