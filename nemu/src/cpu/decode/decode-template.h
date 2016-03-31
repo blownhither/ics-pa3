@@ -30,8 +30,8 @@ make_helper(concat(decode_si_, SUFFIX)) {
 	 * by ``eip''. Interpret the result as an signed immediate, and assign
 	 * it to op_src->simm.
 	 */
-	//(DATA_TYPE_S) t = instr_fetch(eip , DATA_BYTE);
-/*
+	//DATA_TYPE_S t = instr_fetch(eip , DATA_BYTE);
+
 	uint32_t temp = instr_fetch(eip, DATA_BYTE); 
 
 #if DATA_BYTE==1
@@ -39,8 +39,8 @@ make_helper(concat(decode_si_, SUFFIX)) {
 #elif DATA_BYTE==2
 	temp = (temp&0x8000)? (0xffff0000|temp): (0x0000ffff&temp);
 #endif
-*/
-	op_src->simm = (DATA_TYPE_S)instr_fetch(eip, DATA_BYTE); 
+
+	op_src->simm = temp;//(DATA_TYPE_S)instr_fetch(eip, DATA_BYTE); 
 	op_src->val = op_src->simm;  
 	
 
