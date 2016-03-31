@@ -149,6 +149,6 @@ bool L1_check_cache_addr (hwaddr_t _addr){
 	return true;
 }
 
-void check_cache_block(){
-	panic("implement if you want");
+void L1_check_cache_block(){
+	
 }
