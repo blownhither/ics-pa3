@@ -4,6 +4,7 @@
 
 extern bool parity_check(uint32_t );
 static void do_execute () {
+	printf("%d ",instr_fetch(cpu.eip,1));
 	if(instr_fetch(cpu.eip-1,1)==0x83){
 		op_src->val = (op_src->val&0x80)?(0xffffff00|op_src->val):(0xff&op_src->val);
 	}
