@@ -7,7 +7,7 @@ static void do_execute () {
 	DATA_TYPE_S result;
 	if(instr_fetch(cpu.eip,1)==0x83){
 		//result =op_dest->val - (DATA_TYPE_S)((op_src->simm&0x80)?(0xffffff00|op_src->simm):(0x00ff&op_src->simm));
-		result = op_dest->val - (DATA_TYPE_S)op_src->simm;
+		result = op_dest->val - op_src->val;
 	}
 	else
 		result = op_dest->val - (DATA_TYPE_S)op_src->val;
