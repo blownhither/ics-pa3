@@ -1,7 +1,7 @@
 #define DATA_BYTE 4
 #include "cpu/exec/template-start.h"
-#define instr cbd/cwd
-make_helper(cbw_cwd){
+#define instr cbw
+make_helper(cbw){
 	if(ops_decoded.is_data_size_16){	//cbw, byte to word
 		cpu.ax = (cpu.al&0x80)? (0xff00|cpu.al) : (0x00ff&cpu.al);
 	}
