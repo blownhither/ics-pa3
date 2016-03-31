@@ -10,7 +10,7 @@ static void do_execute () {
 		result = op_dest->val - op_src->val;
 	}
 	else
-		result = op_dest->val - (DATA_TYPE_S)op_src->val;
+		result = op_dest->val - op_src->val;
 	//!!!note that
 	//when "sign-extend is required", please use (DATA_TYPE_S)op_src->imm
 	eflags.eflags.ZF = !result;
