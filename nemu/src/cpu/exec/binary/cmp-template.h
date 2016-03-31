@@ -4,9 +4,8 @@
 
 extern bool parity_check(uint32_t );
 static void do_execute () {
-	printf("%x ",instr_fetch(cpu.eip,1));
-	if(instr_fetch(cpu.eip-1,1)==0x83){
-		op_src->val = (op_src->val&0x80)?(0xffffff00|op_src->val):(0xff&op_src->val);
+	if(instr_fetch(cpu.eip,1)==0x83){
+		op_src->val = (op_src->imm&0x80)?(0xffffff00|op_src->imm):(0xff&op_src->imm);
 	}
 	DATA_TYPE_S result = op_dest->val - (DATA_TYPE_S)op_src->val;
 	//!!!note that
