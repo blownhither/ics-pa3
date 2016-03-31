@@ -5,7 +5,7 @@
 extern bool parity_check(uint32_t );
 static void do_execute () {
 	if(instr_fetch(cpu.eip,1)==0x83){
-		op_src->val = (op_src->simm&0x80)?(0xffffff00|op_src->simm):(0xff&op_src->simm);
+		op_src->val = (op_src->simm&0x80)?(0xffffff00|op_src->simm):(0x00ff&op_src->simm);
 	}
 	DATA_TYPE_S result = op_dest->val - (DATA_TYPE_S)op_src->val;
 	//!!!note that
