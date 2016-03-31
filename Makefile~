@@ -55,7 +55,7 @@ ROOT=`pwd`
 count: 
 	find . -name "*.[ch]"|xargs cat|grep -v ^$$|wc -l
 
-USERPROG := obj/testcase/_cmove
+USERPROG := obj/testcase/_cmp
 #ENTRY := $(USERPROG)
 
 #kernel version
