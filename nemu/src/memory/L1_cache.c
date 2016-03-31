@@ -18,20 +18,6 @@ void init_L1_cache() {
 
 
 
-void L1_write_back_block(uint32_t index, uint32_t tag, block bk) {
-	cache_addr _addr;
-	_addr.tag = tag;	
-	_addr.index = index;	
-	_addr.offs = 0;
-	int i;
-	for(i=0; i<BLOCK_SIZE; ++i) {
-		dram_write(_addr.addr + i, 1, bk[i]);
-	}
-	
-	//TODO:  write into L2
-	
-}
-
 void L1_cache_block_read(hwaddr_t _addr, uint8_t buf[]) {
 	cache_addr addr;
 	addr.addr = _addr;
