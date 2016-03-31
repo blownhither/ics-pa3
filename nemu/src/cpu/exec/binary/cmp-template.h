@@ -4,7 +4,10 @@
 
 extern bool parity_check(uint32_t );
 static void do_execute () {
-	DATA_TYPE_S result = op_dest->val - (DATA_TYPE_S)op_src->imm;
+	if(op_src->type == OP_TYPE_IMM){
+		op_src->val = (DATA_TYPE_S)op_src->imm;
+	}
+	DATA_TYPE_S result = op_dest->val - op_src->val;
 	//!!!note that
 	//when "sign-extend is required", please use (DATA_TYPE_S)op_src->imm
 	eflags.eflags.ZF = !result;
