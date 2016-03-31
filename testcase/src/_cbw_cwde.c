@@ -25,57 +25,53 @@ SOFTWARE.
 
 #include "trap.h"
 
-.globl start
-start:
+#define CBW "cbtw\n\t"
+#define CWDE "cwtl\n\t"
 
-    mov $0, %eax
-    add $1, %eax            // opcode = 83
-    
-    mov $0, %eax
-    add $1, %ax             // opcode = 83
-    
-    mov $0, %eax
-    add $1, %ah             // opcode = 80
-    
-    mov $0, %eax
-    add $1, %al             // opcode = 2c
-    
-    mov $0, %eax
-    add $0xaabbccdd, %eax   // opcode = 2d
-    
-    mov $0, %ebx
-    add $0xaabbccdd, %ebx   // opcode = 81
-    
-    mov $0, %ebx
-    add $0xaabb, %bx        // opcode = 81
-    
-    
-    
-    mov $0xaabb, %eax
-    
-    mov $0, %ebx
-    add %al, %bl            // opcode = 28
-    
-    mov $0, %ebx
-    add %ax, %bx            // opcode = 29
-    
-    mov $0, %ebx
-    add %eax, %ebx          // opcode = 29
-    
-    
-    
-    mov $0x08000000, %esp
-    sub $0x10, %esp
-    movl $0xaabbccdd, (%esp)
-    
-    mov $0, %ebx
-    addb (%esp), %bl            // opcode = 28
-    
-    mov $0, %ebx
-    addw (%esp), %bx            // opcode = 29
-    
-    mov $0, %ebx
-    addl (%esp), %ebx          // opcode = 29
-    
-	HIT_GOOD_TRAP
+#define MAKE_EAX_EDX_ASM(INSTR) \
+    __asm__ __volatile__ ("mov %1, %%eax\n\t" \
+                          INSTR \
+                          "mov %%eax, %0\n\t" \
+                          :"=m"(newa) \
+                          :"m"(a) \
+                          :"eax")
 
+void test_cbw(int x)
+{
+    volatile int a, newa;
+    
+    a = x;
+    
+    MAKE_EAX_EDX_ASM(CBW);
+    
+    nemu_assert((short) newa == (short)(signed char) a);
+}
+
+void test_cwde(int x)
+{
+    volatile int a, newa;
+    
+    a = x;
+    
+    MAKE_EAX_EDX_ASM(CWDE);
+    
+    nemu_assert(newa == (int)(short) a);
+}
+
+
+int data[] = {
+    0, 1, -1, 2, -2, 0x1111ffff, 0xffff1111, 0x11223344, 0x7777777, 0xffff, 0x7fff, 0xff11, 0x11ff
+};
+int datalen = sizeof(data) / sizeof(data[0]);
+
+int main()
+{	
+	int i;
+	for (i = 0; i < datalen; i++) {
+	    test_cbw(data[i]);
+	    test_cwde(data[i]);
+	}
+
+	HIT_GOOD_TRAP;
+	return 0;
+}
