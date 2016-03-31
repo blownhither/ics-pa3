@@ -238,7 +238,7 @@ static int cmd_bt(char *args){
 	if(cnt==0)printf("no stack.\n");
 	return 0;
 }
-
+extern bool L1_check_cache_addr (hwaddr_t _addr);
 extern bool L2_check_cache_addr (hwaddr_t _addr);
 static int cmd_cache(char *args){
 	if(args==NULL){
@@ -247,7 +247,9 @@ static int cmd_cache(char *args){
 	}
 	uint32_t addr;
 	sscanf(args,"%x",&addr);
-	L2_check_cache_addr (addr);
+	bool f = L1_check_cache_addr (addr);
+	if(!f)
+		L2_check_cache_addr (addr);
 	return 0;
 }
 

@@ -149,11 +149,12 @@ bool L1_check_cache_addr (hwaddr_t _addr){
 			}
 		}
 	}		
-	printf("address:0x%x\tindex:0x%2x\ttag:0x%2x\tline num:%d",addr.addr, addr.index, addr.tag,i);
+	printf("address:0x%x\tindex:0x%2x\ttag:0x%2x\t",addr.addr, addr.index, addr.tag);
 	if(ret_block == NULL){
-		printf("\tRAM block is not in cache.\n");
+		printf("\n\tRAM block is not in cache.\n");
 		return false;
 	}
+	printf("line num:%d",i);
 	for(i=0; i<BLOCK_SIZE; ++i){
 		if(!(i&0xf))printf("\n\t");
 		printf("%2x ",ret_block[i]);
