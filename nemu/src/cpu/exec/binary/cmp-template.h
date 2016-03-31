@@ -4,7 +4,7 @@
 
 extern bool parity_check(uint32_t );
 static void do_execute () {
-	DATA_TYPE_S result = op_dest->val - (DATA_TYPE_S)op_src->val;
+	DATA_TYPE_S result = op_dest->val - (DATA_TYPE_S)op_src->imm;
 	eflags.eflags.ZF = !result;
 	eflags.eflags.CF = op_dest->val < op_src->val;
 	eflags.eflags.OF = (MSB(op_dest->val) ^ MSB(op_src->val)) 
