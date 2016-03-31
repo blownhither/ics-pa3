@@ -149,7 +149,7 @@ bool L1_check_cache_addr (hwaddr_t _addr){
 			}
 		}
 	}		
-	printf("address:0x%x\tindex:0x%2x\ttag:0x%2x\t",addr.addr, addr.index, addr.tag);
+	printf("L1 cache:\naddress:0x%x\tindex:0x%2x\ttag:0x%2x\t",addr.addr, addr.index, addr.tag);
 	if(ret_block == NULL){
 		printf("\n\tRAM block is not in cache.\n");
 		return false;
@@ -157,7 +157,7 @@ bool L1_check_cache_addr (hwaddr_t _addr){
 	printf("line num:%d",i);
 	for(i=0; i<BLOCK_SIZE; ++i){
 		if(!(i&0xf))printf("\n\t");
-		printf("%2x ",ret_block[i]);
+		printf("%02x ",ret_block[i]);
 	}
 	printf("\n");
 	return true;
