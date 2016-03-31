@@ -6,7 +6,7 @@ make_helper(cbw){
 		cpu.ax = (cpu.al&0x80)? (0xff00|cpu.al) : (0x00ff&cpu.al);
 	}
 	else{
-		cpu.eax = (cpu.ax&0x80)? (0xff00|cpu.ax) : (0x00ff&cpu.ax);
+		cpu.eax = (cpu.ax&0x8000)? (0xffff0000|cpu.ax) : (0x0000ffff&cpu.ax);
 	}
 	print_asm("cbd/cwd");
 	return 1;
