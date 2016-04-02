@@ -16,7 +16,6 @@ uint32_t hwaddr_read(hwaddr_t addr, size_t len) {
 	if(ret != ret2) {
 		printf("dram:0x%x,cache:0x%x\n",ret,ret2);
 		printf("eip=0x%x,addr=0x%x",cpu.eip, (uint32_t)addr);
-		assert(0);
 	}
 #endif
 	//return ret;
@@ -28,8 +27,9 @@ void hwaddr_write(hwaddr_t addr, size_t len, uint32_t data) {
 	L1_cache_write(addr, len, data);
 #ifdef MZYDEBUG
 	uint32_t result = hwaddr_read(addr, len);
-	printf("written:0x%x at 0x%x\tshould be 0x%x\n",result , addr, data);
+	
 	if(result != data) {
+		printf("written:0x%x at 0x%x\tshould be 0x%x\n",result , addr, data);
 		printf("Found inconsistancy at eip=0x%x\n",cpu.eip);
 	}
 #endif
