@@ -5,7 +5,10 @@
 
  void L1_cache_write ( hwaddr_t _addr, size_t len, uint32_t data );
  uint32_t L1_cache_read(hwaddr_t addr, size_t len);
-
+ uint32_t dram_read(hwaddr_t addr, size_t len);
+ void dram_write(hwaddr_t addr, size_t len, uint32_t data);
+ 
+#define MZYDEBUG
 uint32_t hwaddr_read(hwaddr_t addr, size_t len) {
 	uint32_t ret2 = L1_cache_read(addr, len) & (~0u >> ((4 - len) << 3));
 #ifdef MZYDEBUG
