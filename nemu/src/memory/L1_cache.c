@@ -9,10 +9,10 @@ uint64_t L1_get_cache_cost (){
 
 //#define MZYDEBUG
 
-static L1_cache_group *L1_cache;	//cache[GROUP_NUM]
+static L1_cache_group L1_cache[GROUP_NUM];	//cache[GROUP_NUM]
 
 void init_L1_cache() {
-	L1_cache = malloc(sizeof(L1_cache_group)*GROUP_NUM);
+	//L1_cache = malloc(sizeof(L1_cache_group)*GROUP_NUM);
 	memset(L1_cache, 0, sizeof(L1_cache_group)*GROUP_NUM);
 }
 
