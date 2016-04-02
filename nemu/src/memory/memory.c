@@ -8,14 +8,13 @@
  uint32_t dram_read(hwaddr_t addr, size_t len);
  void dram_write(hwaddr_t addr, size_t len, uint32_t data);
  
-#define MZYDEBUG
 uint32_t hwaddr_read(hwaddr_t addr, size_t len) {
 	uint32_t ret2 = L1_cache_read(addr, len) & (~0u >> ((4 - len) << 3));
 #ifdef MZYDEBUG
 	uint32_t ret = dram_read(addr, len) & (~0u >> ((4 - len) << 3));
 	if(ret != ret2) {
 		printf("dram:0x%x,cache:0x%x\n",ret,ret2);
-		printf("eip=0x%x,addr=0x%x",cpu.eip, (uint32_t)addr);
+		printf("eip=0x%x,addr=0x%x\n",cpu.eip, (uint32_t)addr);
 	}
 #endif
 	//return ret;
