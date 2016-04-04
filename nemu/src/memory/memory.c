@@ -2,7 +2,6 @@
 #include "cpu/reg.h"
 
 /* Memory accessing interfaces */
-#define MZYDEBUG
  void L1_cache_write ( hwaddr_t _addr, size_t len, uint32_t data );
  uint32_t L1_cache_read(hwaddr_t addr, size_t len);
  uint32_t dram_read(hwaddr_t addr, size_t len);
@@ -22,7 +21,7 @@ uint32_t hwaddr_read(hwaddr_t addr, size_t len) {
 }
 //#define MZYDEBUG
 void hwaddr_write(hwaddr_t addr, size_t len, uint32_t data) {
-	dram_write(addr, len, data);
+	//dram_write(addr, len, data);
 	L1_cache_write(addr, len, data);
 #ifdef MZYDEBUG
 	uint32_t result = hwaddr_read(addr, len);

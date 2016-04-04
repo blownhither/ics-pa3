@@ -112,6 +112,7 @@ void L1_cache_write ( hwaddr_t _addr, size_t len, uint32_t data ) {
 	L1_cache_write_mask(_addr, buf, mask, len);
 	if(offs+len > BLOCK_SIZE)
 		L1_cache_write_mask(_addr+len, buf+BLOCK_SIZE, mask+BLOCK_SIZE, len);
+	L2_cache_write(_addr, len, data);
 }
 
 bool L1_check_cache_addr (hwaddr_t _addr){
