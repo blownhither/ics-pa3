@@ -64,7 +64,7 @@ make_group(group2_cl_b,
 
 /* 0xd3 */
 make_group(group2_cl_v,
-	inv, inv, nop, inv,
+	inv, inv, shr_rm_cl_v, inv,
 	shl_rm_cl_v, shr_rm_cl_v, inv, sar_rm_cl_v)
 
 /* 0xf6 */
