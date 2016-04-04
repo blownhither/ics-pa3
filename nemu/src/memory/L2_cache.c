@@ -7,7 +7,6 @@ static L2_cache_group L2_cache[GROUP_NUM];	//L2_cache[GROUP_NUM]
 void init_L2_cache() {
 	//L2_cache = malloc(sizeof(L2_cache_group)*GROUP_NUM);
 	memset(L2_cache, 0, sizeof(L2_cache_group)*GROUP_NUM);
-	printf("\n%lu\n\n",sizeof(L2_cache));
 }
 
 uint64_t L2_cache_miss = 0, L2_cache_access = 0;
