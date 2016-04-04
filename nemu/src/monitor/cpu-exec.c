@@ -87,7 +87,7 @@ void cpu_exec(volatile uint32_t n) {
 		} 
 
 		if(nemu_state != RUNNING) { 
-			printf("Cache cost = %llu, L1 miss rate = %f\b, L2 miss rate = %f\n",(unsigned long long)(L2_get_cache_cost()+L1_get_cache_cost()), (double)L1_cache_miss/(double)L1_cache_access,(double)L2_cache_miss/(double)L2_cache_access);
+			printf("Cache cost = %llu, L1 miss rate = %f, L2 miss rate = %f\n",(unsigned long long)(L2_get_cache_cost()+L1_get_cache_cost()), (double)L1_cache_miss/(double)L1_cache_access,(double)L2_cache_miss/(double)L2_cache_access);
 			return; 
 		}
 		//printf("cpu.eip is %x in rear cpu-exec.c\n",cpu.eip);
