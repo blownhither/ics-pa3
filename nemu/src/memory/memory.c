@@ -2,7 +2,7 @@
 #include "cpu/reg.h"
 
 /* Memory accessing interfaces */
-
+#define MZUDEBUG
  void L1_cache_write ( hwaddr_t _addr, size_t len, uint32_t data );
  uint32_t L1_cache_read(hwaddr_t addr, size_t len);
  uint32_t dram_read(hwaddr_t addr, size_t len);
