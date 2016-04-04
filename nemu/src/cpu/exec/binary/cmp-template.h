@@ -8,7 +8,7 @@ static void do_execute () {
 	if(op_src->type == OP_TYPE_IMM)
 		result = op_dest->val - (DATA_TYPE_S)op_src->simm;
 	else
-		result = op_dest->val - (DATA_TYPE_S)op_src->val;
+		result = op_dest->val - op_src->val;
 	eflags.eflags.ZF = !result;
 	eflags.eflags.CF = op_dest->val < op_src->val;
 	eflags.eflags.OF = (MSB(op_dest->val) ^ MSB(op_src->val)) 
