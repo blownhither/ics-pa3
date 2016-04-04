@@ -154,7 +154,9 @@ void test()
             x = data[i];
             y = x >> j;
             nemu_assert(y == naive_shift_right(x, j));
+            set_bp();
             nemu_assert(y == naive_naive_shift_right(x, j));
+            set_bp();
         }
 }
 
