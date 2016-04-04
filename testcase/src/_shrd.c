@@ -153,11 +153,11 @@ void test()
         for (j = 0; j <= 64; j++) {
             x = data[i];
             y = x >> j;
-            set_bp();
+            //set_bp();
             nemu_assert(y == naive_shift_right(x, j));
-            set_bp();
+            //set_bp();
             nemu_assert(y == naive_naive_shift_right(x, j));
-            set_bp();
+            //set_bp();
         }
 }
 
