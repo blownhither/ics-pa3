@@ -116,7 +116,7 @@ void L1_cache_write ( hwaddr_t _addr, size_t len, uint32_t data ) {
 
 bool L1_check_cache_addr (hwaddr_t _addr){
 	if(_addr >= (1<<27)){
-		printf("physical address %x is outside of the physical memory!",_addr);
+		printf("physical address 0x%x is outside of the physical memory!\n",_addr);
 		return false;
 	}
 	cache_addr addr;
