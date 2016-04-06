@@ -56,7 +56,7 @@ count:
 	find . -name "*.[ch]"|xargs cat|grep -v ^$$|wc -l
 
 
-USERPROG := obj/testcase/_poj3618
+USERPROG := obj/testcase/_bittest_reg
 #ENTRY := $(USERPROG)
 
 #kernel version
