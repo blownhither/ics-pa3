@@ -44,28 +44,62 @@ EFLAGS eflags;
 //extern EFLAGS eflags;  
 //enum{eax,ecx,edx,ebx,esp,ebp,esi,edi};
 typedef struct {
-	union {//each GPR includes one of the three tpyes defined below, merged together brings benefits
-		uint32_t _32;
-		uint16_t _16;
-		uint8_t _8[2];
-	} gpr[8];
-
+	union{
+		union {//each GPR includes one of the three tpyes defined below, merged together brings benefits
+			uint32_t _32;
+			uint16_t _16;
+			uint8_t _8[2];
+		} gpr[8];
+		struct {
+			uint32_t eax;
+			uint32_t ecx;
+			uint32_t edx;
+			uint32_t ebx;
+			uint32_t esp;
+			uint32_t ebp;
+			uint32_t esi;
+			uint32_t edi;
+		};
+	};
 	/* Do NOT change the order of the GPRs' definitions. */
 
 	//uint32_t eax, ecx, edx, ebx, esp, ebp, esi, edi;
-#define eax gpr[0]._32
+//#define eax gpr[0]._32
 #define ax  gpr[0]._16
 #define al  gpr[0]._8[0] 
-#define ecx gpr[1]._32
+//#define ecx gpr[1]._32
 #define cl	gpr[1]._8[0]
+/*
 #define edx gpr[2]._32
 #define ebx gpr[3]._32
 #define esp gpr[4]._32
 #define ebp gpr[5]._32
 #define esi gpr[6]._32
 #define edi gpr[7]._32
+*/
 	swaddr_t eip;
-
+	struct {
+		uint32_t addr;
+		uint16_t max;
+	} gdtr;	//Global Descriptor
+	struct {
+		uint8_t PE: 1;
+	} cr0;
+	union{
+		struct {
+			uint16_t index	:13;
+			uint8_t ti		:1;
+			uint8_t rpl		:2;
+		} sgr[6];	//
+		struct {
+			uint16_t cs;
+			uint16_t ss;
+			uint16_t ds;
+			uint16_t es;
+			uint16_t fs;
+			uint16_t gs;
+		};
+	};	//segment registers
 
 } CPU_state;
 extern CPU_state cpu;
