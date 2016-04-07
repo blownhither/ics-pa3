@@ -90,14 +90,14 @@ typedef struct {
 			uint16_t index	:13;
 			uint8_t ti		:1;
 			uint8_t rpl		:2;
-		} sgr[6];	//
+		} sgr[4];	//
 		struct {
 			uint16_t cs;
 			uint16_t ss;
 			uint16_t ds;
 			uint16_t es;
-			uint16_t fs;
-			uint16_t gs;
+			//uint16_t fs;	//unnecessary
+			//uint16_t gs;
 		};
 	};	//segment registers
 

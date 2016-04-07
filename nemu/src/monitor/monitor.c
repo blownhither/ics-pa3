@@ -87,6 +87,7 @@ void restart() {
 	/* Read the file with name `argv[1]' into ramdisk. */
 	init_ramdisk();
 #endif
+	cpu.cr0.PE = 1;	//read mode
 	init_eflags(); 
 	/* Read the entry code into memory. */
 	load_entry();
