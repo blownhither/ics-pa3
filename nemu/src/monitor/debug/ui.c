@@ -104,6 +104,9 @@ static int cmd_info(char *args){
 		printf("eip\t0x%-x\t%-d\t ( | |IP   )\n",cpu.eip,cpu.eip );
 		printf("elags\t0x%-x\t\t\t\n" , eflags.eflags_l);
 		print_eflags(); 
+		printf("gdtr\tbase\t0x%-x\tlimit\t0x%-x\n",cpu.gdtr.base, cpu.gdtr.limit);
+		printf("cr0\tPE %1x\n",cpu.cr0.PE);
+		printf("cs\t0x%-x\tss\t0x%-x\nds\t0x%-x\tes\t0x%-x\n",cpu.cs, cpu.ss, cpu.ds, cpu.es);
 	}
 	else if(!strcmp(args , "b" )|| !strcmp(args , "w")){
 		print_watchpoint_list(); 
