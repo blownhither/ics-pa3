@@ -50,6 +50,8 @@
 #include "string/cmps.h"
 #include "string/movs.h"
 
+#include "system/ldt.h"
+
 #include "misc/misc.h"
 
 #include "special/special.h"

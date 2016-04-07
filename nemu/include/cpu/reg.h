@@ -79,8 +79,8 @@ typedef struct {
 */
 	swaddr_t eip;
 	struct {
-		uint32_t addr;
-		uint16_t max;
+		uint32_t base;
+		uint16_t limit;
 	} gdtr;	//Global Descriptor
 	struct {
 		uint8_t PE: 1;
