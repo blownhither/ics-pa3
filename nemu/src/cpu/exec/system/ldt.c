@@ -7,6 +7,7 @@ make_helper(lgdt){	//0F 01 /2
 		cpu.gdtr.base &= 0xffffff;
 	}
 	return 4;
+	print_asm("lgdt %x",cpu.gdtr.base);
 }
 
 
