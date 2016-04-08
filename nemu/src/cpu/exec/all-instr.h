@@ -52,6 +52,7 @@
 
 #include "system/ldt.h"
 #include "system/mov_special.h"
+#include "system/ljmp.h"
 
 #include "misc/misc.h"
 
