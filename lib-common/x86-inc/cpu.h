@@ -19,6 +19,17 @@ typedef union CR0 {
 		uint32_t cache_disable       : 1;
 		uint32_t paging              : 1;
 	};
+	
+	struct {
+		uint32_t PE	:1;
+		uint32_t MP	:1;
+		uint32_t EM	:1;
+		uint32_t TS	:1;
+		uint32_t ET	:1;
+		uint32_t 	:26;
+		uint32_t PG	:1;
+	};
+	
 	uint32_t val;
 } CR0;
 

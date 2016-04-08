@@ -2,6 +2,8 @@
 #define __REG_H__
 
 #include "common.h"
+#include "../../lib-common/x86-inc/cpu.h"
+//cpu.h contains CR0 and CR3
 
 enum { R_EAX, R_ECX, R_EDX, R_EBX, R_ESP, R_EBP, R_ESI, R_EDI };
 enum { R_AX, R_CX, R_DX, R_BX, R_SP, R_BP, R_SI, R_DI };
@@ -41,8 +43,8 @@ typedef union {
 	uint32_t eflags_l;  
 }EFLAGS;
 EFLAGS eflags; 
-//extern EFLAGS eflags;  
-//enum{eax,ecx,edx,ebx,esp,ebp,esi,edi};
+
+
 typedef struct {
 	union{
 		union {//each GPR includes one of the three tpyes defined below, merged together brings benefits
@@ -82,9 +84,10 @@ typedef struct {
 		uint32_t base;
 		uint16_t limit;
 	} gdtr;	//Global Descriptor
-	struct {
-		uint8_t PE: 1;
-	} cr0;
+	
+	CR0 cr0;
+	CR3 cr3;
+	
 	union{
 		struct {
 			uint16_t index	:13;

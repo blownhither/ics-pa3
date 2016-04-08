@@ -51,6 +51,7 @@
 #include "string/movs.h"
 
 #include "system/ldt.h"
+#include "system/mov_special.h"
 
 #include "misc/misc.h"
 
