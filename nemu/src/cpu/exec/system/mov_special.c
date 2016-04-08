@@ -34,8 +34,8 @@ make_helper(mov_sr2r){		//8C
 make_helper(mov_r2sr){		//8E
 	decode_r_l(cpu.eip + 1);
 	uint8_t rm = (instr_fetch(cpu.eip + 1, 1) >> 3) & 7;
-	printf("instr_fetch(cpu.eip + 1, 1)=%x\n",(int)instr_fetch(cpu.eip + 1, 1));
+	printf("%d\n",rm);
 	cpu.sgr_val[rm] = op_src->val;
-	print_asm("mov %%%s, %s", sregs[rm], op_src->str);
+	print_asm("mov %%%s, %%%s", regsl[rm], sregs[rm]);
 	return 2;
 }
