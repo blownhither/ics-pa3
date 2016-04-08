@@ -1,8 +1,7 @@
 #include "cpu/exec/helper.h"
 #include "monitor/monitor.h"
 make_helper(mov_cr2r){	//0F 20
-	uint8_t op = instr_fetch(cpu.eip+1, 1);
-	printf("op=%x\n",op);
+	uint8_t op = instr_fetch(cpu.eip+2, 1);
 	//op = 0x11 + SPE_REG + REG
 	uint8_t reg = op & 7;
 	uint8_t spe_reg = (op>>3) & 7;
