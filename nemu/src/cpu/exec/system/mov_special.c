@@ -32,10 +32,12 @@ make_helper(mov_sr2r){		//8C
 }
 
 make_helper(mov_r2sr){		//8E
-	decode_r_l(cpu.eip + 1);
-	uint8_t rm = (instr_fetch(cpu.eip + 1, 1) >> 3) & 7;
-	printf("%d\n",rm);
-	cpu.sgr_val[rm] = op_src->val;
-	print_asm("mov %%%s, %%%s", regsl[rm], sregs[rm]);
+	//decode_r_l(cpu.eip + 1);
+	uint8_t op = instr_fetch(cpu.eip + 1, 1);
+	uint8_t sr = (op >> 3) & 7;
+	uint8_t r = op & 7;
+	printf("%d %d\n",sr,r);
+	cpu.sgr_val[sr] = cpu.gpr[r]._32;
+	print_asm("mov %%%s, %%%s", regsl[r], sregs[sr]);
 	return 2;
 }
