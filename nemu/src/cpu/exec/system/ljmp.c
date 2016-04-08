@@ -10,12 +10,12 @@ make_helper(ljmp){	//0xEA
 		//TODO:	#GP(0) 
 		
 		if(ops_decoded.is_data_size_16){
-			cpu.eip = instr_fetch(cpu.eip+1, 2);
 			cpu.cs = instr_fetch(cpu.eip+3, 2);
+			cpu.eip = instr_fetch(cpu.eip+1, 2);
 		}
 		else {
-			cpu.eip = instr_fetch(cpu.eip+1, 4);
 			cpu.cs = instr_fetch(cpu.eip+5, 2);
+			cpu.eip = instr_fetch(cpu.eip+1, 4);
 		}
 		print_asm("ljmp %x, %x",cpu.cs, cpu.eip);
 	}
