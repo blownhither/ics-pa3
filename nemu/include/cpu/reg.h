@@ -35,7 +35,7 @@ typedef struct {
 	uint32_t   :1; 
 	uint32_t RF:1; 
 	uint32_t VM:1;
-	uint32_t   :6; 
+	uint32_t   :6;
 	uint32_t   :8; 
 }EFLAGS_bit;
 typedef union {
