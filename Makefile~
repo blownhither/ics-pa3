@@ -56,11 +56,11 @@ count:
 	find . -name "*.[ch]"|xargs cat|grep -v ^$$|wc -l
 
 <<<<<<< HEAD
+USERPROG := obj/testcase/movsx
 
-USERPROG := obj/testcase/movzx_high
 =======
-USERPROG := obj/testcase/_cmp
->>>>>>> 65aec6eaae6b23498041bec87ec99581bf58c378
+USERPROG := obj/testcase/matrix-mul
+>>>>>>> refs/remotes/ori/master
 #ENTRY := $(USERPROG)
 
 #kernel version
