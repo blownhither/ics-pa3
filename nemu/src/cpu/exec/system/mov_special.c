@@ -9,7 +9,7 @@ make_helper(mov_cr2r){	//0F 20
 	uint8_t spe_reg = (op>>3) & 7;
 	assert(spe_reg == 0);
 	cpu.gpr[reg]._32 = cpu.cr0.val;
-	print_asm("mov cr0, %s", regsl[reg]);
+	print_asm("mov %%cr0, %s", regsl[reg]);
 	return 2;
 }
 
@@ -21,7 +21,7 @@ make_helper(mov_r2cr){	//0F 22
 	uint8_t spe_reg = (op>>3) & 7;
 	assert(spe_reg == 0);
 	cpu.cr0.val = cpu.gpr[reg]._32;
-	print_asm("mov %s, cr0", regsl[reg]);
+	print_asm("mov %s, %%cr0", regsl[reg]);
 	return 2;
 }
 
@@ -34,7 +34,8 @@ make_helper(mov_sr2r){		//8C
 make_helper(mov_r2sr){		//8E
 	decode_r_l(cpu.eip + 1);
 	uint8_t rm = (instr_fetch(cpu.eip + 1, 1) >> 3) & 7;
+	printf("instr_fetch(cpu.eip + 1, 1)=%x\n",(int)instr_fetch(cpu.eip + 1, 1));
 	cpu.sgr_val[rm] = op_src->val;
-	print_asm("mov %s, %s", sregs[rm], op_src->str);
+	print_asm("mov %%%s, %s", sregs[rm], op_src->str);
 	return 2;
 }
