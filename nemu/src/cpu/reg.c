@@ -7,6 +7,7 @@ CPU_state cpu;
 const char *regsl[] = {"eax", "ecx", "edx", "ebx", "esp", "ebp", "esi", "edi"};
 const char *regsw[] = {"ax", "cx", "dx", "bx", "sp", "bp", "si", "di"};
 const char *regsb[] = {"al", "cl", "dl", "bl", "ah", "ch", "dh", "bh"};
+const char *sregs[] = {"es", "cs", "ss", "ds", "fs", "gs"};
 
 bool parity_check(uint32_t a){
 	//return 1 when there are even bits of '1' 

@@ -89,18 +89,21 @@ typedef struct {
 	CR3 cr3;
 	
 	union{
+		union{
+			struct {
+				uint16_t index	:13;
+				uint8_t ti		:1;
+				uint8_t rpl		:2;
+			} sgr[6];
+			uint16_t sgr_val[6];
+		};
 		struct {
-			uint16_t index	:13;
-			uint8_t ti		:1;
-			uint8_t rpl		:2;
-		} sgr[4];	//
-		struct {
+			uint16_t es;	//0
 			uint16_t cs;
-			uint16_t ss;
+			uint16_t fs;
 			uint16_t ds;
-			uint16_t es;
-			//uint16_t fs;	//unnecessary
-			//uint16_t gs;
+			uint16_t ss;	//unnecessary
+			uint16_t gs;
 		};
 	};	//segment registers
 
@@ -121,5 +124,6 @@ static inline int check_reg_index(int index) {
 extern const char* regsl[];
 extern const char* regsw[];
 extern const char* regsb[];
+extern const char* sregs[];
 
 #endif
