@@ -105,7 +105,7 @@ static int cmd_info(char *args){
 		printf("elags\t0x%-x\t\t\t\n" , eflags.eflags_l);
 		print_eflags(); 
 		printf("gdtr\tbase\t0x%-x\tlimit\t0x%-x\n",cpu.gdtr.base, cpu.gdtr.limit);
-		printf("cr0\tPE %1x\n",cpu.cr0.PE);
+		printf("cr0\tPG\tET\tTS\tEM\tMP\tPE\n\t%1x\t%1x\t%1x\t%1x\t%1x\t%1x\n",cpu.cr0.PG,cpu.cr0.ET,cpu.cr0.TS,cpu.cr0.EM,cpu.cr0.MP,cpu.cr0.PE);
 		printf("cs\t0x%-x\tss\t0x%-x\nds\t0x%-x\tes\t0x%-x\n",cpu.cs, cpu.ss, cpu.ds, cpu.es);
 	}
 	else if(!strcmp(args , "b" )|| !strcmp(args , "w")){
