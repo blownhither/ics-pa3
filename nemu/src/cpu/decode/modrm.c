@@ -1,6 +1,8 @@
 #include "cpu/decode/modrm.h"
 #include "cpu/helper.h"
 
+uint32_t current_sreg;
+
 int load_addr(swaddr_t eip, ModR_M *m, Operand *rm) {
 	assert(m->mod != 3);
 
@@ -90,6 +92,8 @@ int read_ModR_M(swaddr_t eip, Operand *rm, Operand *reg) {
 	reg->reg = m.reg;
 
 	if(m.mod == 3) {
+		current_sreg = DS_NUM;	//TODO: check
+	
 		rm->type = OP_TYPE_REG;
 		rm->reg = m.R_M;
 		switch(rm->size) {
@@ -105,11 +109,17 @@ int read_ModR_M(swaddr_t eip, Operand *rm, Operand *reg) {
 			case 4: sprintf(rm->str, "%%%s", regsl[m.R_M]); break;
 		}
 #endif
+		
+
 		return 1;
 	}
 	else {
+		current_sreg = SS_NUM;	//TODO: check
 		int instr_len = load_addr(eip, &m, rm);
 		rm->val = swaddr_read(rm->addr, rm->size);
+		
+		
+		
 		return instr_len;
 	}
 }

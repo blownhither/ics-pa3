@@ -44,6 +44,15 @@ typedef union {
 }EFLAGS;
 EFLAGS eflags; 
 
+/* Ma Ziyin: the 16bit segment selector*/
+typedef union SegmentSelector {
+	uint16_t val;
+	struct {
+		uint16_t RPL	: 2;
+		uint16_t TI		: 1;
+		uint16_t index	: 13;
+	};
+} SegSelc;
 
 typedef struct {
 	union{
@@ -94,23 +103,26 @@ typedef struct {
 				uint16_t index	:13;
 				uint8_t ti		:1;
 				uint8_t rpl		:2;
-			} sgr[6];
-			uint16_t sgr_val[6];
+			} segr[6];
+			uint16_t segr_val[6];
 		};
 		struct {
-			uint16_t es;	//0
+			uint16_t es;
 			uint16_t cs;
 			uint16_t fs;
 			uint16_t ds;
-			uint16_t ss;	//unnecessary
+			uint16_t ss;
 			uint16_t gs;
+			
 		};
 	};	//segment registers
 
 } CPU_state;
 extern CPU_state cpu;
+
 enum{EF_CF=0 , EF_PF=2 , EF_AF=4 , EF_ZF=6 , EF_SF , EF_TF , EF_IF , EF_DF , EF_OF , EF_OL , EF_IP , EF_NT , EF_RF=16 , EF_VM=17}; 
 
+enum{ES_NUM=0, CS_NUM=1, SS_NUM=2, DS_NUM=3, FS_NUM=4, GS_NUM=5};
 
 static inline int check_reg_index(int index) {
 	assert(index >= 0 && index < 8);

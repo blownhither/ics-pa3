@@ -7,9 +7,12 @@
 /* All function defined with 'make_helper' return the length of the operation. */
 #define make_helper(name) int name(swaddr_t eip)
 
+extern lnaddr_t seg_translate(swaddr_t addr, size_t len, uint8_t cur_segr);
 
 static inline uint32_t instr_fetch(swaddr_t addr, size_t len) {
-	return swaddr_read(addr, len);
+	lnaddr_t lnaddr = seg_translate(addr, len, CS_NUM);
+	return lnaddr_read(lnaddr, len);
+	//return swaddr_read(addr, len);
 }
 
 /* Instruction Decode and EXecute */

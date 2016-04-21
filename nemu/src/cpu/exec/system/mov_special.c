@@ -28,6 +28,7 @@ make_helper(mov_r2cr){	//0F 22
 //The segment register bit assignments are ES=0,
 //CS=1, SS=2, DS=3, FS=4, and GS=5.
 make_helper(mov_sr2r){		//8C
+	panic("please implement mov_sr2r\n");
 	return 2;
 }
 
@@ -37,7 +38,7 @@ make_helper(mov_r2sr){		//8E
 	uint8_t sr = (op >> 3) & 7;
 	uint8_t r = op & 7;
 	printf("%d %d\n",sr,r);
-	cpu.sgr_val[sr] = cpu.gpr[r]._32;
+	cpu.segr_val[sr] = cpu.gpr[r]._32;
 	print_asm("mov %%%s, %%%s", regsl[r], sregs[sr]);
 	return 2;
 }
