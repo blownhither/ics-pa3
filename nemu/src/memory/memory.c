@@ -1,4 +1,5 @@
 #include "common.h"
+#include "segReg.h"
 #include "cpu/reg.h"
 #include "../../lib-common/x86-inc/mmu.h"
 

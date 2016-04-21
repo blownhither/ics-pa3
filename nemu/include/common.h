@@ -39,4 +39,6 @@ typedef union {
 #define false 0
 #define true 1
 
+uint32_t current_sreg;
+
 #endif
