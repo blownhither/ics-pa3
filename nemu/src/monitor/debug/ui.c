@@ -141,7 +141,7 @@ static int cmd_x(char *args){
 		printf("Physical address 0x%x is outside of the physical memory!\n" , addr); 
 		return 0; 
 	}
-	printf("0x%x <addr>:\t0x%x\t",addr,swaddr_read(addr,1));
+	printf("0x%x <addr>:\t0x%x\t",addr,dram_read(addr,1));
 	for(i=1;i<n;i++){ 
 		if(i%8==0&&i!=0){
 			printf("\n0x%x <addr+%d>:\t",addr+i,i);
