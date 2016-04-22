@@ -58,7 +58,9 @@ lnaddr_t seg_translate(swaddr_t addr, size_t len, uint8_t cur_segr) {
 }
 
 uint32_t swaddr_read(swaddr_t addr, size_t len) {
+#ifdef DEBUG
 	assert(len == 1 || len == 2 || len == 4);
+#endif
 	lnaddr_t lnaddr;
 	if(cpu.cr0.PE){
 		lnaddr = seg_translate(addr, len, current_sreg);	
