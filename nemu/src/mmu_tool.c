@@ -1,6 +1,4 @@
 #include "nemu.h"
-//#include "../../lib-common/x86-inc/mmu.h"
-
 
 /*
 uint32_t segDesc_to_base(lnaddr_t desc_addr) {
