@@ -60,8 +60,12 @@ lnaddr_t seg_translate(swaddr_t addr, size_t len, uint8_t cur_segr) {
 uint32_t swaddr_read(swaddr_t addr, size_t len) {
 	assert(len == 1 || len == 2 || len == 4);
 	lnaddr_t lnaddr;
-	if(cpu.cr0.PE)
+	if(cpu.cr0.PE){
 		lnaddr = seg_translate(addr, len, current_sreg);
+#ifdef MZYDEBUG
+		printf("cpu,cr0,PE=%x\n",cpu.cr0.PE);
+#endif	
+	}
 	else 
 		lnaddr = addr;
 	return lnaddr_read(lnaddr, len);
