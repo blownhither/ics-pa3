@@ -16,6 +16,7 @@ make_helper(ljmp){	//0xEA
 			cpu.cs = instr_fetch(cpu.eip+5, 2);
 			cpu.eip = instr_fetch(cpu.eip+1, 4);
 		}
+		load_desc_cache(CS_NUM);
 		print_asm("ljmp $0x%x, $0x%x",cpu.cs, cpu.eip);
 	}
 	//TODO: check
