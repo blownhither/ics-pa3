@@ -44,7 +44,7 @@ uint32_t lnaddr_read(lnaddr_t addr, size_t len) {
 void lnaddr_write(lnaddr_t addr, size_t len, uint32_t data) {
 	hwaddr_write(addr, len, data);
 }
-
+#define MZYDEBUG
 lnaddr_t seg_translate(swaddr_t addr, size_t len, uint8_t cur_segr) {
 	assert(!cpu.segr[cur_segr].ti);		//global descriptor
 	lnaddr_t desc_addr = cpu.gdtr.base + (cpu.segr[cur_segr].index << 3);
