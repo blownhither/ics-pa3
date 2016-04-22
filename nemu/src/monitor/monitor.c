@@ -88,8 +88,8 @@ void restart() {
 	init_ramdisk();
 #endif
 	cpu.cr0.PE = 0;	//real mode
-	//cpu.cs.base = 0;
-	//cpu.cs.limit = 0xffffffff;
+	cpu.desc_cache[CS_NUM].base = 0;
+	cpu.desc_cache[CS_NUM].limit = 0xffffffff;
 	init_eflags(); 
 	/* Read the entry code into memory. */
 	load_entry();

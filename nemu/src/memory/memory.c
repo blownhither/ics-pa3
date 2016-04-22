@@ -45,16 +45,14 @@ void lnaddr_write(lnaddr_t addr, size_t len, uint32_t data) {
 	hwaddr_write(addr, len, data);
 }
 #define MZYDEBUG
+//TODO:
 lnaddr_t seg_translate(swaddr_t addr, size_t len, uint8_t cur_segr) {
-	assert(!cpu.segr[cur_segr].ti);		//global descriptor
-	lnaddr_t desc_addr = cpu.gdtr.base + (cpu.segr[cur_segr].index << 3);
-	lnaddr_t base = segDesc_to_base(desc_addr);
-	lnaddr_t limit =segDesc_to_limit(desc_addr);
 #ifdef MZYDEBUG
-	printf("base:0x%x limit:0x%x addr:0x%x\ndesc_addr:0x%x\n",base,limit,addr,desc_addr);
+	Assert(!cpu.segr[cur_segr].ti, "Local Descriptor table required.\n");		//global descriptor
+	//access DescCache 
+	Assert(cpu.desc_cache[cur_segr].limit > addr+len-1, "Segment fault: access out of limit.");
 #endif
-	assert(addr < limit);
-	return base + addr;
+	return cpu.desc_cache[cur_segr].base + addr;
 }
 
 uint32_t swaddr_read(swaddr_t addr, size_t len) {

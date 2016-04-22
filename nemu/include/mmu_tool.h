@@ -1,22 +1,27 @@
-#include "nemu.h"
+#ifndef __MMU_TOOL_H
+#define __MMU_TOOL_H
+
+//#include "nemu.h"
 #include "../../lib-common/x86-inc/mmu.h"
 
-static inline uint32_t segDesc_to_base(lnaddr_t desc_addr) {
-	uint8_t buf[8];
-	int i;
-	for(i=0;i<8;++i){
-		buf[i] = lnaddr_read(desc_addr + i, 1);
-	}
-	SegDesc *p = (SegDesc *)buf;
-	return p->base_15_0 + (p->base_23_16<<16) + (p->base_31_24<<24);
-}
+/* Ma Ziyin: the 16bit segment selector*/
+typedef union SegmentSelector {
+	uint16_t val;
+	struct {
+		uint16_t RPL	: 2;
+		uint16_t TI		: 1;
+		uint16_t index	: 13;
+	};
+} SegSelc;
 
-static inline uint32_t segDesc_to_limit(lnaddr_t desc_addr) {
-	uint8_t buf[8];
-	int i;
-	for(i=0;i<8;++i){
-		buf[i] = lnaddr_read(desc_addr + i, 1);
-	}
-	SegDesc *p = (SegDesc *)buf;
-	return p->limit_15_0 + (p->limit_19_16<<16);
-}
+typedef struct SegmentDescriptorCache {
+	uint64_t base;
+	uint32_t limit;
+	uint8_t  DPL;	//segment access requirement
+} DescCache;
+
+extern uint32_t segDesc_to_base(lnaddr_t desc_addr) ;
+extern uint32_t segDesc_to_limit(lnaddr_t desc_addr) ;
+
+
+#endif

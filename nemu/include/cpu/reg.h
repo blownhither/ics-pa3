@@ -3,6 +3,7 @@
 
 #include "common.h"
 #include "../../lib-common/x86-inc/cpu.h"
+#include "mmu_tool.h"
 //cpu.h contains CR0 and CR3
 
 enum { R_EAX, R_ECX, R_EDX, R_EBX, R_ESP, R_EBP, R_ESI, R_EDI };
@@ -43,16 +44,6 @@ typedef union {
 	uint32_t eflags_l;  
 }EFLAGS;
 EFLAGS eflags; 
-
-/* Ma Ziyin: the 16bit segment selector*/
-typedef union SegmentSelector {
-	uint16_t val;
-	struct {
-		uint16_t RPL	: 2;
-		uint16_t TI		: 1;
-		uint16_t index	: 13;
-	};
-} SegSelc;
 
 typedef struct {
 	union{
@@ -116,6 +107,8 @@ typedef struct {
 			
 		};
 	};	//segment registers
+
+	DescCache desc_cache[6];
 
 } CPU_state;
 extern CPU_state cpu;
