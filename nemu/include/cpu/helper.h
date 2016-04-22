@@ -10,7 +10,11 @@
 extern lnaddr_t seg_translate(swaddr_t addr, size_t len, uint8_t cur_segr);
 
 static inline uint32_t instr_fetch(swaddr_t addr, size_t len) {
-	lnaddr_t lnaddr = seg_translate(addr, len, CS_NUM);
+	lnaddr_t lnaddr;
+	if(cpu.cr0.PE)
+		lnaddr = seg_translate(addr, len, CS_NUM);
+	else 
+		lnaddr = addr;
 	return lnaddr_read(lnaddr, len);
 	//return swaddr_read(addr, len);
 }
