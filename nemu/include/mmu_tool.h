@@ -19,9 +19,11 @@ typedef struct SegmentDescriptorCache {
 	uint32_t limit;
 	uint8_t  DPL;	//segment access requirement
 } DescCache;
-
+/*
 extern uint32_t segDesc_to_base(lnaddr_t desc_addr) ;
 extern uint32_t segDesc_to_limit(lnaddr_t desc_addr) ;
-
+*/
+extern void load_desc_cache(uint16_t cur_sreg);
+extern lnaddr_t seg_translate(swaddr_t addr, size_t len, uint8_t cur_segr);
 
 #endif
