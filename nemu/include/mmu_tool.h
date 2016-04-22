@@ -15,7 +15,7 @@ typedef union SegmentSelector {
 } SegSelc;
 
 typedef struct SegmentDescriptorCache {
-	uint64_t base;
+	uint32_t base;
 	uint32_t limit;
 	uint8_t  DPL;	//segment access requirement
 } DescCache;
