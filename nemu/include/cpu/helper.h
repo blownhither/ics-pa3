@@ -7,12 +7,19 @@
 /* All function defined with 'make_helper' return the length of the operation. */
 #define make_helper(name) int name(swaddr_t eip)
 
-extern lnaddr_t seg_translate(swaddr_t addr, size_t len, uint8_t cur_segr);
+lnaddr_t seg_translate(swaddr_t addr, size_t len, uint8_t cur_segr);
 
 static inline uint32_t instr_fetch(swaddr_t addr, size_t len) {
 	lnaddr_t lnaddr;
-	if(cpu.cr0.PE)
-		lnaddr = seg_translate(addr, len, CS_NUM);
+	if(cpu.cr0.PE){
+		lnaddr = seg_translate(addr, len, CS_NUM);	//undefined reference?
+/*
+#ifdef MZYDEBUG
+		Assert(cpu.desc_cache[CS_NUM].limit > addr+len-1, "Segment fault: access out of limit.");
+#endif
+		lnaddr = cpu.desc_cache[CS_NUM].base + addr;
+*/
+	}
 	else 
 		lnaddr = addr;
 	return lnaddr_read(lnaddr, len);

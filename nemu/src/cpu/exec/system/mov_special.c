@@ -1,5 +1,6 @@
 #include "cpu/exec/helper.h"
 #include "monitor/monitor.h"
+#include "mmu_tool.h"
 
 make_helper(mov_cr2r){	//0F 20
 	assert(cpu.cr0.PE == 0);// || eflags.VM == 1);
@@ -39,6 +40,7 @@ make_helper(mov_r2sr){		//8E
 	uint8_t r = op & 7;
 	printf("%d %d\n",sr,r);
 	cpu.segr_val[sr] = cpu.gpr[r]._32;
+	load_desc_cache(sr);
 	print_asm("mov %%%s, %%%s", regsl[r], sregs[sr]);
 	return 2;
 }
