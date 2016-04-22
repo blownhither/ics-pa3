@@ -9,6 +9,7 @@
 #include <readline/history.h>
 
 void cpu_exec(uint32_t);
+ uint32_t dram_read(hwaddr_t addr, size_t len);
 
 static int cmd_si(char *args){//int_cpu_exec
 	//convert char arg into int arg
@@ -145,7 +146,7 @@ static int cmd_x(char *args){
 		if(i%8==0&&i!=0){
 			printf("\n0x%x <addr+%d>:\t",addr+i,i);
 	 	} 
-		printf("0x%x\t",swaddr_read(addr+i,1));
+		printf("0x%x\t",dram_read(addr+i,1));
 	} 
 	printf("\n");
 	return 0;
