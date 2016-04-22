@@ -51,7 +51,7 @@ lnaddr_t seg_translate(swaddr_t addr, size_t len, uint8_t cur_segr) {
 	lnaddr_t base = segDesc_to_base(desc_addr);
 	lnaddr_t limit =segDesc_to_limit(desc_addr);
 #ifdef MZYDEBUG
-	printf("base:0x%x limit:0x%x addr:0x%x\n",base,limit,addr);
+	printf("base:0x%x limit:0x%x addr:0x%x\ndesc_addr:0x%x\n",base,limit,addr,desc_addr);
 #endif
 	assert(addr < limit);
 	return base + addr;
