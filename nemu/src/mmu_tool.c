@@ -37,7 +37,7 @@ lnaddr_t seg_translate(swaddr_t addr, size_t len, uint8_t cur_segr) {
 void load_desc_cache(uint16_t cur_sreg) {
 	uint8_t buf[8];
 	int i;
-	lnaddr_t desc_addr = cpu.gdtr.base + (cpu.segr[cur_sreg].index << 3);
+	lnaddr_t desc_addr = cpu.gdtr.base + (cpu.segr[cur_sreg].index );//<< 3);
 	for(i=0;i<8;++i){
 		buf[i] = lnaddr_read(desc_addr + i, 1);
 	}
