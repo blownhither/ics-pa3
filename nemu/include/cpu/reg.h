@@ -66,12 +66,14 @@ typedef struct {
 	/* Do NOT change the order of the GPRs' definitions. */
 
 	//uint32_t eax, ecx, edx, ebx, esp, ebp, esi, edi;
-//#define eax gpr[0]._32
+
 #define ax  gpr[0]._16
 #define al  gpr[0]._8[0] 
-//#define ecx gpr[1]._32
+
 #define cl	gpr[1]._8[0]
 /*
+#define eax gpr[0]._32
+#define ecx gpr[1]._32
 #define edx gpr[2]._32
 #define ebx gpr[3]._32
 #define esp gpr[4]._32
@@ -93,7 +95,7 @@ typedef struct {
 			struct {
 				uint16_t index	:13;
 				uint8_t ti		:1;
-				uint8_t rpl		:2;
+				uint8_t RPL		:2;
 			} segr[6];
 			uint16_t segr_val[6];
 		};

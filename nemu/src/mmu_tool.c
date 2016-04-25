@@ -29,7 +29,9 @@ lnaddr_t seg_translate(swaddr_t addr, size_t len, uint8_t cur_segr) {
 	Assert(!cpu.segr[cur_segr].ti, "Segment fault: Local Descriptor table required.\n");		//global descriptor
 	//access DescCache 
 	//printf("limit=0x%x, addr=0x%x\n", cpu.desc_cache[cur_segr].limit<<12, addr);
-	Assert((cpu.desc_cache[cur_segr].limit<<12) > addr+len-1, "Segment fault: access out of limit.");
+	Assert((cpu.desc_cache[cur_segr].limit<<12) > addr+len-1, "Segment fault: access out of limit.\n");
+	Assert(cpu.desc_cache[cur_segr].DPL >= cpu.segr[cur_segr].RPL, "Segment fault: TSS DPL must be ≥ TSS selector RPL.\n");
+	//DPL >= CPL (current process)
 #endif
 
 	return cpu.desc_cache[cur_segr].base + addr;
