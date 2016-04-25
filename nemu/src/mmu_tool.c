@@ -26,7 +26,7 @@ uint32_t segDesc_to_limit(lnaddr_t desc_addr) {
 lnaddr_t seg_translate(swaddr_t addr, size_t len, uint8_t cur_segr) {
 
 #ifdef MZYDEBUG
-	Assert(!cpu.segr[cur_segr].ti, "Segmetn fault: Local Descriptor table required.\n");		//global descriptor
+	Assert(!cpu.segr[cur_segr].ti, "Segment fault: Local Descriptor table required.\n");		//global descriptor
 	//access DescCache 
 	Assert(cpu.desc_cache[cur_segr].limit > addr+len-1, "Segment fault: access out of limit.");
 #endif
