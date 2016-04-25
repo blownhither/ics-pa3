@@ -8,7 +8,7 @@ make_helper(lgdt){	//0F 01 /2
 	if(ops_decoded.is_data_size_16){
 		cpu.gdtr.base &= 0xffffff;
 	}
-	print_asm("lgdt %x",cpu.gdtr.base);
+	print_asm("lgdt %x",addr);
 	return 6;	//TODO: always 6?
 }
 
