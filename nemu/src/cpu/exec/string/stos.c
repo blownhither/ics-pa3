@@ -1,11 +1,12 @@
 #include "cpu/exec/helper.h"
 
 make_helper(exec);
+lnaddr_t seg_translate(swaddr_t addr, size_t len, uint8_t cur_segr);
 
 make_helper(stos_b) {
-	const int ES = 0;	//TODO: check ES
-	
-	swaddr_write(ES + cpu.edi, 1, cpu.al);
+	//const int ES = 0;	//TODO: check ES
+	lnaddr_t addr = seg_translate(cpu.edi, 1, ES_NUM);
+	lnaddr_write(addr, 1, cpu.al);
 	cpu.edi += eflags.eflags.DF? -1:1;
 	return 1;
 }
