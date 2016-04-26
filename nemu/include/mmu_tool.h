@@ -19,6 +19,17 @@ typedef struct SegmentDescriptorCache {
 	uint32_t limit;
 	uint8_t  DPL;	//segment access requirement
 } DescCache;
+
+
+typedef union VirtualPageNo {
+	uint32_t val;
+	struct {
+		uint32_t offset	: 12;
+		uint32_t pt		: 10;
+		uint32_t pi		: 10;
+	};	
+} VPN;
+
 /*
 extern uint32_t segDesc_to_base(lnaddr_t desc_addr) ;
 extern uint32_t segDesc_to_limit(lnaddr_t desc_addr) ;

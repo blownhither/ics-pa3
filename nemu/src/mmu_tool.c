@@ -1,4 +1,5 @@
 #include "nemu.h"
+#include "../../lib-common/x86-inc/mmu.h"
 
 /*
 uint32_t segDesc_to_base(lnaddr_t desc_addr) {
@@ -51,5 +52,11 @@ void load_desc_cache(uint16_t cur_sreg) {
 }
 
 hwaddr_t page_translate(lnaddr_t addr) {
-	return addr;	
+	VPN vpn;
+	PDE pde;
+	PTE pte;
+	vpn.val = addr;
+	pde.val = hwaddr_read(cpu.cr3.base + (vpn.pi << 3), 4);
+	pte.val = hwaddr_read((pde.page_frame + (vpn.pt << 3)) << 12, 4);
+	return (pte.page_frame << 12) + vpn.offset;
 }
