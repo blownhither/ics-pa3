@@ -7,6 +7,7 @@ make_helper(stos_b) {
 	lnaddr_t addr = seg_translate(cpu.edi, 1, ES_NUM);
 	lnaddr_write(addr, 1, cpu.al);
 	cpu.edi += eflags.eflags.DF? -1:1;
+	print_asm("%%ax,%%es:(%%edi)");
 	return 1;
 }
 
@@ -22,5 +23,6 @@ make_helper(stos_v) {
 		lnaddr_write(addr, 4, cpu.eax);
 		cpu.edi += eflags.eflags.DF? -4:4;
 	}
+	print_asm("%%eax,%%es:(%%edi)");
 	return 1;
 }
