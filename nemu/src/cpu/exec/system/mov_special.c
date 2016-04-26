@@ -26,6 +26,7 @@ make_helper(mov_r2cr){	//0F 22
 		print_asm("mov %s, %%cr0", regsl[reg]);
 	}
 	else if(spe_reg == 3){
+		printf("moving to cr3!\n");
 		cpu.cr3.val = cpu.gpr[reg]._32;
 		print_asm("mov %s, %%cr3", regsl[reg]);
 	}

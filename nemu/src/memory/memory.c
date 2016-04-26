@@ -60,7 +60,7 @@ void lnaddr_write(lnaddr_t addr, size_t len, uint32_t data) {
 		assert(0);
 	}
 	else {
-		printf("do page_translate!");
+		printf("do page_translate!\n");
 		hwaddr_t hwaddr = page_translate(addr);
 		return hwaddr_write(hwaddr, len, data);
 	}

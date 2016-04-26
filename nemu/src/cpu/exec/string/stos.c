@@ -18,7 +18,6 @@ make_helper(stos_v) {
 		cpu.edi += eflags.eflags.DF? -2:2;
 	}
 	else{
-
 		addr = seg_translate(cpu.edi, 4, ES_NUM);
 		lnaddr_write(addr, 4, cpu.eax);
 		cpu.edi += eflags.eflags.DF? -4:4;
