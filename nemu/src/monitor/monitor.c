@@ -88,6 +88,7 @@ void restart() {
 	init_ramdisk();
 #endif
 	cpu.cr0.PE = 0;	//real mode
+	cpu.cr0.PG = 0;	//no paging
 	cpu.desc_cache[CS_NUM].base = 0;
 	cpu.desc_cache[CS_NUM].limit = 0xffffffff;
 	init_eflags(); 
