@@ -48,7 +48,7 @@ make_helper(mov_r2sr){		//8E
 	uint8_t op = instr_fetch(cpu.eip + 1, 1);
 	uint8_t sr = (op >> 3) & 7;
 	uint8_t r = op & 7;
-	//printf("%d %d\n",sr,r);
+	printf("%d %d\n",sr,r);
 	cpu.segr_val[sr] = cpu.gpr[r]._32;
 	load_desc_cache(sr);
 	print_asm("mov %%%s, %%%s", regsl[r], sregs[sr]);
