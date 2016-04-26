@@ -46,6 +46,7 @@ uint32_t lnaddr_read(lnaddr_t addr, size_t len) {
 		assert(0);
 	}
 	else {
+		printf("do page_translate!");
 		hwaddr_t hwaddr = page_translate(addr);
 		return hwaddr_read(hwaddr, len);
 	}
