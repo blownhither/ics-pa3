@@ -50,4 +50,6 @@ void load_desc_cache(uint16_t cur_sreg) {
 		p->base_15_0 + (p->base_23_16<<16) + (p->base_31_24<<24);
 }
 
-
+hwaddr_t page_translate(lnaddr_t addr) {
+	return addr;	
+}
