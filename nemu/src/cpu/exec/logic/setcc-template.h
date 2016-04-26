@@ -33,7 +33,7 @@ static void do_execute () {
 	 * in PA will test the flags updated by this instruction.
 	 */
 
-	print_asm_template1();
+	print_asm("setcc");
 }
 
 make_instr_helper(rm)

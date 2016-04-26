@@ -9,7 +9,8 @@ kernel_START_OBJ := $(kernel_OBJ_DIR)/start.o
 kernel_MM_MALLOC_OBJ := $(kernel_SRC_DIR)/memory/mm_malloc.o
 
 #kernel_LDFLAGS := -m elf_i386 -e start -Ttext=0x00100000 
-kernel_LDFLAGS := -m elf_i386 -e start -Ttext=0xc0100000
+#kernel_LDFLAGS := -m elf_i386 -e start -Ttext=0xc0100000
+kernel_LDFLAGS := -m elf_i386 -e start 
 
 $(kernel_BIN): $(kernel_START_OBJ) $(kernel_MM_MALLOC_OBJ) \
 	$(filter-out $(kernel_START_OBJ), $(kernel_OBJS)) $(NEWLIBC)
