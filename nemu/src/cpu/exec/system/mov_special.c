@@ -20,9 +20,14 @@ make_helper(mov_r2cr){	//0F 22
 	//op = 0x11 + SPE_REG + REG
 	uint8_t reg = op & 7;
 	uint8_t spe_reg = (op>>3) & 7;
-	assert(spe_reg == 0);
-	cpu.cr0.val = cpu.gpr[reg]._32;
-	print_asm("mov %s, %%cr0", regsl[reg]);
+	if(spe_reg == 0){
+		cpu.cr0.val = cpu.gpr[reg]._32;
+		print_asm("mov %s, %%cr0", regsl[reg]);
+	}
+	else if(spe_reg == 3){
+		cpu.cr3.val = cpu.gpr[reg]._32;
+		print_asm("mov %s, %%cr3", regsl[reg]);
+	}
 	return 2;
 }
 
