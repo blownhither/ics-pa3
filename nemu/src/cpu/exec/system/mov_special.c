@@ -29,6 +29,9 @@ make_helper(mov_r2cr){	//0F 22
 		cpu.cr3.val = cpu.gpr[reg]._32;
 		print_asm("mov %s, %%cr3", regsl[reg]);
 	}
+	else{
+		assert(0);
+	}
 	return 2;
 }
 
