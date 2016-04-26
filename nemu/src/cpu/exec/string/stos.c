@@ -20,11 +20,12 @@ make_helper(stos_v) {
 	}
 	else{
 		addr = seg_translate(cpu.edi, 4, ES_NUM);
+		assert(cpu.edi == addr);
 		lnaddr_write(addr, 4, cpu.eax);
 		cpu.edi += eflags.eflags.DF? -4:4;
 		printf("stos: addr=0x%x, eax=0x%x\n", addr, cpu.eax);
 	}
-	assert(cpu.edi == addr);
+	
 	print_asm("%%eax,%%es:(%%edi)");
 	return 1;
 }
