@@ -53,7 +53,17 @@ uint32_t lnaddr_read(lnaddr_t addr, size_t len) {
 }
 
 void lnaddr_write(lnaddr_t addr, size_t len, uint32_t data) {
-	hwaddr_write(addr, len, data);
+	if(!(cpu.cr0.PE && cpu.cr0.PG))
+		return hwaddr_write(addr, len, data);
+	if ( 0 ) { /*data cross the page boundary*/
+		/* this is a special case, you can handle it later. */
+		assert(0);
+	}
+	else {
+		printf("do page_translate!");
+		hwaddr_t hwaddr = page_translate(addr);
+		return hwaddr_write(hwaddr, len, data);
+	}
 }
 
 uint32_t swaddr_read(swaddr_t addr, size_t len) {
