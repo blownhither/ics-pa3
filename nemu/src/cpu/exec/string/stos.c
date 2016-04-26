@@ -4,6 +4,7 @@ make_helper(exec);
 
 make_helper(stos_b) {
 	const int ES = 0;	//TODO: check ES
+	
 	swaddr_write(ES + cpu.edi, 1, cpu.al);
 	cpu.edi += eflags.eflags.DF? -1:1;
 	return 1;
