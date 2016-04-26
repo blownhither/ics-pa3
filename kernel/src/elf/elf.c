@@ -41,7 +41,7 @@ uint32_t loader() {
 			/*  read the content of the segment from the ELF file 
 			 * to the memory region [VirtAddr, VirtAddr + FileSiz)
 			 */
-			uint32_t paddr = ph->p_vaddr;
+			uint32_t paddr = ph->p_vaddr; 
 #ifdef IA32_PAGE 
 			paddr = mm_malloc(ph->p_vaddr, ph->p_filesz);
 #endif
