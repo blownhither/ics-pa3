@@ -15,16 +15,16 @@ make_instr_helper(rm2r)
 
 make_helper(concat(mov_a2moffs_, SUFFIX)) {
 	swaddr_t addr = instr_fetch(eip + 1, 4);
-//	MEM_W(addr, REG(R_EAX));
-	swaddr_write(addr , 4 , REG(R_EAX)); 
+	MEM_W(addr, REG(R_EAX));
+	//swaddr_write(addr , 4 , REG(R_EAX)); 
 	print_asm("mov" str(SUFFIX) " %%%s,0x%x", REG_NAME(R_EAX), addr);
 	return 5;
 }
 
 make_helper(concat(mov_moffs2a_, SUFFIX)) {
 	swaddr_t addr = instr_fetch(eip + 1, 4);
-	//REG(R_EAX) = MEM_R(addr);
-	cpu.eax = swaddr_read(addr, DATA_BYTE);
+	REG(R_EAX) = MEM_R(addr);
+	//cpu.eax = swaddr_read(addr, DATA_BYTE);
 	//Log("addr=0x%x, eax=0x%x", addr, cpu.eax);
 	print_asm("mov" str(SUFFIX) " (0x%x),%%%s", addr, REG_NAME(R_EAX));
 	return 5;
