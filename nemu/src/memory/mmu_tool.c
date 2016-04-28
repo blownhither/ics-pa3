@@ -33,7 +33,7 @@ lnaddr_t seg_translate(swaddr_t addr, size_t len, uint8_t cur_segr) {
 		printf("limit=0x%x, addr=0x%x\n", cpu.desc_cache[cur_segr].limit<<12, addr);
 	Assert((cpu.desc_cache[cur_segr].limit<<12) > addr+len-1, "Segment fault: access out of limit at 0x%x.\n", cpu.desc_cache[cur_segr].limit<<12);
 	Assert(cpu.desc_cache[cur_segr].DPL >= cpu.segr[cur_segr].RPL, "Segment fault: TSS DPL must be ≥ TSS selector RPL.\n");
-	//DPL >= CPL (current process)
+	//DPL >= CPL (current process) the same with RPL
 	/*
 	if(cur_segr != CS_NUM){
 		printf("base=0x%x, limit=0x%x, addr=0x%x\n",cpu.desc_cache[cur_segr].base, cpu.desc_cache[cur_segr].limit<<12, addr);
