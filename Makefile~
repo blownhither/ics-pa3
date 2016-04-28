@@ -55,12 +55,9 @@ ROOT=`pwd`
 count: 
 	find . -name "*.[ch]"|xargs cat|grep -v ^$$|wc -l
 
-<<<<<<< HEAD
+
 USERPROG := obj/testcase/movsx
 
-=======
-USERPROG := obj/testcase/matrix-mul
->>>>>>> refs/remotes/ori/master
 #ENTRY := $(USERPROG)
 
 #kernel version
