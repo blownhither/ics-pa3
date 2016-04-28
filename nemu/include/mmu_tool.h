@@ -41,7 +41,7 @@ extern uint32_t segDesc_to_limit(lnaddr_t desc_addr) ;
 extern void load_desc_cache(uint16_t cur_sreg);
 lnaddr_t seg_translate(swaddr_t addr, size_t len, uint8_t cur_segr);
 hwaddr_t page_translate(lnaddr_t addr);
-bool search_tlb(lnaddr_t addr, hwaddr_t *ppn);
+hwaddr_t search_tlb(lnaddr_t addr);
 void init_tlb();
 
 #endif

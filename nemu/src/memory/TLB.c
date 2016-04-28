@@ -38,20 +38,18 @@ int load_tlb(lnaddr_t addr){
 	return i;
 }
 
-bool search_tlb(lnaddr_t addr, hwaddr_t *ppn){
+hwaddr_t search_tlb(lnaddr_t addr){
 	int i;
 	VPN v;
 	v.val = addr;
 	for(i=0; i<TLB_SIZE; ++i){
 		if(!tlb[i].valid || tlb[i].tag != v.vpn) continue;
 		//found
-		*ppn = tlb[i].ppn;
-		return true;
+		return tlb[i].ppn;
 	}
 	//not found
 	i = load_tlb(addr);
-	*ppn = tlb[i].ppn;
-	return true;
+	return tlb[i].ppn;
 }
 
 void init_tlb(){
