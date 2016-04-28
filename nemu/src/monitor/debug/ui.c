@@ -139,17 +139,54 @@ static int cmd_x(char *args){
 	}
 	//output
 	int i=0;
-
+	/*
 	if(addr+n-1 >= (1<<(10+10+3+(27-10-10-3)))){
 		printf("Physical address 0x%x is outside of the physical memory!\n" , addr); 
 		return 0; 
 	}
-	printf("0x%x <addr>:\t0x%x\t",addr,lnaddr_read(addr,1)&0xff);
+	*/
+	printf("0x%x <addr>:\t0x%x\t",addr,swaddr_read(addr,1)&0xff);
 	for(i=1;i<n;i++){ 
 		if(i%8==0&&i!=0){
 			printf("\n0x%x <addr+%d>:\t",addr+i,i);
 	 	} 
-		printf("0x%x\t",lnaddr_read(addr+i,1)&0xff);
+		printf("0x%x\t",swaddr_read(addr+i,1)&0xff);
+	} 
+	printf("\n");
+	return 0;
+}
+
+static int cmd_xh(char *args){
+	if(args==NULL)return 0; 
+	char *args1 =strtok(args," ");///safety
+	int n;
+	sscanf(args1,"%d",&n);///TODO confirm: try to use args here!
+	
+	char *args2=strtok(NULL," ");
+	if(args2==NULL){
+		args2=args1; 
+		n=1; 
+	}
+	bool success=true;  
+	unsigned int addr = expr_cmd_x(args2 , &success); 
+	if(!success){
+		printf("Invalid expression.\n"); 
+		return 0; 
+	}
+	//output
+	int i=0;
+	/*
+	if(addr+n-1 >= (1<<(10+10+3+(27-10-10-3)))){
+		printf("Physical address 0x%x is outside of the physical memory!\n" , addr); 
+		return 0; 
+	}
+	*/
+	printf("0x%x <addr>:\t0x%x\t",addr,hwaddr_read(addr,1)&0xff);
+	for(i=1;i<n;i++){ 
+		if(i%8==0&&i!=0){
+			printf("\n0x%x <addr+%d>:\t",addr+i,i);
+	 	} 
+		printf("0x%x\t",hwaddr_read(addr+i,1)&0xff);
 	} 
 	printf("\n");
 	return 0;
@@ -297,7 +334,8 @@ static struct {
 	{ "q", "Exit NEMU", cmd_q },
 	{"info", "Generic command for showing things about the program being debugged", cmd_info},
 	{ "si", "Step N instruction exactly. Usage si [N]. (default N=1)", cmd_si },
-	{"x","Examine memory: x [N] ADDRESS",cmd_x} , 
+	{"x","Examine memory: x [N] ADDRESS as swaddr",cmd_x} , 
+	{"xh","Examine memory: x [N] ADDRESS as hwaddr",cmd_xh},
 	{"p" , "Print value of expression EXP." , cmd_p} , 
 	{"w" , "Stop execution whenever the value of an expression changes." , cmd_w} ,   
 	{"d" , "Delete breakpoints or auto-display expressions." , cmd_d} ,
