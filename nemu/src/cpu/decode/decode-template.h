@@ -178,7 +178,7 @@ make_helper(concat(decode_rm_cl_, SUFFIX)) {
 make_helper(concat(decode_rm_imm_, SUFFIX)) {
 	int len = decode_r2rm(eip);
 	len += decode_i_b(eip + len);
-	return len;
+	return len; 
 }
 
 //modification
