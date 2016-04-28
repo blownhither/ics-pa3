@@ -34,7 +34,6 @@ static void do_execute(){
 	*/ 
 	extern bool parity_check(uint32_t ); 
 	eflags.eflags.PF = parity_check(result&0xffff );
-	//eflags.eflags.AF = 
 	eflags.eflags.SF = (result >> ((DATA_BYTE<<3) - 1))&1;
 	eflags.eflags.ZF = (a == b);
 	eflags.eflags.OF = (op_src->val<0 && op_dest->val>0 && result<0) || (op_src->val>0 && op_dest->val<0 && result>0);
