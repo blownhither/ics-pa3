@@ -23,7 +23,6 @@ uint32_t segDesc_to_limit(lnaddr_t desc_addr) {
 }
 */
 
-#define MZYDEBUG
 lnaddr_t seg_translate(swaddr_t addr, size_t len, uint8_t cur_segr) {
 
 #ifdef MZYDEBUG
@@ -64,10 +63,14 @@ hwaddr_t page_translate(lnaddr_t addr) {
 	PTE pte;
 	vpn.val = addr;
 	pde.val = hwaddr_read((cpu.cr3.base << 12) + (vpn.pi * 4), 4);
+#ifdef MZYDEBUG
 	printf("addr=0x%x 0x%x->pde=0x%x \n",addr,(cpu.cr3.base << 12) + (vpn.pi * 4),pde.val);
+#endif
 	Assert(pde.present,"PDE not present(0x%x) at 0x%x when accessing lnaddr 0x%x\n",pde.val,(cpu.cr3.base << 12) + (vpn.pi * 4),addr);
 	pte.val = hwaddr_read((pde.page_frame << 12) + ((uint32_t)vpn.pt * 4), 4);
+#ifdef MZYDEBUG
 	printf("\t0x%x->pte=0x%x ans=0x%x\n",(pde.page_frame << 12) + (vpn.pt * 4),pte.val, (pte.page_frame << 12) + vpn.offset);
+#endif
 	Assert(pte.present,"PTE not present(0x%x) at 0x%x when accessing lnaddr 0x%x\n\teip==0x%x",pte.val,(pde.page_frame << 12) + (vpn.pt * 4),addr,cpu.eip);
 	return (pte.page_frame << 12) + vpn.offset;
 }
