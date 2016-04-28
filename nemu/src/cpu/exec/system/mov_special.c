@@ -3,7 +3,7 @@
 #include "mmu_tool.h"
 
 make_helper(mov_cr2r){	//0F 20
-	assert(cpu.cr0.PE == 0);// || eflags.VM == 1);
+	//assert(cpu.cr0.PE == 0);// || eflags.VM == 1);
 	uint8_t op = instr_fetch(cpu.eip+2, 1);
 	//op = 0x11 + SPE_REG + REG
 	uint8_t reg = op & 7;
