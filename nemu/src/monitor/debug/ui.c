@@ -279,11 +279,11 @@ static int cmd_page(char *args){
 	PTE pte;
 	vpn.val = addr;
 	hwaddr_read_safe((cpu.cr3.base << 12) + (vpn.pi << 2), 4, &pde.val);
-	printf("lnaddr=0x%x 0x%x->PDE=0x%x(present:%d)\n",addr,(cpu.cr3.base << 12) + (vpn.pi << 2),pde.val,pde.present);
+	printf("lnaddr=0x%x 0x%x -> PDE=0x%x(present:%d)\n",addr,(cpu.cr3.base << 12) + (vpn.pi << 2),pde.val,pde.present);
 	if(!pde.present)
 		return 0;
 	hwaddr_read_safe((pde.page_frame << 12) + (vpn.pt << 2), 4, &pte.val);
-	printf("0x%x->pte=0x%x hwaddr=0x%x(present:%d)\n",(pde.page_frame << 12) + (vpn.pt << 2),pte.val, (pte.page_frame << 12) + vpn.offset,pte.present);
+	printf("0x%x -> pte=0x%x hwaddr=0x%x(present:%d)\n",(pde.page_frame << 12) + (vpn.pt << 2),pte.val, (pte.page_frame << 12) + vpn.offset,pte.present);
 	return 0;
 }
 
