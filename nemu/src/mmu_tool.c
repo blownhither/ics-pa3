@@ -68,6 +68,6 @@ hwaddr_t page_translate(lnaddr_t addr) {
 	assert(pde.present);
 	pte.val = hwaddr_read((pde.page_frame << 12) + (vpn.pt << 2), 4);
 	assert(pte.present);
-	printf("pte=0x%x ",pte.val);
+	printf("pte=0x%x ans=0x%x\n",pte.val, (pte.page_frame << 12) + vpn.offset);
 	return (pte.page_frame << 12) + vpn.offset;
 }
