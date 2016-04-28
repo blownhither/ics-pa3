@@ -260,6 +260,14 @@ static int cmd_cache(char *args){
 	return 0;
 }
 
+static bool hwaddr_read_safe(hwaddr_t addr, uint32_t len, uint32_t *ans){
+	if(addr > 8000000){
+		printf("physical address 0x%x>0x8000000 is outside of the physical memory!\n", addr);
+		return false;
+	}
+	return hwaddr_read(addr, len);
+}
+
 static int cmd_page(char *args){
 	if(args==NULL){
 		return 0;
@@ -270,11 +278,11 @@ static int cmd_page(char *args){
 	PDE pde;
 	PTE pte;
 	vpn.val = addr;
-	pde.val = hwaddr_read((cpu.cr3.base << 12) + (vpn.pi << 2), 4);
+	hwaddr_read_safe((cpu.cr3.base << 12) + (vpn.pi << 2), 4, &pde.val);
 	printf("lnaddr=0x%x 0x%x->PDE=0x%x(present:%d)\n",addr,(cpu.cr3.base << 12) + (vpn.pi << 2),pde.val,pde.present);
 	if(!pde.present)
 		return 0;
-	pte.val = hwaddr_read((pde.page_frame << 12) + (vpn.pt << 2), 4);
+	hwaddr_read_safe((pde.page_frame << 12) + (vpn.pt << 2), 4, &pte.val);
 	printf("0x%x->pte=0x%x hwaddr=0x%x(present:%d)\n",(pde.page_frame << 12) + (vpn.pt << 2),pte.val, (pte.page_frame << 12) + vpn.offset,pte.present);
 	return 0;
 }
