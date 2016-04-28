@@ -58,7 +58,7 @@ void load_desc_cache(uint16_t cur_sreg) {
 }
 
 hwaddr_t page_translate(lnaddr_t addr) {
-/*
+
 	VPN vpn;
 	PDE pde;
 	PTE pte;
@@ -74,8 +74,9 @@ hwaddr_t page_translate(lnaddr_t addr) {
 #endif
 	Assert(pte.present,"PTE not present(0x%x) at 0x%x when accessing lnaddr 0x%x\n\teip==0x%x",pte.val,(pde.page_frame << 12) + (vpn.pt * 4),addr,cpu.eip);
 	return (pte.page_frame << 12) + vpn.offset;
-*/
+/*
 	return search_tlb(addr);
+*/
 }
 
 
