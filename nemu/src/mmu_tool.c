@@ -67,7 +67,7 @@ hwaddr_t page_translate(lnaddr_t addr) {
 	printf("addr=0x%x 0x%x->pde=0x%x \n",addr,(cpu.cr3.base << 12) + (vpn.pi << 2),pde.val);
 	Assert(pde.present,"PDE not present(0x%x) at 0x%x when accessing lnaddr 0x%x\n",pde.val,(cpu.cr3.base << 12) + (vpn.pi << 2),addr);
 	pte.val = hwaddr_read((pde.page_frame << 12) + (vpn.pt << 2), 4);
-	printf("0x%x->pte=0x%x ans=0x%x\n",(pde.page_frame << 12) + (vpn.pt << 2),pte.val, (pte.page_frame << 12) + vpn.offset);
+	printf("\t0x%x->pte=0x%x ans=0x%x\n",(pde.page_frame << 12) + (vpn.pt << 2),pte.val, (pte.page_frame << 12) + vpn.offset);
 	Assert(pte.present,"PTE not present(0x%x) at 0x%x when accessing lnaddr 0x%x\n",pte.val,(pde.page_frame << 12) + (vpn.pt << 2),addr);
 	return (pte.page_frame << 12) + vpn.offset;
 }
