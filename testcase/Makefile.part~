@@ -10,7 +10,7 @@ testcase_START_OBJ := $(testcase_OBJ_DIR)/start.o
 
 #kernel version
 #testcase_LDFLAGS := -m elf_i386 -e main -Ttext-segment=0x00800000 
-testcase_LDFLAGS := -m elf_i386 -e main -Ttext-segment=0x00800000 
+testcase_LDFLAGS := -m elf_i386 -e main
 
 $(testcase_BIN): % : $(testcase_START_OBJ) %.o $(FLOAT) $(NEWLIBC)
 	$(call make_command, $(LD), $(testcase_LDFLAGS), ld $@, $^)
