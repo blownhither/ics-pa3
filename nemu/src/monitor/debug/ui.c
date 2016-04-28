@@ -2,6 +2,7 @@
 #include "monitor/expr.h"
 #include "monitor/watchpoint.h"
 #include "nemu.h"
+#include "../../lib-common/x86-inc/mmu.h"
 
 #include <string.h>
 #include <stdlib.h>
@@ -90,7 +91,8 @@ void print_eflags(){
 }	
 extern void print_watchpoint_list();
 static int cmd_info(char *args){
-	//cmd: info r
+	if(args==NULL)
+		return 0;
 	if(!strcmp(args,"r")){
 		//eax, ecx, edx, ebx, esp, ebp, esi, edi
 		info_register_overflow_flag = false; 
@@ -258,6 +260,25 @@ static int cmd_cache(char *args){
 	return 0;
 }
 
+static int cmd_page(char *args){
+	if(args==NULL){
+		return 0;
+	}
+	uint32_t addr;
+	sscanf(args,"%x",&addr);
+	VPN vpn;
+	PDE pde;
+	PTE pte;
+	vpn.val = addr;
+	pde.val = hwaddr_read((cpu.cr3.base << 12) + (vpn.pi << 2), 4);
+	printf("lnaddr=0x%x 0x%x->PDE=0x%x(present:%d)\n",addr,(cpu.cr3.base << 12) + (vpn.pi << 2),pde.val,pde.present);
+	if(!pde.present)
+		return 0;
+	pte.val = hwaddr_read((pde.page_frame << 12) + (vpn.pt << 2), 4);
+	printf("0x%x->pte=0x%x hwaddr=0x%x(present:%d)\n",(pde.page_frame << 12) + (vpn.pt << 2),pte.val, (pte.page_frame << 12) + vpn.offset,pte.present);
+	return 0;
+}
+
 static struct {
 	char *name;
 	char *description;
@@ -274,6 +295,7 @@ static struct {
 	{"d" , "Delete breakpoints or auto-display expressions." , cmd_d} ,
 	{"bt","Print backtrace of all stack frames",cmd_bt}, 
 	{"cache","Search for corresponding line in cache",cmd_cache},
+	{"page","Search for corresponding entry in TLB and PT",cmd_page},
 	/* TODO: Add more commands */
 
 };
