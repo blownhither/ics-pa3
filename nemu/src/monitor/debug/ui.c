@@ -302,7 +302,8 @@ static bool hwaddr_read_safe(hwaddr_t addr, uint32_t len, uint32_t *ans){
 		printf("physical address 0x%x>0x8000000 is outside of the physical memory!\n", addr);
 		return false;
 	}
-	return hwaddr_read(addr, len);
+	*ans = hwaddr_read(addr, len);
+	return true;
 }
 
 static int cmd_page(char *args){
