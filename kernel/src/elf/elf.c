@@ -43,7 +43,7 @@ uint32_t loader() {
 			 */
 			uint32_t paddr = ph->p_vaddr; 
 #ifdef IA32_PAGE 
-			paddr = mm_malloc(ph->p_vaddr, ph->p_memsz);
+			paddr = mm_malloc(ph->p_vaddr, ph->p_memsz); 
 #endif
 			ramdisk_read((void *)paddr, ELF_OFFSET_IN_DISK + ph->p_offset, ph->p_filesz);
 			/* TODO: zero the memory region 
