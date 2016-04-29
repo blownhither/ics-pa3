@@ -40,6 +40,8 @@ void do_int3() {
 
 /* Simulate how the CPU works. */
 
+uint64_t si_count = 0;
+
 void cpu_exec(volatile uint32_t n) {
 	if(nemu_state == END) {
 		printf("Program execution has ended. To restart the program, exit NEMU and run again.\n");
@@ -69,7 +71,7 @@ void cpu_exec(volatile uint32_t n) {
 		//printf("cpu.eip is %x in cpu-exec.c\n",cpu.eip);
 		cpu.eip += instr_len;
 		//printf("cpu.eip is %x in cpu-exec.c\n",cpu.eip);
-		
+		si_count++;
 
 #ifdef DEBUG
 		print_bin_instr(eip_temp, instr_len);
@@ -88,6 +90,7 @@ void cpu_exec(volatile uint32_t n) {
 
 		if(nemu_state != RUNNING) { 
 			printf("Cache cost = %llu, L1 miss rate = %f, L2 miss rate = %f\n",(unsigned long long)(L2_get_cache_cost()+L1_get_cache_cost()), (double)L1_cache_miss/(double)L1_cache_access,(double)L2_cache_miss/(double)L2_cache_access);
+			printf("Instruction executed: %llu\n",(long long unsigned)si_count);
 			return; 
 		}
 		//printf("cpu.eip is %x in rear cpu-exec.c\n",cpu.eip);
