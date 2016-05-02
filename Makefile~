@@ -56,7 +56,7 @@ count:
 	find . -name "*.[ch]"|xargs cat|grep -v ^$$|wc -l
 
 
-USERPROG := obj/testcase/add
+USERPROG := obj/testcase/matrix-mul
 
 #ENTRY := $(USERPROG)
 
