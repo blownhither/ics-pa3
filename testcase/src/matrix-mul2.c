@@ -307,8 +307,8 @@ int ans[N][N] = {{27825, 6208, 14855, -76487, -23589, 13948, 60449, 9292, 5604, 
 
 int c[N][N];
 
-void mul (int a[][], int b[][], int c[][], n) {
-	int r;
+void mul (int a[N][N], int b[N][N], int c[N][N],int n) {
+	int r,i,k,j;
 	for(i=0;i<n;++i)
     	for(k=0;k<n;++k){
        		r=a[i][k];
@@ -318,8 +318,8 @@ void mul (int a[][], int b[][], int c[][], n) {
 }
 
 int main() {
-	int i, j, k;
-	int loop = 0;
+	int i, j;
+//	int loop = 0;
 /*
 	for(i = 0; i < N; i ++) {
 		for(j = 0; j < N; j ++) {
@@ -333,7 +333,7 @@ int main() {
 	}
 	*/
 	mul(a,b,c,N);
-	for(i = 0; i < N; i ++) {
+	for(i = 0; i < N; i ++) 
 		for(j = 0; j < N; j ++)
 			nemu_assert(c[i][j] == ans[i][j]);
 //	nemu_assert(loop == N * N * N);
