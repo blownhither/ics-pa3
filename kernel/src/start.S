@@ -53,7 +53,10 @@
 
 	# Set up a stack for C code.
 		movl $0, %ebp
-		movl $(128 << 20), %esp
+		
+		
+	#	movl $(128 << 20), %esp
+		movl $(0x4000000), %esp
 		jmp init				# never return
 
 	# GDT
@@ -62,6 +65,9 @@
 		MAKE_NULL_SEG_DESC                   # empty segment
 		MAKE_SEG_DESC(0xA, 0x0, 0xffffffff)  # code
 		MAKE_SEG_DESC(0x2, 0x0, 0xffffffff)  # data
+		
+		MAKE_SEG_DESC(0x2, 0x4000000, 0x8fffffff)   # test
+		
 
 	gdtdesc:                      # descriptor
 		.word   (gdtdesc - gdt - 1)    # limit = sizeof(gdt) - 1
