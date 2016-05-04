@@ -35,10 +35,6 @@
 	.globl start
 	start:
 		lgdt    va_to_pa(gdtdesc) # See i386 manual for more information
-		
-		ljmp    $GDT_ENTRY(1), $va_to_pa(start_cond)
-		
-		
 		movl    %cr0, %eax        # %CR0 |= PROTECT_ENABLE_BIT
 		orl     $0x1, %eax
 		movl    %eax, %cr0
@@ -46,7 +42,7 @@
 	# Complete transition to 32-bit protected mode by using long jmp
 	# to reload %CS and %EIP.  The segment descriptors are set up with no
 	# translation, so that the mapping is still the identity mapping.
-	#	
+		ljmp    $GDT_ENTRY(1), $va_to_pa(start_cond)
 
 	start_cond:
 	# Set up the protected-mode data segment registers
