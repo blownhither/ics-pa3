@@ -85,8 +85,8 @@ typedef struct {
 	struct {
 		uint32_t base;
 		uint16_t limit;
-	} gdtr;	//Global Descriptor
-	
+	} gdtr, idtr;	//Global Descriptor
+
 	CR0 cr0;
 	CR3 cr3;
 	
