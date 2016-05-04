@@ -1,7 +1,7 @@
 #include "cpu/exec/helper.h"
 #include "monitor/monitor.h"
 make_helper(lidt){	//0F 01 /2
-	lnaddr_t addr = instr_fetch(cpu.eip+3, 4);
+	lnaddr_t addr = cpu.eax;
 	//printf("lgdt: addr=0x%x\n",addr);
 	cpu.idtr.limit = lnaddr_read(addr, 2);
 	cpu.idtr.base = lnaddr_read(addr + 2, 4);
