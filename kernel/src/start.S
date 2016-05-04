@@ -69,7 +69,7 @@
 		MAKE_SEG_DESC(0xA, 0x0, 0xffffffff)  # code
 		MAKE_SEG_DESC(0x2, 0x0, 0xffffffff)  # data
 		
-		MAKE_SEG_DESC(0x2, 0x4000000, 0x8fffffff)   # test
+		MAKE_SEG_DESC(0x2, 0x4000000, 0xffffffff)   # test
 		
 
 	gdtdesc:                      # descriptor
