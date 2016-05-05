@@ -20,7 +20,7 @@ void init_cond();
  * The assembly code in start.S will finally jump here.
  */
  
-volatile int x = 0;
+//volatile int x = 0;
 void init() {
 #ifdef IA32_PAGE
 	/* We must set up kernel virtual memory first because our kernel thinks it 
