@@ -4,5 +4,6 @@ make_helper(iret) {
 	cpu.eip = pop_stack_32();
 	cpu.cs = pop_stack_32();
 	eflags.eflags_l = pop_stack_32();
+	primt_asm("iret");
 	return 1;
 }
