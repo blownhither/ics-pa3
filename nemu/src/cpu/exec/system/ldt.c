@@ -1,3 +1,5 @@
+/*
+
 #include "cpu/exec/helper.h"
 #include "monitor/monitor.h"
 make_helper(lgdt){	//0F 01 /2
@@ -12,4 +14,22 @@ make_helper(lgdt){	//0F 01 /2
 	return 6;	//TODO: always 6?
 }
 
+*/
 
+
+#include "cpu/exec/helper.h"
+ /*
+#define DATA_BYTE 1
+#include "ldt-template.h"
+#undef DATA_BYTE
+*/
+#define DATA_BYTE 2
+#include "ldt-template.h"
+#undef DATA_BYTE
+
+#define DATA_BYTE 4
+#include "ldt-template.h"
+#undef DATA_BYTE
+
+make_helper_v(lidt_rm)
+make_helper_v(lgdt_rm)

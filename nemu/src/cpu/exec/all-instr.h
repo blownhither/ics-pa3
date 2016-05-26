@@ -51,7 +51,6 @@
 #include "string/movs.h"
 
 #include "system/ldt.h"
-#include "system/lidt.h"
 #include "system/mov_special.h"
 #include "system/ljmp.h"
 
