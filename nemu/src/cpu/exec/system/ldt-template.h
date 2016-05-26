@@ -7,6 +7,7 @@ static void do_execute(){
 	printf("op_src->addr=%x\teax=%x\top_dest->val=%x\n",op_src->addr,cpu.eax,op_dest->val);
 	printf("eip=%x\n",cpu.eip);
 */
+	//op_src->addr in decode_rm_ automatically read an addr
 	cpu.gdtr.limit = swaddr_read(op_src->addr, 2);
 	cpu.gdtr.base = swaddr_read(op_src->addr + 2, 4);
 	if(ops_decoded.is_data_size_16){
