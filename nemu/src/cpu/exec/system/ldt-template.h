@@ -7,7 +7,7 @@ static void do_execute(){
 	printf("eip=%x\n",cpu.eip);
 }
 
-make_instr_helper(rm)
+make_instr_helper(rm_imm)
 
 #undef instr
 #define instr lgdt
@@ -17,7 +17,7 @@ static void do_execute(){
 	printf("eip=%x\n",cpu.eip);
 }
 
-make_instr_helper(rm)
+make_instr_helper(rm_imm)
 
 #undef instr
 #include "cpu/exec/template-end.h"
