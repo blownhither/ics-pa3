@@ -5,7 +5,6 @@ extern jmp_buf jbuf;
 extern uint32_t current_sreg;
 void load_desc_cache(uint16_t cur_sreg);
 
-
 void raise_intr(uint8_t NO) {
 	/* TODO: Trigger an interrupt/exception with ``NO''.
 	 * That is, use ``NO'' to index the IDT.
