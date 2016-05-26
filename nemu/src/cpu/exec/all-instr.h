@@ -55,6 +55,7 @@
 #include "system/ljmp.h"
 #include "system/int.h"
 #include "system/pusha-popa.h"
+#include "system/iret.h"
 
 #include "misc/misc.h"
 

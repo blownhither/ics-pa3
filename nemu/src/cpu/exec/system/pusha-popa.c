@@ -8,6 +8,7 @@ make_helper(pusha) {	//PUSHAD
 	for(i=0; i<n; i++){
 		push_stack_32(list[i]);
 	}
+	print_asm("pusha");
 	return 1;
 }
 
@@ -20,5 +21,6 @@ make_helper(popa) {		//POPAD
 	cpu.edx = pop_stack_32();
 	cpu.ecx = pop_stack_32();
 	cpu.eax = pop_stack_32();
+	print_asm("popa");
 	return 1;
 }
