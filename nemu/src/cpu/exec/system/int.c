@@ -18,11 +18,13 @@
 make_helper(int3){
 	cpu.eip += 1;
 	raise_intr(3);
+	print_asm("int3");
 	return 0;
 }
 */
 make_helper(into){
 	cpu.eip += 1;
 	raise_intr(4);
+	print_asm("into");
 	return 0;
 }
