@@ -54,6 +54,7 @@
 #include "system/mov_special.h"
 #include "system/ljmp.h"
 #include "system/int.h"
+#include "system/pusha-popa.h"
 
 #include "misc/misc.h"
 
