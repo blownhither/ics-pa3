@@ -74,31 +74,37 @@ typedef PTE (*PT) [NR_PTE];
 
 
 /* the 64bit segment descriptor */
-typedef struct SegmentDescriptor {
-	uint32_t limit_15_0          : 16;
-	uint32_t base_15_0           : 16;
-	uint32_t base_23_16          : 8;
-	uint32_t type                : 4;
-	uint32_t segment_type        : 1;
-	uint32_t privilege_level     : 2;
-	uint32_t present             : 1;
-	uint32_t limit_19_16         : 4;
-	uint32_t soft_use            : 1;
-	uint32_t operation_size      : 1;
-	uint32_t pad0                : 1;
-	uint32_t granularity         : 1;
-	uint32_t base_31_24          : 8;
+typedef union SegmentDescriptor {
+	struct {
+		uint32_t limit_15_0          : 16;
+		uint32_t base_15_0           : 16;
+		uint32_t base_23_16          : 8;
+		uint32_t type                : 4;
+		uint32_t segment_type        : 1;
+		uint32_t privilege_level     : 2;
+		uint32_t present             : 1;
+		uint32_t limit_19_16         : 4;
+		uint32_t soft_use            : 1;
+		uint32_t operation_size      : 1;
+		uint32_t pad0                : 1;
+		uint32_t granularity         : 1;
+		uint32_t base_31_24          : 8;
+	};
+	uint64_t val;
 } SegDesc;
 
-typedef struct GateDescriptor {
-	uint32_t offset_15_0      : 16;
-	uint32_t segment          : 16;
-	uint32_t pad0             : 8;
-	uint32_t type             : 4;
-	uint32_t system           : 1;
-	uint32_t privilege_level  : 2;
-	uint32_t present          : 1;
-	uint32_t offset_31_16     : 16;
+typedef union GateDescriptor {
+	struct {
+		uint32_t offset_15_0      : 16;
+		uint32_t segment          : 16;
+		uint32_t pad0             : 8;
+		uint32_t type             : 4;
+		uint32_t system           : 1;
+		uint32_t privilege_level  : 2;
+		uint32_t present          : 1;
+		uint32_t offset_31_16     : 16;
+	};
+	uint32_t val;
 } GateDesc;
 
 
