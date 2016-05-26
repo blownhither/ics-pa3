@@ -19,7 +19,7 @@ void raise_intr(uint8_t NO) {
 	cpu.esp -= 4;
 	swaddr_write(cpu.esp, 4, cpu.eip);
 	
-	printf("raise_intr:0x%x\n",NO);
+	//printf("raise_intr:0x%x\n",NO);
 	uint8_t buf[8];
 	int i;
 	for(i=0; i<8; i++)
