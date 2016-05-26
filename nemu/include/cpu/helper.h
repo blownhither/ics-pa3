@@ -45,7 +45,7 @@ static inline void push_stack_32(uint32_t val){
 
 static inline uint32_t pop_stack_32(){
 	cpu.esp += 4;
-	return swaddr_read(cpu.esp+4, 4);
+	return swaddr_read(cpu.esp-4, 4);
 }
 
 /* shared by all helper function */
