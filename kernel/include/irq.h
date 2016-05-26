@@ -17,7 +17,7 @@ typedef struct TrapFrame {
 */
 
 typedef struct TrapFrame {
-	uint32_t edi,
+	uint32_t edi,		/*pusha*/
 		esi,
 		ebp,
 		old_esp,
@@ -25,9 +25,9 @@ typedef struct TrapFrame {
 		edx,
 		ecx,
 		eax;
-	int32_t irq;
-	uint32_t error_code,
-		eip,
+	int32_t irq;		/*push*/
+	uint32_t error_code,/*push*/
+		eip,			/*int*/
 		cs,
 		eflags;
 } TrapFrame;
