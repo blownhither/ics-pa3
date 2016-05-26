@@ -31,5 +31,5 @@ make_helper(lgdt){	//0F 01 /2
 #include "ldt-template.h"
 #undef DATA_BYTE
 
-make_helper_v(lidt_rm_imm)
-make_helper_v(lgdt_rm_imm)
+make_helper_v(lidt_rm)
+make_helper_v(lgdt_rm)
