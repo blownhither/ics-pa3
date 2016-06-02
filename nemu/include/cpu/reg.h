@@ -69,7 +69,7 @@ typedef struct {
 
 #define ax  gpr[0]._16
 #define al  gpr[0]._8[0] 
-#define dx  gpr[0]._16
+#define dx  gpr[2]._16
 #define cl	gpr[1]._8[0]
 /*
 #define eax gpr[0]._32
