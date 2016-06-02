@@ -24,7 +24,7 @@ void L1_cache_block_read(hwaddr_t _addr, uint8_t buf[]) {
 	uint32_t tag = addr.tag, index = addr.index;//, offs = addr.offs;
 	//uint32_t addr_aligned = addr.addr - offs;
 #ifdef MZYDEBUG
-	printf("_block:addr=0x%x,tag=0x%x,\n\tindex=0x%x,offs=0x%x,addr_align=0x%x\n",*(int *)(void *)&addr,tag,index,offs,addr_aligned);
+	//printf("_block:addr=0x%x,tag=0x%x,\n\tindex=0x%x,offs=0x%x,addr_align=0x%x\n",*(int *)(void *)&addr,tag,index,offs,addr_aligned);
 #endif
 	L1_cache_group* group = &(L1_cache[index]);
 	//block *ret_block = NULL;
