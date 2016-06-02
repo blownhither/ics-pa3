@@ -16,6 +16,8 @@ int exec(swaddr_t);
 extern uint64_t L1_get_cache_cost ();
 extern uint64_t L2_get_cache_cost ();
 extern bool check_watchpoints(); 
+extern void i8259_ack_intr();
+extern uint8_t i8259_query_intr();
 
 char assembly[80];
 char asm_buf[128];
@@ -91,6 +93,13 @@ void cpu_exec(volatile uint32_t n) {
 			return; 
 		}
 		//printf("cpu.eip is %x in rear cpu-exec.c\n",cpu.eip);
+		
+		//PA 4.4
+		if(cpu.INTR & eflags.eflags.IF) {
+			uint32_t intr_no = i8259_query_intr();
+			i8259_ack_intr();
+			raise_intr(intr_no);
+		}
 	}
 
 	if(nemu_state == RUNNING) { nemu_state = STOP; }
