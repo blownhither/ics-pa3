@@ -46,7 +46,7 @@
 #include "control/cld.h"
 
 #include "io/in.h"
-//#include "io/out.h"
+#include "io/out.h"
 
 #include "string/rep.h"
 #include "string/stos.h"

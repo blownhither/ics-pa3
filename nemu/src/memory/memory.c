@@ -4,14 +4,25 @@
 #include "../../lib-common/x86-inc/mmu.h"
 
 /* Memory accessing interfaces */
- void L1_cache_write ( hwaddr_t _addr, size_t len, uint32_t data );
- uint32_t L1_cache_read(hwaddr_t addr, size_t len);
- uint32_t dram_read(hwaddr_t addr, size_t len);
- void dram_write(hwaddr_t addr, size_t len, uint32_t data);
- lnaddr_t seg_translate(swaddr_t addr, size_t len, uint8_t cur_segr);
+void L1_cache_write ( hwaddr_t _addr, size_t len, uint32_t data );
+uint32_t L1_cache_read(hwaddr_t addr, size_t len);
+uint32_t dram_read(hwaddr_t addr, size_t len);
+void dram_write(hwaddr_t addr, size_t len, uint32_t data);
+lnaddr_t seg_translate(swaddr_t addr, size_t len, uint8_t cur_segr);
 uint32_t current_sreg;	//segment register in use
- 
+int is_mmio(hwaddr_t);
+uint32_t mmio_read(hwaddr_t, size_t, int);
+void mmio_write(hwaddr_t, size_t, uint32_t, int);
+
 uint32_t hwaddr_read(hwaddr_t addr, size_t len) {
+
+#ifdef HAS_DEVICE
+	int mm = is_mmio(addr);
+	if (mm != -1){
+		return mmio_read(addr, len, mm);	// already masked
+	}
+#endif
+
 	uint32_t ret2 = L1_cache_read(addr, len) & (~0u >> ((4 - len) << 3));
 #ifdef MZYDEBUG
 	uint32_t ret = dram_read(addr, len) & (~0u >> ((4 - len) << 3));
@@ -25,6 +36,15 @@ uint32_t hwaddr_read(hwaddr_t addr, size_t len) {
 }
 //#define MZYDEBUG
 void hwaddr_write(hwaddr_t addr, size_t len, uint32_t data) {
+
+#ifdef HAS_DEVICE
+	int mm = is_mmio(addr);
+	if (mm != -1){
+		mmio_write(addr, len, data, mm);
+		return;
+	}
+#endif
+
 	//dram_write(addr, len, data);
 	L1_cache_write(addr, len, data);
 #ifdef MZYDEBUG
