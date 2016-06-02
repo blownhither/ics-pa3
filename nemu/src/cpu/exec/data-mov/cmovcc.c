@@ -11,7 +11,7 @@ inline bool check_cmovcc_condition(uint8_t op) {
 		case 0x44: 	return (ef.ZF);
 		case 0x45:	return (!ef.ZF);
 		case 0x46:	return (ef.CF || ef.ZF);
-		case 0x47:	return (!ef.CF && ef.ZF);
+		case 0x47:	return (!ef.CF && !ef.ZF);
 		case 0x48:	return (ef.SF);
 		case 0x49:	return (!ef.SF);
 		case 0x4a:	return (ef.PF);
