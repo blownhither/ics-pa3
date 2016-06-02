@@ -112,7 +112,7 @@ typedef struct {
 
 	DescCache desc_cache[6];
 	
-	bool INTR;			//PA4.4
+	volatile bool INTR;			//PA4.4
 } CPU_state;
 extern CPU_state cpu;
 

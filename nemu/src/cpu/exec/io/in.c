@@ -22,13 +22,18 @@ make_helper_v(in_i2a)
 //0xEC or 0xED
 make_helper(in_b) {
 	cpu.al = pio_read(cpu.dx, 1);
+	print_asm("in %%al, %%dx");
 	return 1;
 }
 
 make_helper(in_v) {
-	if (ops_decoded.is_data_size_16) 
+	if (ops_decoded.is_data_size_16) {
 		cpu.ax = pio_read(cpu.dx, 2);
-	else 
+		print_asm("in %%ax, %%dx");
+	}
+	else { 
 		cpu.eax = pio_read(cpu.dx, 4);
+		print_asm("in %%eax, %%dx")	;
+	}
 	return 1;
 }
