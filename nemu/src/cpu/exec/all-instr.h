@@ -48,6 +48,7 @@
 #include "io/in.h"
 #include "io/out.h"
 #include "io/hlt.h"
+#include "io/sti.h"
 
 #include "string/rep.h"
 #include "string/stos.h"
