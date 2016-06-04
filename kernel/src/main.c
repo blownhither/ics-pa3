@@ -91,7 +91,7 @@ void init_cond() {
 	video_mapping_read_test();
 
 	/* Clear the test data we just written in the video memory. */
-	//video_mapping_clear();
+	video_mapping_clear();
 #endif
 
 #ifdef IA32_PAGE
