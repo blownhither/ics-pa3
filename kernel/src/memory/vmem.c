@@ -18,6 +18,7 @@ void create_video_mapping() {
 	 */
 	//panic("please implement me");
 	
+	//
 	PDE *pdir = get_updir();
 	PTE *ptable = vptable + (VMEM_ADDR >> 12);
 	pdir[0].val = make_pde(ptable);
