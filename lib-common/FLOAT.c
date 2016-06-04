@@ -1,5 +1,9 @@
 #include "FLOAT.h"
 
+typedef unsigned char uint8_t;
+typedef unsigned int uint32_t;
+typedef long long uint64_t;
+
 FLOAT F_mul_F(FLOAT a, FLOAT b) {
 	uint8_t sa = (a>>31)&1, sb = (b>>31)&1;	
 	if(sa) a=-a;

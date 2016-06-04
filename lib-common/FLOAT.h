@@ -2,9 +2,7 @@
 #define __FLOAT_H__
 
 #include "trap.h"
-typedef unsigned char uint8_t;
-typedef unsigned int uint32_t;
-typedef long long uint64_t;
+
 typedef int FLOAT;
 
 static inline int F2int(FLOAT a) {
