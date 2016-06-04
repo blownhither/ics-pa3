@@ -28,7 +28,7 @@ make_instr_helper(si);
 //0xff /2
 static void do_execute(){
 	cpu.esp -= 4;
-	swaddr_write(reg_l(R_ESP), 4, cpu.eip + 2);
+	swaddr_write(reg_l(R_ESP), 4, cpu.eip + get_instr_len());
 #if DATA_BYTE == 2
 	cpu.eip = op_src->val & 0xffff; 
 #elif DATA_BYTE == 4
