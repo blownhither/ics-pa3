@@ -57,6 +57,7 @@ count:
 
 
 USERPROG := obj/testcase/hello
+USERPROG := $(game_BIN)
 
 #ENTRY := $(USERPROG)
 
