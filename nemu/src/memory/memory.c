@@ -19,6 +19,7 @@ uint32_t hwaddr_read(hwaddr_t addr, size_t len) {
 #ifdef HAS_DEVICE
 	int mm = is_mmio(addr);
 	if (mm != -1){
+		printf("mmio triggered at 0x%x", addr);
 		return mmio_read(addr, len, mm);	// already masked
 	}
 #endif
