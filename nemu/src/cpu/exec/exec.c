@@ -208,7 +208,7 @@ helper_fun _2byte_opcode_table [256] = {
 /* 0x94 */	setcc_rm_b, setcc_rm_b, setcc_rm_b, setcc_rm_b,
 /* 0x98 */	setcc_rm_b, setcc_rm_b, setcc_rm_b, setcc_rm_b,
 /* 0x9c */	setcc_rm_b, setcc_rm_b, setcc_rm_b, setcc_rm_b,
-/* 0xa0 */	inv, inv, inv, inv, 
+/* 0xa0 */	inv, inv, inv, bt_r2rm_v, 
 /* 0xa4 */	shldi_v, shldc_v, inv, inv,
 /* 0xa8 */	inv, inv, inv, inv,
 /* 0xac */	shrdi_v, shrdc_v, inv, imul_rm2r_v,

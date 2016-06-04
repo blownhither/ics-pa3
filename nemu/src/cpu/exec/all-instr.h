@@ -22,6 +22,7 @@
 
 #include "binary/cmp.h"
 #include "binary/and.h"
+#include "binary/bt.h"
 
 //#include "logic/and.h"
 #include "logic/or.h"
