@@ -26,6 +26,8 @@ void create_video_mapping() {
 		ptable->val = make_pte(pframe_addr);
 		ptable ++;
 	}
+	
+	
 }
 
 void video_mapping_write_test() {
