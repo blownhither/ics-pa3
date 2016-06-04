@@ -1,3 +1,4 @@
+/*
 #include "cpu/exec/template-start.h"
 
 
@@ -43,5 +44,28 @@ static void do_execute(){
 make_instr_helper(rm)
 #undef instr
 
+
+#include "cpu/exec/template-end.h"
+*/
+
+#include "cpu/exec/template-start.h"
+
+#define instr call
+
+
+static void do_execute() {
+	int len = get_instr_len();
+	cpu.esp -= 4;
+	swaddr_write(cpu.esp, 4, cpu.eip + len);
+	if(op_src->type == OP_TYPE_IMM) {
+		cpu.eip += op_src->val;
+	}else {
+		cpu.eip = op_src->val - len - 1;
+	}
+	print_asm_template1();
+}
+
+make_instr_helper(si)
+make_instr_helper(rm)
 
 #include "cpu/exec/template-end.h"
