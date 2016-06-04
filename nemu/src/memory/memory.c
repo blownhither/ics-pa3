@@ -42,7 +42,7 @@ void hwaddr_write(hwaddr_t addr, size_t len, uint32_t data) {
 	int mm = is_mmio(addr);
 	if (mm != -1){
 		mmio_write(addr, len, data, mm);
-		printf("mmio write 0x%x at 0x%x\n", data, addr);
+		assert(mmio_read(addr, len, mm) == data);
 		return;
 	}
 #endif
