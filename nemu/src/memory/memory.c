@@ -20,7 +20,7 @@ uint32_t hwaddr_read(hwaddr_t addr, size_t len) {
 	int mm = is_mmio(addr);
 	if (mm != -1){
 		//printf("mmio triggered at 0x%x", addr);
-		return mmio_read(addr, len, mm);	// already masked
+		return mmio_read(addr, len, mm) & (~0u >> ((4 - len) << 3));	// already masked
 	}
 #endif
 
