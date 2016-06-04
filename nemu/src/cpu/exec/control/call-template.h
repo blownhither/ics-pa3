@@ -7,14 +7,15 @@
 //0xe8
 static void do_execute(){
 	cpu.esp -= 4;
-	swaddr_write(cpu.esp , 4 , cpu.eip + get_instr_len() - 1);//cpu.eip+DATA_BYTE+1); 
+	int len = get_instr_len();
+	swaddr_write(seg_translate(cpu.eip, 4, SS_NUM) , 4 , cpu.eip + len);//cpu.eip+DATA_BYTE+1); 
 #ifdef MZYDEBUG
 	printf("callr %x,\t%x\n",cpu.esp,cpu.eip+DATA_BYTE+1);
 #endif
 #if DATA_BYTE == 2
-	cpu.eip = (cpu.eip + op_src->simm) & 0xffff; 
+	cpu.eip = (cpu.eip + op_src->val) & 0xffff; 
 #elif DATA_BYTE == 4
-	cpu.eip = cpu.eip + op_src->simm;
+	cpu.eip = cpu.eip + op_src->val;
 #endif
 	print_asm_template1(); 
 	return; 
