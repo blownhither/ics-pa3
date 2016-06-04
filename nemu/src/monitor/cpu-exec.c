@@ -83,14 +83,7 @@ void cpu_exec(volatile uint32_t n) {
 			printf("%s\n", asm_buf);
 		} 
 
-		if(cpu.INTR & eflags.eflags.IF) {
-			//printf("cpu.INTR triggered\n");
-			uint32_t intr_no = i8259_query_intr();
-			i8259_ack_intr();
-			int len = get_instr_len();
-			cpu.eip --;	//TODO: ?!
-			raise_intr(intr_no, len);
-		}
+		
 
 		/* TODO: check watchpoints here. */
 		if(check_watchpoints()){
@@ -106,7 +99,14 @@ void cpu_exec(volatile uint32_t n) {
 		//printf("cpu.eip is %x in rear cpu-exec.c\n",cpu.eip);
 		
 		//PA 4.4
-		
+		if(cpu.INTR & eflags.eflags.IF) {
+			//printf("cpu.INTR triggered\n");
+			uint32_t intr_no = i8259_query_intr();
+			i8259_ack_intr();
+			int len = get_instr_len();
+			cpu.eip --;	//TODO: ?!
+			raise_intr(intr_no, len);
+		}
 	}
 
 	if(nemu_state == RUNNING) { nemu_state = STOP; }
