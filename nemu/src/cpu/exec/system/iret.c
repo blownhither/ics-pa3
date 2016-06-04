@@ -6,5 +6,5 @@ make_helper(iret) {
 	load_desc_cache(CS_NUM);
 	eflags.eflags_l = pop_stack_32();
 	print_asm("iret"); 
-	return 0;
+	return 1;
 }
