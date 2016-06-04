@@ -96,7 +96,7 @@ void cpu_exec(volatile uint32_t n) {
 		
 		//PA 4.4
 		if(cpu.INTR & eflags.eflags.IF) {
-			printf("cpu.INTR triggered\n");
+			//printf("cpu.INTR triggered\n");
 			uint32_t intr_no = i8259_query_intr();
 			i8259_ack_intr();
 			raise_intr(intr_no);
