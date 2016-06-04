@@ -56,7 +56,7 @@ make_instr_helper(rm)
 static void do_execute() {
 	int len = get_instr_len();
 	cpu.esp -= 4;
-	swaddr_write(cpu.esp, 4, cpu.eip + len);
+	swaddr_write(seg_translate(cpu.esp, 4, SS_NUM), 4, cpu.eip + len);
 	if(op_src->type == OP_TYPE_IMM) {
 		cpu.eip += op_src->val;
 	}else {
