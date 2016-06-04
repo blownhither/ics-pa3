@@ -24,7 +24,7 @@ make_helper(int3){
 */
 make_helper(into){
 	cpu.eip += 1;
-	raise_intr(4);
+	raise_intr(4, 1);
 	print_asm("into");
 	return 0;
 }

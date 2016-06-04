@@ -9,7 +9,7 @@
 
 lnaddr_t seg_translate(swaddr_t addr, size_t len, uint8_t cur_segr);
 
-void raise_intr(uint8_t NO);
+void raise_intr(uint8_t NO, int len);
 
 static inline uint32_t instr_fetch(swaddr_t addr, size_t len) {
 	lnaddr_t lnaddr;
