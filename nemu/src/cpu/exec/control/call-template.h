@@ -8,7 +8,7 @@
 static void do_execute(){
 	cpu.esp -= 4;
 	int len = get_instr_len();
-	swaddr_write(seg_translate(cpu.eip, 4, SS_NUM) , 4 , cpu.eip + len);//cpu.eip+DATA_BYTE+1); 
+	swaddr_write(cpu.eip , 4 , cpu.eip + len);//cpu.eip+DATA_BYTE+1); 
 #ifdef MZYDEBUG
 	printf("callr %x,\t%x\n",cpu.esp,cpu.eip+DATA_BYTE+1);
 #endif
