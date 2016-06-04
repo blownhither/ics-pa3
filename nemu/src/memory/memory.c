@@ -19,7 +19,7 @@ uint32_t hwaddr_read(hwaddr_t addr, size_t len) {
 #ifdef HAS_DEVICE
 	int mm = is_mmio(addr);
 	if (mm != -1){
-		printf("mmio triggered at 0x%x", addr);
+		//printf("mmio triggered at 0x%x", addr);
 		return mmio_read(addr, len, mm);	// already masked
 	}
 #endif
@@ -42,6 +42,7 @@ void hwaddr_write(hwaddr_t addr, size_t len, uint32_t data) {
 	int mm = is_mmio(addr);
 	if (mm != -1){
 		mmio_write(addr, len, data, mm);
+		printf("mmio write 0x%x at 0x%x\n", data, addr);
 		return;
 	}
 #endif
