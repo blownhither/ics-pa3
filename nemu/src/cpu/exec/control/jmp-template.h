@@ -36,6 +36,7 @@ make_helper(concat(jmp_rm_, SUFFIX)) {
 #ifdef MZYDEBUG
 	Log("0x%x\n",cpu.eip);
 #endif
+	print_asm("jmp rm");
 	return 0;
 }
 

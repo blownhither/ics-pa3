@@ -1,5 +1,6 @@
 #include "cpu/exec/helper.h"
 
+
 make_helper(exec);
 lnaddr_t seg_translate(swaddr_t addr, size_t len, uint8_t cur_segr);
 
@@ -7,7 +8,7 @@ make_helper(stos_b) {
 	lnaddr_t addr = seg_translate(cpu.edi, 1, ES_NUM);
 	lnaddr_write(addr, 1, cpu.al);
 	cpu.edi += eflags.eflags.DF? -1:1;
-	print_asm("%%ax,%%es:(%%edi)");
+	print_asm("stos %%ax,%%es:(%%edi)");
 	return 1;
 }
 
@@ -26,6 +27,6 @@ make_helper(stos_v) {
 		//printf("stos: addr=0x%x, eax=0x%x\n", addr, cpu.eax);
 	}
 	
-	print_asm("%%eax,%%es:(%%edi)");
+	print_asm("stos %%eax,%%es:(%%edi)");
 	return 1;
 }

@@ -23,6 +23,7 @@ make_helper(cld) {
 }
 make_helper(std) {
 	eflags.eflags.DF = 1;
+	print_asm("std");
 	return 1;
 }
 #include "cpu/exec/template-end.h"
