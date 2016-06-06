@@ -1,6 +1,6 @@
 ##### global settings #####
 
-.PHONY: nemu entry all_testcase kernel run gdb test submit clean
+.PHONY: nemu entry all_testcase kernel run gdb test submit clean count
 
 CC := gcc
 LD := ld
@@ -51,24 +51,18 @@ clean: clean-cpp
 
 
 ##### some convinient rules #####
-ROOT=`pwd`
-count: 
-	find . -name "*.[ch]"|xargs cat|grep -v ^$$|wc -l
+
+#USERPROG = obj/testcase/hello
+USERPROG = $(game_BIN)
 
 
-#USERPROG := obj/testcase/hello
-USERPROG := $(game_BIN)
-
-#ENTRY := $(USERPROG)
-
-#kernel version
-ENTRY = $(kernel_BIN)
+ENTRY := $(kernel_BIN)
 
 entry: $(ENTRY)
 	objcopy -S -O binary $(ENTRY) entry
 
 run: $(nemu_BIN) $(USERPROG) entry
-	$(call git_commit, "run")
+	$(call git_commit, "run", $(GITFLAGS))
 	$(nemu_BIN) $(USERPROG)
 
 gdb: $(nemu_BIN) $(USERPROG) entry
@@ -79,3 +73,17 @@ test: $(nemu_BIN) $(testcase_BIN) entry
 
 submit: clean
 	cd .. && tar cvj $(shell pwd | grep -o '[^/]*$$') > $(STU_ID).tar.bz2
+
+# count the line of the programs #
+# added by Luna #
+# 141250069 #
+
+
+count: $(nemu_BIN) $(USERPROG) entry
+	@git checkout 6fb1
+	@echo "oldlines"
+	@cd nemu && find . -name *.[ch] | xargs cat | grep -v ^$$ | wc -l
+	@git checkout master
+	@echo "newlines"
+	@cd nemu && find . -name *.[ch] | xargs cat | grep -v ^$$ | wc -l
+
