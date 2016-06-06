@@ -41,16 +41,12 @@ void irq_handle(TrapFrame *tf) {
 		panic("Unhandled exception!");
 	} else if (irq == 0x80) {
 		do_syscall(tf);
-	} else if (irq == 255) {
-		Log("irq==255?");
-	}
- 	
-	
-	
-	else if (irq < 1000) {
+	} else if (irq < 1000) {
 		panic("Unexpected exception #%d at eip = %x", irq, tf->eip);
 	} else if (irq >= 1000) {
 		int irq_id = irq - 1000;
+		Log("irq_id = %d", irq_id);
+		
 		assert(irq_id < NR_HARD_INTR);
 		struct IRQ_t *f = handles[irq_id];
 
