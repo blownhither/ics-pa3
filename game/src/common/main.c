@@ -1,7 +1,5 @@
 #include "game-common.h"
 #include "x86.h"
-#include <stdlib.h>
-#include <time.h>
 
 void init_timer();
 int syscall(int id, ...);
@@ -12,7 +10,6 @@ void add_irq_handle(int irq, void *handler) {
 
 void
 game_init(void) {
-	srand(time(0));
 
 	init_timer();
 	add_irq_handle(0, timer_event);
