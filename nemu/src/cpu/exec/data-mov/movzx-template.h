@@ -26,7 +26,7 @@ make_instr_helper(rm2r)
 #define instr movzwl
 #if DATA_BYTE==4
 static void do_execute() {
-	OPERAND_W(op_dest, op_src->val & ((1 << (op_src->size * 8)) - 1));//op_src->val & 0xffff);
+	OPERAND_W(op_dest, op_src->val & 0xffff);
 	print_asm_template2();
 }
 make_instr_helper(rm2r)
