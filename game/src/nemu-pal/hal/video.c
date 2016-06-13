@@ -34,7 +34,7 @@ void SDL_BlitSurface(SDL_Surface *src, SDL_Rect *srcrect,
 	d = dstrect==NULL? dst->pixels : dst->pixels + dstrect->y * line_d + dstrect->x;
 	int i;
 	for(i=0; i<h; ++i) {
-		memcpy(s, d, w);
+		memcpy(s, d, w); 
 		s += line_s;
 		d += line_d;
 	}
