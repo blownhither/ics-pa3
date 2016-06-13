@@ -32,3 +32,55 @@ void ide_write(uint8_t *, uint32_t, uint32_t);
 
 /* TODO: implement a simplified file system here. */
 
+typedef struct {
+	bool opened;
+	uint32_t offset;
+} Fstate;
+
+static Fstate state_array[NR_FILES + 3];	//including stdin, stdout, stderr as 0,1,2
+
+static int find_filename(const char *s) {
+	int i;
+	for(i=0; i<NR_FILES; ++i) {
+		if(!strcmp(file_table[i+3][0], s)) 
+			return i + 3;
+	}
+	Log("Unmatched file name %s",s);
+	assert(0);
+}
+
+int fs_open(const char *pathname, int flags) {	/* 在我们的实现中可以忽略flags */
+	int i = find_filename(pathname);
+	state_array[i].opened = true;
+	return i;	//used as fd
+}
+int fs_read(int fd, void *buf, int len) {
+	//assert(state_array[i].opened == true);
+	if(!state_array[i].opened) return -1;
+	int t = file_table[fd-3].size - state_array[fd].offset;
+	len = len>t? t : len;
+	ide_read(buf, state_array[fd].offset, len);
+	state_array[fd].offset += len;
+	return len;	
+}
+
+int fs_write(int fd, void *buf, int len) {
+	if(!state_array[i].opened) return -1;
+	assert(state_array[fd].offset + len < file_table[fd - 3].size);
+	ide_write(buf, state_array[fd].offset, len);
+	state_array[fd].offset += len;
+	return len;	
+}
+int fs_lseek(int fd, int offset, int whence) {
+	switch(whence) {
+		case SEEK_SET: state_array[fd].offset = offset; break;
+		case SEEK_CUR: state_array[fd].offset += offset; break;
+		case SEEK_END: state_array[fd].offset = file_table[fd-3].size + offset; 
+			break;
+	}
+	return state_array[fd].offset;
+}
+int fs_close(int fd) {
+	state_array[fd].opened = false;
+	return 0;
+}
