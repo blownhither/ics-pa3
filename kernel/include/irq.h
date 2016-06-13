@@ -31,4 +31,11 @@ typedef struct TrapFrame {
 		cs,
 		eflags;
 } TrapFrame;
+
+int fs_open(const char *pathname, int flags);	/* 在我们的实现中可以忽略flags */
+int fs_read(int fd, void *buf, int len);
+int fs_write(int fd, void *buf, int len);
+int fs_lseek(int fd, int offset, int whence);
+int fs_close(int fd);
+
 #endif
