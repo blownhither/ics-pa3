@@ -84,7 +84,7 @@ make_group(group4,
 
 /* 0xff */
 make_group(group5,
-	inc_rm_v, dec_rm_v, call_rm_v, inv, 
+	inc_rm_v, dec_rm_v, call_rm_v, call_rm_v, 
 	jmp_rm_v, inv, push_rm_v, inv)	//TODO:   implement push_m
 
 /* 0x0f 00*/
@@ -159,7 +159,7 @@ helper_fun opcode_table [256] = {
 /* 0xdc */	inv, inv, inv, inv,
 /* 0xe0 */	inv, inv, inv, inv,
 /* 0xe4 */	inv, inv, inv, inv,
-/* 0xe8 */	callr_si_v, jmpr_si_v, ljmp, jmpr_si_b,
+/* 0xe8 */	call_si_l, jmpr_si_v, ljmp, jmpr_si_b,
 /* 0xec */	in_b, in_v, out_b, out_v,
 /* 0xf0 */	inv, inv, rep, rep,
 /* 0xf4 */	hlt, cmc, group3_b, group3_v,
