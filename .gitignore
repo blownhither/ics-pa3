@@ -11,3 +11,4 @@
 push.sh
 perf.data
 perf.data.old
+game/src/nemu-pal/data/
