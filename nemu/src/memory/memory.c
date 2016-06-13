@@ -24,7 +24,12 @@ uint32_t hwaddr_read(hwaddr_t addr, size_t len) {
 	}
 #endif
 
+#ifdef EFFICIENCY
+	return dram_read(addr, len) & (~0u >> ((4 - len) << 3));
+#endif
+
 	uint32_t ret2 = L1_cache_read(addr, len) & (~0u >> ((4 - len) << 3));
+
 #ifdef MZYDEBUG
 	uint32_t ret = dram_read(addr, len) & (~0u >> ((4 - len) << 3));
 	if(ret != ret2) {
@@ -47,7 +52,11 @@ void hwaddr_write(hwaddr_t addr, size_t len, uint32_t data) {
 	}
 #endif
 
-	//dram_write(addr, len, data);
+#ifdef EFFICIENCY
+	dram_write(addr, len, data);
+	return ;
+#endif
+
 	L1_cache_write(addr, len, data);
 #ifdef MZYDEBUG
 	uint32_t result = hwaddr_read(addr, len);
