@@ -1,6 +1,6 @@
 #include "cpu/exec/template-start.h"
 
-/*
+
 
 //relative call, call rel16/32
 #define instr callr
@@ -32,7 +32,7 @@ static void do_execute(){
 #if DATA_BYTE == 2
 	cpu.eip = op_src->val & 0xffff; 
 #elif DATA_BYTE == 4
-	cpu.eip = op_src->val - get_instr_len() - 1;
+	cpu.eip = op_src->val - get_instr_len();// - 1;
 	// get_instr_len vary from 1 to 2, defined in helper.h
 #endif
 	print_asm_template1(); 
@@ -41,14 +41,12 @@ static void do_execute(){
 make_instr_helper(rm)
 #undef instr
 
-*/
-#define instr call
 
+/*
 static void do_execute() {
-	int len = get_instr_len();
+	int len = instr_len();
 	cpu.esp -= 4;
-	current_sreg = SS_NUM;
-	swaddr_write(cpu.esp, 4, cpu.eip + len);
+	swaddr_write(cpu.esp, 4, cpu.eip + len, R_SS);
 	if(op_src->type == OP_TYPE_IMM) {
 		cpu.eip += op_src->val;
 		print_asm(op_src->str, OP_STR_SIZE, "$0x%x", cpu.eip + len + 1);
@@ -60,5 +58,5 @@ static void do_execute() {
 
 make_instr_helper(si)
 make_instr_helper(rm)
-
+*/
 #include "cpu/exec/template-end.h"
