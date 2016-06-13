@@ -17,7 +17,16 @@ static int key_state[NR_KEYS];
 void
 keyboard_event(void) {
 	/* TODO: Fetch the scancode and update the key states. */
-	assert(0);
+	int key_code = in_byte(0x60);	//might have +0x80 for release
+	int i = -1;
+	while (++i<NR_KEYS && keycode_array[i] != key_code*0x7f);
+	if (i>=NR_KEYS) {
+		Log("Invalid keyboard code in keyboard_event\n");
+		assert(0);
+		return;	
+	}
+	key_state[i] = key_code&0x80 ? KEY_STATE_RELEASE : KEY_STATE_PRESS; 
+	
 }
 
 static inline int
@@ -54,8 +63,22 @@ process_keys(void (*key_press_callback)(int), void (*key_release_callback)(int))
 	 * If no such key is found, the function return false.
 	 * Remember to enable interrupts before returning from the function.
 	 */
-
-	assert(0);
+	int i;
+	for(i=0; i<NR_KEYS; i++) {
+		if(key_state[i] == KEY_STATE_PRESS) {
+			key_press_callback(keycode_array[i]);
+			key_state[i] = KEY_STATE_EMPTY;	//only count as one press
+			//TODO: WAIT RELEASE or ?!?!?!? //TODO
+			sti();
+			return true;
+		}
+		else if(key_state[i] == KEY_STATE_RELEASE) {
+			key_release_callback(keycode_array[i]);
+			key_state[i] = KEY_STATE_EMPTY;
+			sti();
+			return true;
+		}
+	}
 	sti();
 	return false;
 }
