@@ -7,7 +7,7 @@
 
 int get_fps();
 
-void SDL_BlitSurface(SDL_Surface *src, SDL_Rect *scrrect, 
+void SDL_BlitSurface(SDL_Surface *src, SDL_Rect *srcrect, 
 		SDL_Surface *dst, SDL_Rect *dstrect) {
 	assert(dst && src);
 
@@ -19,20 +19,59 @@ void SDL_BlitSurface(SDL_Surface *src, SDL_Rect *scrrect,
 	 * is saved in ``dstrect'' after all clipping is performed
 	 * (``srcrect'' is not modified).
 	 */
-
-	assert(0);
+	int w, h, line_s = src->w, line_d = dst->w;// = scrrect ? scrrect->w;
+	uint8_t *s, *d;
+	if (srcrect) {
+		w = srcrect->w;
+		h = srcrect->h;
+		s = src->pixels + srcrect->y * line_s + srcrect->x;
+	}
+	else {
+		w = src->w;
+		h = src->h;
+		s = src->pixels;
+	}
+	d = dstrect==NULL? dst->pixels : dst->pixels + dstrect->y * line_d + dstrect->x;
+	int i;
+	for(i=0; i<h; ++i) {
+		memcpy(s, d, w);
+		s += line_s;
+		d += line_d;
+	}
 }
 
 void SDL_FillRect(SDL_Surface *dst, SDL_Rect *dstrect, uint32_t color) {
 	assert(dst);
 	assert(color <= 0xff);
-
+	
 	/* TODO: Fill the rectangle area described by ``dstrect''
 	 * in surface ``dst'' with color ``color''. If dstrect is
 	 * NULL, fill the whole surface.
 	 */
-
-	assert(0);
+/*
+	int16_t x,y,xd,yd;
+	if(dstrect) {
+		x = dstrect->x; 
+		y = dstrect->y;
+		xd = x + dstrect->w;
+		yd = y + dstrect->h;
+	}
+	else {
+		x = y = 0;
+		xd = dst->w;
+		yd = dst->h;
+	}
+*/
+	if (dstrect == NULL) {
+		memset(dst->pixels, (uint8_t)color, dst->refcount);//dst->w * dst->h
+		return ;
+	}
+	int y = dstrect->y, yd = y + dstrect->h, w = dstrect->w;
+	uint8_t *p = (uint8_t*)dst->pixels + y * w + dstrect->x;
+	for (; y<yd; ++y) {
+		memset(p, (uint8_t)color, w);
+		p += w;
+	}
 }
 
 void SDL_UpdateRect(SDL_Surface *screen, int x, int y, int w, int h) {
@@ -50,8 +89,13 @@ void SDL_UpdateRect(SDL_Surface *screen, int x, int y, int w, int h) {
 	}
 
 	/* TODO: Copy the pixels in the rectangle area to the screen. */
-
-	assert(0);
+	uint8_t *p = (void*)0xa0000 + x + y * 320;
+	uint8_t *s = (uint8_t*)screen->pixels + x + y * screen->w;
+	while(h--) {
+	    memcpy(p, s, w);
+	    p += 320;
+	    s += screen->w;
+	}
 }
 
 void SDL_SetPalette(SDL_Surface *s, int flags, SDL_Color *colors, 
@@ -80,7 +124,7 @@ void SDL_SetPalette(SDL_Surface *s, int flags, SDL_Color *colors,
 
 	if(s->flags & SDL_HWSURFACE) {
 		/* TODO: Set the VGA palette by calling write_palette(). */
-		assert(0);
+		write_palette(s->format->palette->colors, ncolors);
 	}
 }
 
