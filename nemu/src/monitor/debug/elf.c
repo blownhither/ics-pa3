@@ -4,7 +4,7 @@
 
 char *exec_file = NULL;
 
-/*static*/ char *strtab = NULL;
+static char *strtab = NULL;
 static Elf32_Sym *symtab = NULL;
 static int nr_symtab_entry;
 
@@ -62,9 +62,9 @@ void load_elf_tables(int argc, char *argv[]) {
 			ret = fread(symtab, sh[i].sh_size, 1, fp);
 			assert(ret == 1);
 			nr_symtab_entry = sh[i].sh_size / sizeof(symtab[0]);
-		}
+		} 
 		else if(sh[i].sh_type == SHT_STRTAB && 
-				strcmp(shstrtab + sh[i].sh_name, ".strtab") == 0) {
+		 		strcmp(shstrtab + sh[i].sh_name, ".strtab") == 0) {
 			/* Load string table from exec_file */
 			strtab = malloc(sh[i].sh_size);
 			fseek(fp, sh[i].sh_offset, SEEK_SET);
@@ -75,37 +75,55 @@ void load_elf_tables(int argc, char *argv[]) {
 
 	free(sh);
 	free(shstrtab);
-//	printf("%s\n", strtab + 11);
 	assert(strtab != NULL && symtab != NULL);
-
+//#define MZYDEBUG
+#ifdef	MZYDEBUG	
+	printf(".symtab is");
+	for(i=0; i<nr_symtab_entry; i++) {
+		printf("size:%x\tvalue:%x\t%x\t%x\n" , symtab[i].st_size , symtab[i].st_value , symtab[i].st_info , symtab[i].st_shndx); 
+		printf("%s\n" , strtab+symtab[i].st_name); 
+	}
+	printf("MZYDEBUG!!\n"); 
+#endif
 	fclose(fp);
 }
 
-int find_var(char *str) {
+uint32_t query_symbol(char *tar , bool *ok){
 	int i;
-	for(i = 0; i < nr_symtab_entry; ++ i) {
-		if(strcmp(str, strtab + symtab[i].st_name) == 0) return symtab[i].st_value;
-	}
-	return -1;
-}
-
-bool find_func(int addr, char *str) {
-	int i;
-	for(i = 0; i < nr_symtab_entry; ++ i) {
-	//	printf("%x %x\n", symtab[i].st_value, symtab[i].st_value + symtab[i].st_size);
-		if(addr >= symtab[i].st_value && addr < symtab[i].st_value + symtab[i].st_size) {
-			strcpy(str, strtab + symtab[i].st_name);
-		//	printf("*\n");
-			return true; 
+	char *cur; 
+	for(i=0; i<nr_symtab_entry; i++){
+		if(symtab[i].st_info != 0x11) continue; 
+		cur = strtab + symtab[i].st_name;
+		if(!strcmp(cur , tar)){
+#ifdef MZYDEBUG
+			printf("found %s at 0x%x\n" , cur , symtab[i].st_value);
+#endif
+			*ok = true; 
+			return symtab[i].st_value; 
 		}
 	}
+	
+	*ok = false; 
+	return 0; 
+}
+
+bool query_func(uint32_t eip, char *func_name){
+	int i;uint32_t start, end;
+	//printf("eip got is 0x%x",eip);
+	for(i=0; i<nr_symtab_entry; i++){
+		if(symtab[i].st_info != 0x12 && symtab[i].st_info != 0x10) continue; 
+		start = symtab[i].st_value;
+		end = start + symtab[i].st_size;
+		if(eip<end && eip>=start){
+			strcpy(func_name,strtab + symtab[i].st_name);
+			//printf("found is%s\n",func_name);
+			return true;
+		}
+	}
+	*func_name = '\0';	
 	return false;
 }
 
-void print() {
-	int i;
-	for(i = 0; i < nr_symtab_entry; ++ i) {
-		printf("%s\n", strtab + symtab[i].st_name);
-	}	
-	
-}
+
+
+
