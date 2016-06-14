@@ -10,10 +10,10 @@ void add_irq_handle(int irq, void *handler) {
 
 void
 game_init(void) {
-	init_timer();
 
+	init_timer();
 	add_irq_handle(0, timer_event);
-	add_irq_handle(0, keyboard_event);
+	add_irq_handle(0, keyboard_event);		//TODO: why 0?
 
 	Log("game start!");
 
