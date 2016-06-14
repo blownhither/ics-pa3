@@ -18,6 +18,7 @@ extern uint64_t L2_get_cache_cost ();
 extern bool check_watchpoints(); 
 extern void i8259_ack_intr();
 extern uint8_t i8259_query_intr();
+void raise_intr(uint8_t, int);
 
 char assembly[80];
 char asm_buf[128];
