@@ -21,7 +21,7 @@ keyboard_event(void) {
 	int i = -1;
 	while (++i<NR_KEYS && keycode_array[i] != (key_code&0x7f));
 	if (i>=NR_KEYS) {
-		Log("Invalid keyboard code in keyboard_event\n");
+		Log("Invalid keyboard code in keyboard_event %x\n", key_code);
 		assert(0);
 		return;	
 	}
