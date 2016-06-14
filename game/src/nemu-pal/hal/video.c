@@ -153,7 +153,7 @@ void SDL_SoftStretch(SDL_Surface *src, SDL_Rect *scrrect,
 		/* No other case occurs in NEMU-PAL. */
 		
 		//TODO:
-		
+		/*
 		SDL_Rect rect;
 		rect.x = x;
 		rect.y = y;
@@ -161,7 +161,7 @@ void SDL_SoftStretch(SDL_Surface *src, SDL_Rect *scrrect,
 		rect.h = h;
 		SDL_BlitSurface(src, &rect, dst, dstrect);
 		return;
-		
+		*/
 		
 		assert(0);
 	}

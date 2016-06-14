@@ -75,10 +75,8 @@ uint32_t lnaddr_read(lnaddr_t addr, size_t len) {
 	hwaddr_t hwaddr;
 	if(!(cpu.cr0.PE && cpu.cr0.PG))
 		return hwaddr_read(addr, len);
-	if ( 0 ) { /*data cross the page boundary*/
+	if ( (addr & 0xfff) + len > limit ) { /*data cross the page boundary*/
 		/* this is a special case, you can handle it later. */
-		
-		Log("Cross page read at 0x%x",addr);
 		uint32_t off = addr & 0xfff;
 		//TODO:
 		hwaddr_t hwaddr2;
@@ -99,7 +97,7 @@ void lnaddr_write(lnaddr_t addr, size_t len, uint32_t data) {
 		return hwaddr_write(addr, len, data);
 	if ( 0 ) { /*data cross the page boundary*/
 		/* this is a special case, you can handle it later. */
-		Log("Cross page write at 0x%x",addr);
+		assert(0);
 	}
 	else {
 		hwaddr_t hwaddr = page_translate(addr);
@@ -131,4 +129,3 @@ void swaddr_write(swaddr_t addr, size_t len, uint32_t data) {
 		lnaddr = addr;
 	lnaddr_write(lnaddr, len, data);
 }
-
