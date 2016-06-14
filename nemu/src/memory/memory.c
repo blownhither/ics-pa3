@@ -77,6 +77,7 @@ uint32_t lnaddr_read(lnaddr_t addr, size_t len) {
 		return hwaddr_read(addr, len);
 	if ( 0 ) { /*data cross the page boundary*/
 		/* this is a special case, you can handle it later. */
+		
 		Log("Cross page read at 0x%x",addr);
 		uint32_t off = addr & 0xfff;
 		//TODO:
