@@ -7,5 +7,5 @@ make_helper(iret) {
 	eflags.eflags_l = pop_stack_32();
 	print_asm("iret"); 
 	Log("cpu.eip=0x%x", cpu.eip);
-	return 0;
+	return -1;
 }
