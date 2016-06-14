@@ -6,8 +6,12 @@
 /* You will define this macro in PA4 */
 #define HAS_DEVICE
 
-//#define DEBUG
+//volatile static int dummy = 1;
+
+#define DEBUG
 #define LOG_FILE
+
+#define EFFICIENCY
 
 #include "debug.h"
 #include "macro.h"
@@ -15,6 +19,8 @@
 #include <stdint.h>
 #include <assert.h>
 #include <string.h>
+#include <stdlib.h>
+#include <time.h>
 
 typedef uint8_t bool;
 typedef uint32_t hwaddr_t;
@@ -34,5 +40,7 @@ typedef union {
 
 #define false 0
 #define true 1
+
+uint32_t current_sreg;
 
 #endif

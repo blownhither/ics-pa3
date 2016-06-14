@@ -12,7 +12,6 @@
 make_helper(concat(decode_i_, SUFFIX)) {
 	/* eip here is pointing to the immediate */
 	op_src->type = OP_TYPE_IMM;
-//	printf("decode_i\n");
 	op_src->imm = instr_fetch(eip, DATA_BYTE);
 	op_src->val = op_src->imm;
 
@@ -22,21 +21,22 @@ make_helper(concat(decode_i_, SUFFIX)) {
 	return DATA_BYTE;
 }
 
-#if DATA_BYTE == 1 || DATA_BYTE == 2 || DATA_BYTE == 4
+#if DATA_BYTE == 1 || DATA_BYTE == 2|| DATA_BYTE == 4
 /* sign immediate */
 make_helper(concat(decode_si_, SUFFIX)) {
-	op_src->type = OP_TYPE_IMM;
+	op_src->type = OP_TYPE_SIMM;
 
 	/* TODO: Use instr_fetch() to read ``DATA_BYTE'' bytes of memory pointed 
 	 * by ``eip''. Interpret the result as an signed immediate, and assign
 	 * it to op_src->simm.
-	 *
-	op_src->simm = ???
 	 */
-//	panic("please implement me");
-	unsigned int i = instr_fetch(eip, DATA_BYTE);
-	if(i >> (DATA_BYTE * 8 - 1) == 1) op_src->simm = -((1ll << 8 * DATA_BYTE) -i); else op_src->simm = i;
-	op_src->val = op_src->simm;
+	//DATA_TYPE_S t = instr_fetch(eip , DATA_BYTE);
+
+	op_src->simm = (DATA_TYPE_S)instr_fetch(eip , DATA_BYTE); 
+	op_src->simm = (op_src->simm << (32 - 8 * DATA_BYTE)) >> (32 - 8 * DATA_BYTE);
+
+	op_src->val = op_src->simm;  
+	
 
 #ifdef DEBUG
 	snprintf(op_src->str, OP_STR_SIZE, "$0x%x", op_src->val);
@@ -80,11 +80,6 @@ static int concat3(decode_rm_, SUFFIX, _internal) (swaddr_t eip, Operand *rm, Op
 	return len;
 }
 
-make_helper(concat(decode_n_, SUFFIX)) {
-	op_src->val = op_dest->val = 0;
-	op_src->size = op_dest->size = DATA_BYTE;
-	return 0;
-}
 /* Eb <- Gb
  * Ev <- Gv
  */
@@ -134,34 +129,6 @@ make_helper(concat(decode_i2r_, SUFFIX)) {
 	return decode_i(eip);
 }
 
-/* used for movsx,movzx */
-
-make_helper(concat(decode_rm_b2r_, SUFFIX)) {
-	Operand *rm = op_src;
-	Operand *reg = op_dest;
-	rm->size = 1;
-	int len = read_ModR_M(eip, rm, reg);
-	reg->val = REG(reg->reg);
-
-#ifdef DEBUG
-	snprintf(reg->str, OP_STR_SIZE, "%%%s", REG_NAME(reg->reg));
-#endif
-	return len;
-}
-
-make_helper(concat(decode_rm_w2r_, SUFFIX)) {
-	Operand *rm = op_src;
-	Operand *reg = op_dest;
-	rm->size = 2;
-	int len = read_ModR_M(eip, rm, reg);
-	reg->val = REG(reg->reg);
-
-#ifdef DEBUG
-	snprintf(reg->str, OP_STR_SIZE, "%%%s", REG_NAME(reg->reg));
-#endif
-	return len;
-}
-
 /* used by unary operations */
 make_helper(concat(decode_rm_, SUFFIX)) {
 	return decode_rm_internal(eip, op_src, op_src2);		/* op_src2 not use here */
@@ -183,12 +150,6 @@ make_helper(concat(decode_si_rm2r_, SUFFIX)) {
 	len += decode_si_b(eip + len);
 	return len;
 }
-//#else
-
-//make_helper(concat(decode_si2rm_, SUFFIX)) {
-//	return 0;
-//}
-
 #endif
 
 /* used by shift instructions */
@@ -217,12 +178,19 @@ make_helper(concat(decode_rm_cl_, SUFFIX)) {
 make_helper(concat(decode_rm_imm_, SUFFIX)) {
 	int len = decode_r2rm(eip);
 	len += decode_i_b(eip + len);
-	return len;
+	return len; 
 }
+
+//modification
+/*
+make_helper(concat(decode_rm_w2r_, SUFFIX)) {
+	//int len = decode_rm
+}
+*/
 
 void concat(write_operand_, SUFFIX) (Operand *op, DATA_TYPE src) {
 	if(op->type == OP_TYPE_REG) { REG(op->reg) = src; }
-	else if(op->type == OP_TYPE_MEM) { swaddr_write(op->addr, op->size, src, op->sreg); }
+	else if(op->type == OP_TYPE_MEM) { swaddr_write(op->addr, op->size, src); }
 	else { assert(0); }
 }
 

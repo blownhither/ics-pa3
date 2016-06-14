@@ -1,60 +1,56 @@
 #include "nemu.h"
-
 /* We use the POSIX regex functions to process regular expressions.
  * Type 'man regex' for more information about POSIX regex functions.
  */
 #include <sys/types.h>
 #include <regex.h>
-
+#include<string.h>
 enum {
-	NOTYPE = 256, EQ, NB, MS, DR, NEQ, AND_L, OR_L ,NOT_L, MOD, AND, OR, NOT, LE, BE, L, B, VAR,
-
+	NOTYPE = 256, EQ , DEC  , HEX , REG , NEG , LE , GE=263 , 
+	DREF = 264 , SL , SR , NEQ , AND , OR , SYMB
 	/* TODO: Add more token types */
 
 };
 
-extern char *strtab;
-
 static struct rule {
 	char *regex;
 	int token_type;
-	int level;
-	bool singel;
 } rules[] = {
 
 	/* TODO: Add more rules.
 	 * Pay attention to the precedence level of different rules.
 	 */
+	//rules and type(in the enum above)
+	{"0x[0-9a-fA-F]+" , HEX} ,		//hexadecimal number
+	{"[0-9]+" , DEC} ,				//decimal number
+	{" +",	NOTYPE},				// spaces
+	{"\\+", '+'},					// plus
+	{"<=" , LE} , 
+	{">=" , GE} , 
+	{"<<" , SL} , 
+	{">>" , SR} , 
+	{">" , '>'} ,
+	{"<" , '<'} ,
+	{"!=" , NEQ} ,   
+	{"==", EQ} , 					// equal
+	//leaving NEG for future parsing
+	{"-" , '-'} ,					//minus
+	{"\\*" , '*'} ,				    //multiply
+	{"/" , '/'} ,			    	//devide
+	{"\\$[a-zA-Z]{2,3}" , REG} ,    //register
+	{"[a-zA-Z_][a-zA-Z0-9_]*", SYMB} ,			//global symbol 
 
-	{" +",	NOTYPE, 10, false},							// spaces
-	{"\\+", '+', 4, false},								// plus
-	{"-", '-', 4, false},								// minus
-	{"\\*", '*', 5, false},								// multiply
-	{"/", '/', 5, false},								// devide
-	{"%", MOD, 5, false},								// mod
-	{"0x[0-9a-fA-F]+|[0-9]+|\\$[a-z]+", NB, 10, false},	// number
-	{"!=", NEQ, 0, true},								// not equal
-	{"==", EQ, 0, false},								// equal
-	{"<=", LE, 0, false},								// less or equal
-	{">=", BE, 0, false},								// bigger or equal
-	{"<", L, 0, false},									// less
-	{">", B, 0, false},									// biger
-	{"&&", AND_L, -1, false},							// logic and
-	{"\\|\\|", OR_L, -1, false},						// logic or
-	{"\\!", NOT_L, 0, true},							// logic not
-	{"&", AND, 2, false},								// bit and
-	{"\\|", OR, 1, false},								// bit or
-	{"~", NOT, 3, false},								// bit not
-	{"\\(", '(', 10, false},							// left par
-	{"\\)", ')', 10, false},							// right par
-	{"-", MS, 9, true},									// minus sign
-	{"\\*", DR, 9, true},								// dereference
-	{"[a-zA-Z_]+[0-9a-zA-Z_]*", VAR, 10, false},					// var
+	{"\\\(" , '('} , {"\\)" , ')'} ,//parenthesis
+	{"%" , '%'} , 					//mod
+	{"&&" , AND} , 
+	{"\\|\\|" , OR} , 
+	{"&" , '&'} , 
+	{"\\|" , '|'} , 
+	{"\\^" , '^'}
 };
 
 #define NR_REGEX (sizeof(rules) / sizeof(rules[0]) )
-
-static regex_t re[NR_REGEX];
+regex_t re[NR_REGEX];
 
 /* Rules are used for many times.
  * Therefore we compile them only once before any usage.
@@ -63,7 +59,7 @@ void init_regex() {
 	int i;
 	char error_msg[128];
 	int ret;
-	
+
 	for(i = 0; i < NR_REGEX; i ++) {
 		ret = regcomp(&re[i], rules[i].regex, REG_EXTENDED);
 		if(ret != 0) {
@@ -76,8 +72,6 @@ void init_regex() {
 typedef struct token {
 	int type;
 	char str[32];
-	int level;
-	bool singel;
 } Token;
 
 Token tokens[32];
@@ -87,223 +81,367 @@ static bool make_token(char *e) {
 	int position = 0;
 	int i;
 	regmatch_t pmatch;
-	
+
 	nr_token = 0;
+
 	while(e[position] != '\0') {
 		/* Try all rules one by one. */
 		for(i = 0; i < NR_REGEX; i ++) {
 			if(regexec(&re[i], e + position, 1, &pmatch, 0) == 0 && pmatch.rm_so == 0) {
-			//	printf("*****\n");
 				char *substr_start = e + position;
 				int substr_len = pmatch.rm_eo;
-//				Log("match rules[%d] = \"%s\" at position %d with len %d: %.*s", i, rules[i].regex, position, substr_len, substr_len, substr_start);
+
+				//Log("match rules[%d] = \"%s\" at position %d with len %d: %.*s", i, rules[i].regex, position, substr_len, substr_len, substr_start);
 				position += substr_len;
+
 				/* TODO: Now a new token is recognized with rules[i]. Add codes
 				 * to record the token in the array ``tokens''. For certain 
 				 * types of tokens, some extra actions should be performed.
 				 */
-				tokens[nr_token].type = rules[i].token_type;
-				tokens[nr_token].level = rules[i].level;
-				tokens[nr_token].singel = rules[i].singel;
-				switch(rules[i].token_type) {
-					case '+': case '(': case ')': case '/':	
-					case EQ: case MS: case DR: 
-					case AND_L: case OR_L: case NOT_L:
-					case AND: case OR: case NOT: case MOD: 
-					case LE: case BE: case L: case B: break;
-					case '-': 
-						if (nr_token == 0 || tokens[nr_token-1].type != NB) {
-							tokens[nr_token].type = MS;
-							tokens[nr_token].level = 9;
-							tokens[nr_token].singel = true;
-						}
-						break;
-					case '*':
-						if (nr_token == 0 || tokens[nr_token-1].type != NB) {
-							tokens[nr_token].type = DR;
-							tokens[nr_token].level = 9;
-							tokens[nr_token].singel = true;
-						}
-						break;
-					case NB: case VAR:
-						strncpy(tokens[nr_token].str, substr_start, substr_len);
-						tokens[nr_token].str[substr_len] = '\0';
-						break;
-					case NOTYPE: nr_token --; break;
-					default: panic("please implement me");
+
+				//expression overflow
+				if(nr_token>=31||substr_len>31){
+					printf("expression too long\n"); 
+					return false; 
 				}
-				//printf("***%d\n",tokens[nr_token].type);
-				nr_token ++;
+				switch(rules[i].token_type) {
+					case NOTYPE:
+						break;   
+					default:
+						//plain recording
+						//nr_token is the number of tokens (1-32)
+						tokens[nr_token].type = rules[i].token_type;
+						strncpy(tokens[nr_token].str , substr_start , substr_len); 
+						(tokens[nr_token].str)[substr_len]='\0';
+						nr_token++;
+#ifdef MZYDEBUG
+						//printf("nr_token = %d" , nr_token);
+#endif
+				}
+
 				break;
 			}
 		}
+
 		if(i == NR_REGEX) {
 			printf("no match at position %d\n%s\n%*.s^\n", position, e, position, "");
 			return false;
 		}
 	}
+
 	return true; 
 }
 
-extern bool flag;
 
-bool check_parentheses(int p, int q) {
-	if (tokens[p].type != '(' || tokens[q].type != ')') return false;
-	int i,num=0;
-	for(i = p + 1; i < q; ++ i) {
-		if (tokens[i].type == '(') num ++;
-		if (tokens[i].type == ')') num --;
-		if (num < 0) return false;
+bool check_parentheses(int p , int q){
+	//pretend there is a stack always full of '('
+	int end=-1; 
+	if(tokens[p].type!='('||tokens[q].type!=')')
+		return false; 
+	int i;
+	for(i=p; i<=q; i++){
+		if(tokens[i].type=='('){
+			++end;
+		}
+		else if(tokens[i].type==')'){
+			if(end==-1)return false; 
+			if(end==0 && i!=q)return false; 
+			end--; 
+		}
 	}
-	return num == 0;
+	if(end!=-1)return false;
+	return true;
 }
 
-uint32_t select_op(int p, int q) {
-	int i, min_level = 10;
-	int in_par = 0;
-	for(i = p; i <= q; ++ i) {
-		if (tokens[i].type == '(') in_par ++;
-		if (tokens[i].type == ')') in_par --;		
-		if (in_par) continue;
-		if (tokens[i].level < min_level) min_level = tokens[i].level;
-	}
-	for(i = q; i >= p; -- i) {
-		if (tokens[i].type == '(') in_par ++;
-		if (tokens[i].type == ')') in_par --;		
-		if (in_par) continue;
-		if (tokens[i].level == min_level) {
-			if (tokens[i].level == 9) {
-				while(i > p && tokens[i-1].level == 9) {
-					i --;
-				}
-			}
-//			printf("%d\n",i);
-			return i;
-		}
-	}
-//	panic("Can't find op!");
-	flag = false;
-	return 0;
 
+int get_operator_priority(int operator){
+	switch(operator){
+		case SYMB:
+			return 19;  
+		case NEG:case DREF:case '!':case '~':
+			return 18; 
+		case '/':case '*':case '%':
+			return 17; 
+		case '+':case '-':
+			return 16; 
+		case SL:case SR:
+			return 15; 
+		case '>':case GE:case '<':case LE:
+			return 14; 
+		case EQ:case NEQ:
+			return 13; 
+		case '&':return 12; 
+		case '^':return 11; 
+		case '|':return 10; 
+		case AND:return 9; 
+		case OR:return 8; 
+		default: return -1;
+				 //not a defined operator. probably a number or '(' ,  ')' 
+	}
+}
+uint32_t string_to_int(char *s , int base){
+	int i , n=strlen(s);
+	if(!s)return 0; 
+	if(n>32)n=32; 
+	uint32_t ans=0;
+	if(base == 16)i=2;				//omitting (0x)0000000 
+	else i=0; 
+	for(; i<n; i++)
+		if('a'<=s[i]&&s[i]<='f'){
+			ans = ans*base + s[i] - 'a' + 10; 
+		}
+		else if('A'<=s[i]&&s[i]<='F'){
+			ans = ans*base + s[i] - 'A' + 10; 
+		}
+		else
+			ans = ans*base + s[i] - '0'; 
+	return ans; 
 }
 
-extern int find_var(char *str);
 
-uint32_t eval(p, q) {
-	if (!flag) return 0;
-	if (p > q) {
-//		panic("No number!");
-		flag = false;
-		return 0;
-		/* Bad expression */
-	}
-	else if (p == q) {
-		/* Single token.
-		 * For now this token should be a number. 
-		 * Return the value of the number.
-		 */
-		if (tokens[p].type != NB && tokens[p].type != VAR) {
-			flag = false;
-			return 0;
+#define MZYDEBUG
+#undef MZYDEBUG
+int invalid_flag=0; 
+const char* my_register_num_32[]={"EAX" , "ECX" , "EDX" , "EBX" , "ESP" , "EBP" , "ESI" , "EDI"}; 
+const char* my_register_num_16[]={"AX" , "CX" , "DX" , "BX" , "SP" , "BP" , "SI" , "DI"};
+const char* my_register_num_8h[]={"AH" , "CH" , "DH" , "BH"}; 
+const char* my_register_num_8l[]={"AL" , "CL" , "DL" , "BL"}; 
+uint32_t get_register_value(char *reg){
+	int len=strlen(reg); 
+
+	int i; 
+	if(len==3){
+		for(i=0; i<8; i++){
+			if(!strcmp(reg , my_register_num_32[i]))
+				return cpu.gpr[i]._32;
 		}
-		int value = 0,i = 0;
-//		printf("str=%s\n,value=%d\n",tokens[p].str,value);
-		if (tokens[p].type == VAR) {
-//			printf("%s\n", tokens[p].str);
-			value = find_var(tokens[p].str);
-			if(value == -1) {
-				flag = false;
-				return 0;
-			}
-		} else
-		if (tokens[p].str[0] == '$') {
-			char *reg = tokens[p].str + 1;
-//			printf("%s\n",reg);
-			if (strcmp(reg, "eip") == 0) {
-				value = cpu.eip;
-			} else
-			for(i = 0; i < 8; ++ i) {
-				if (strcmp(regsl[i], reg) == 0) {
-					value = cpu.gpr[i]._32;
-					break;
-				}
-			}
-			if (i == 8) {
-				flag = false;
-				return 0;
-			}
-		} else 
-		if (strlen(tokens[p].str) < 2 || tokens[p].str[1] != 'x') {
-			for(i = 0; i < strlen(tokens[p].str); ++ i) {
-				value = value * 10 + tokens[p].str[i] - '0';
-			}
-		} else {
-			for(i = 2; i < strlen(tokens[p].str); ++ i) {
-				if(tokens[p].str[i] >= '0' && tokens[p].str[i] <= '9')
-					value = value * 16 + tokens[p].str[i] - '0'; 
-				if(tokens[p].str[i] >= 'A' && tokens[p].str[i] <= 'F')
-					value = value * 16 + tokens[p].str[i] - 'A' + 10; 
-				if(tokens[p].str[i] >= 'a' && tokens[p].str[i] <= 'f')
-					value = value * 16 + tokens[p].str[i] - 'a' + 10;
-			}
+		if(!strcmp(reg , "EIP")){
+			//printf("MZYDEBUG $eip recognized as %u.\n" , cpu.eip); 
+			return (uint32_t)cpu.eip; 
 		}
-		return value;
-	}
-	else if(check_parentheses(p, q) == true) {
-		/* The expression is surrounded by a matched pair of parentheses. 
-		 * If that is the case, just throw away the parentheses.
-		 */
-		return eval(p + 1, q - 1);
 	}
 	else {
-		int op = select_op(p, q); //the position of dominant operator in the token expression;
-		int val1 = 0, val2 = 0; 
-		if (!flag) return 0;
-		if (tokens[op].singel) {
-			val1 = eval(op + 1, q);
-		} else {
-			val1 = eval(p, op - 1); 
-			val2 = eval(op + 1, q);
+		for(i=0; i<8; i++)
+			if(!strcmp(reg , my_register_num_16[i]))
+				return cpu.gpr[i]._16; 
+		for(i=0; i<4; i++){
+			if(!strcmp(reg , my_register_num_8h[i]))
+				return cpu.gpr[i]._8[1]; 
 		}
-		switch(tokens[op].type) {
-			case '+': return val1 + val2;
-			case '-': return val1 - val2;
-			case '*': return val1 * val2;
-			case '/': return val1 / val2;
-			case EQ: return val1 == val2;
-			case MS: return - val1;
-			case DR: return swaddr_read(val1, 4, R_DS);
-			case AND_L:	return val1 && val2;
-			case OR_L: return val1 || val2;
-			case NOT_L:	return !val1;
-			case AND: return val1 & val2;
-			case OR: return val1 | val2;
-			case NOT: return ~val1;
-			case MOD: return val1 % val2;
-			case LE: return val1 <= val2;
-			case BE: return val1 >= val2;
-			case L: return val1 < val2;
-			case B: return val1 > val2;
-			case NB: case VAR: flag = false; return 0;
-		default: assert(0);
+		for(i=0; i<4; i++){
+			if(!strcmp(reg , my_register_num_8l[i])){
+				return cpu.gpr[i]._8[0]; 
+			}
 		}
-	//	panic("error");
-		return 0;
-	}
-	return 0;
+
+	}	
+
+	invalid_flag=1; 
+	return 0; 
 }
 
-extern void print();
+void tool_to_upper_case(char *s){
+	int len=strlen(s); 
+	int i; 
+	for(i=0; i<len; i++){
+		if(s[i]>='a' && s[i]<='z')
+			s[i]+='A'-'a'; 
+	}
+	return; 
+}
 
+extern uint32_t query_symbol(char* , bool*); 
+uint32_t eval(int p , int q){
+	if(invalid_flag)return 0; 	
+	//p , q is the beginning and ending of a subexpression
+	if(p>q){
+		/*bad expression*/
+		//invalid_flag=1; 
+		return 0; 
+	}
+	else if(p == q) { 
+		/* Single token.
+		 *		 * For now this token should be a number. 
+		 *				 * Return the value of the number.
+		 *						 */ 
+		if(tokens[p].type==DEC)
+			return string_to_int(tokens[p].str , 10);  
+		else if(tokens[p].type==HEX)
+			return string_to_int(tokens[p].str , 16);
+		else if(tokens[p].type==REG){
+			if(strlen(tokens[p].str)>4){
+				printf("register not found.\n"); 
+				invalid_flag=1; 
+				return 0; 
+			}
+			char reg[10]; 
+			strcpy(reg , &tokens[p].str[1]) ;		//first ch is '$'
+			tool_to_upper_case(reg);  
+			return get_register_value(reg); 
+		}
+		else if(tokens[p].type==SYMB){
+			bool ok; 
+			uint32_t symb_addr = query_symbol(tokens[p].str , &ok); 
+			if(!ok){
+				printf("Undefined symbol %s in current context\n" , tokens[p].str); 
+			}
+			return symb_addr; 
+		}
+		else {
+			invalid_flag=1; 
+			return 0; 
+		} 
+	}
+	else if(check_parentheses(p ,  q) == true) {
+		/*  The expression is surrounded by a matched pair of parentheses. 
+		 *		 * If that is the case ,  just throw away the parentheses.
+		 *				 */
+		return eval(p + 1 ,  q - 1);  
+	}
+	else { 
+		//dominant operator
+		int i , op=p , op_priority = 1000; 
+		//op is the position of current choice of dominant operator
+		for (i=p; i<=q; i++){
+			if(tokens[i].type=='('){
+				int count=1; 
+				while(count && i<q){
+					i++; 
+					if(tokens[i].type==')')
+						count--; 
+					else if(tokens[i].type=='(')
+						count++;
+				}
+				if(!count)continue;
+				else {
+					//printf("invalid expression (line 223)\n"); 
+					invalid_flag=1; 
+					return 0; 
+				} 
+			}
+			//now i is not in a pair of paren
+			else if(get_operator_priority(tokens[i].type)==-1)continue; 
+			else if(get_operator_priority(tokens[i].type) <= op_priority ){
+				op_priority = get_operator_priority(tokens[i].type); 
+				op = i; 
+			}
+		}
+		//now op is the dominant operator
+		if(tokens[op].type==NEG)return -eval(op+1 , q);
+		if(tokens[op].type==DREF){
+			swaddr_t temp = eval(op+1 , q); 
+			if(temp >= 0x8000000){
+				//printf("physical address %x is outside of the physical memory!\n" , temp);
+				//invalid_flag=1; 
+				//return 0; 
+			}
+			return swaddr_read(eval(op+1 , q) , 4);
+		}
+		uint32_t val1 = eval(p , op-1); 
+		uint32_t val2 = eval(op+1 , q);
+#ifdef MZYDEBUG
+		printf("p=%d , q=%d , val1=%d, op=%d , val2=%d\n " ,p , q ,  val1 , op , val2); 
+#endif
+		switch(tokens[op].type){
+			case '+':return val1+val2; 
+			case '-':return val1-val2; 
+			case '*':return val1*val2; 
+			case '/':if(!val2)printf("warning: devided by 0\n"); 
+					 return (double)val1/val2;
+			case '%':if(!val2){invalid_flag=1; return 0; }
+					 return val1%val2; 
+			case '>':return val1>val2; 
+			case '<':return val1<val2; 
+			case GE:return val1>=val2; 
+			case LE: return val1<=val2; 
+			case '&':return val1&val2; 
+			case '|':return val1|val2; 
+			case '^':return val1^val2; 
+			case AND:return val1&&val2; 
+			case OR:return val1||val2; 
+			case EQ:return val1==val2;
+			case NEQ:return val1!=val2;
+			case SL:return val1<<val2; 
+			case SR:return val1>>val2; 
+			default:invalid_flag=1; 
+					printf( "operator %c not defined.\n" , tokens[op].type); 
+			return 0; 
+		}
+	}
+	return 0; 
+
+}
+#include<elf.h>
+extern Elf32_Sym symtab[];
+extern char strtab[]; 
 uint32_t expr(char *e, bool *success) {
-	if(!make_token(e)) {
+	//if(!strlen(e))return 0; 
+	//Elf32_Sym entry = symtab[0]; 
+	//printf("MZYDEBUG:\n"); 
+	int i; 
+	//for(i=0; i<10; i++)printf("%s" , strtab); 
+
+
+	if (!make_token(e)) {
 		*success = false;
 		return 0;
 	}
-//	print();
-	return eval(0,nr_token-1);
-	/* TODO: Insert codes to evaluate the expression. */
-	panic("please implement me");
+#ifdef MZYDEBUG
+	//int i; for(i=0; i<nr_token; i++)printf("%c " , tokens[i].type); 
+	int paren=check_parentheses(0 , nr_token-1)?1:0;  
+	printf("paren %d\n" , paren); 
+	//printf("-----end of tokening-----\n" );
+#endif
+	//subdevide operators
+	//int i; 
+	for (i=0; i<nr_token; i++){
+		//if tokens[i-1] is operator
+		if(tokens[i].type == '*' && (i==0 || get_operator_priority(tokens[i-1].type) !=-1))
+			tokens[i].type= DREF; 
+
+		if(tokens[i].type == '-' && (i==0 || get_operator_priority(tokens[i-1].type) !=-1))
+			tokens[i].type= NEG; 
+	}
+
+	static int gdb_expr_count=0; 
+	uint32_t ans = eval(0 , nr_token-1);
+	if (invalid_flag){
+		printf("invalid expression\n"); 
+		invalid_flag=0; 
+		return 0; 
+	} 
+	else printf(" $%d = 0x%x\t%d\n" , gdb_expr_count++ , ans , ans); 
 	return 0;
 }
 
+//different from merely expr()
+//neat , without "$" index and return result as number without inner printer
+//also used in cmd_w (featured with flag_const_watchpoint)
+extern bool flag_const_watchpoint; 
+uint32_t expr_cmd_x(char *e , bool *success){
+	if(!make_token(e)){
+		*success=false;
+		return 0; 
+	} 
+	flag_const_watchpoint =  true; 
+	int i; 
+	for(i=0; i<nr_token; i++){
+		//if tokens[i-1] is operator
+		if(tokens[i].type == '*' && (i==0 || get_operator_priority(tokens[i-1].type) !=-1))
+			tokens[i].type= DREF; 
+
+		if(tokens[i].type == '-' && (i==0 || get_operator_priority(tokens[i-1].type) !=-1))
+			tokens[i].type= NEG;
+		if(tokens[i].type == DREF || tokens[i].type == REG || tokens[i].type == SYMB)
+			flag_const_watchpoint = false;  
+	}
+	uint32_t ans = eval(0 , nr_token-1);
+	if(invalid_flag){
+		printf("Invalid expression \n"); 
+		invalid_flag=0;
+		*success=false; 
+		return 0; 
+	}
+	*success=true; 
+	return ans; 
+}

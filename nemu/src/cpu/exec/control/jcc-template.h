@@ -1,90 +1,96 @@
 #include "cpu/exec/template-start.h"
 
-extern int len;
+#define JCC_ROUTINE DATA_TYPE_S offs = instr_fetch(eip+1,DATA_BYTE);\
+                    print_asm(str(instr)" 0x%x <offs=0x%x>",eip+offs+DATA_BYTE+1,offs);
 
-#define if_exec() {\
-	cpu.eip += op_src->val;\
-	snprintf(op_src->str, OP_STR_SIZE, "$0x%x", cpu.eip + len + 1);\
-}
+//using eip in the first macro because 0x0f offer extra eip offs 
 
-#define else_exec() snprintf(op_src->str, OP_STR_SIZE, "$0x%x", cpu.eip + op_src->val + len + 1)
+#define JCC_CONDITION(reg) JCC_ROUTINE\
+                            if((reg)==1)cpu.eip += offs;\
+                            return DATA_BYTE + 1;
 
-#define all_exec() static void do_execute() {\
-				       if(JMPFLAG) if_exec() else else_exec();\
-					   print_asm_template1();\
-				   }\
-				   make_instr_helper(si)
+#define JCC_MAKER(reg1) make_helper(concat3(instr,_si_,SUFFIX)){\
+                           JCC_CONDITION(reg1);\
+                          }
 
-#define instr ja
-#define JMPFLAG cpu.CF == 0 && cpu.ZF == 0
-all_exec();
-#undef JMPFLAG
+/*example of JCC_MAKER on je*/
+/*make_helper(concat(je_si_,SUFFIX)){
+	//DATA_TYPE_S offs = instr_fetch(cpu.eip+1,DATA_BYTE);
+ 	//if(eflags.eflags.ZF)cpu.eip += offs + DATA_BYTE + 1;    
+	//print_asm(str(instr)" 0x%x <offs=0x%x>\n",cpu.eip+offs+DATA_BYTE+1,offs);
+	//return 0;
+    JCC_CONDITION(eflags.eflags.ZF);
+}*/
+
+#ifdef instr 
+#undef instr
+#endif
+#define instr jo  //0x0f 80
+JCC_MAKER(eflags.eflags.OF)
 #undef instr
 
-#define instr jae
-#define JMPFLAG cpu.CF == 0
-all_exec();
-#undef JMPFLAG
+#define instr jno //0x0f 81
+JCC_MAKER(!eflags.eflags.OF)
 #undef instr
 
-#define instr jb
-#define JMPFLAG cpu.CF == 1
-all_exec();
-#undef JMPFLAG
+#define instr jb  //0x0f 82
+JCC_MAKER(eflags.eflags.CF)
 #undef instr
 
-#define instr je
-#define JMPFLAG cpu.ZF == 1
-all_exec();
-#undef JMPFLAG
+#define instr jnb //0x0f 83
+JCC_MAKER(!eflags.eflags.CF)
 #undef instr
 
-#define instr jbe
-#define JMPFLAG cpu.ZF == 1 || cpu.CF == 1
-all_exec();
-#undef JMPFLAG
+#define instr je //0x0f 84
+JCC_MAKER(eflags.eflags.ZF)
 #undef instr
 
-#define instr jl
-#define JMPFLAG cpu.SF != cpu.OF
-all_exec();
-#undef JMPFLAG
+#define instr jne //0x0f 85
+JCC_MAKER(!eflags.eflags.ZF)
 #undef instr
 
-#define instr jle
-#define JMPFLAG cpu.ZF == 1 || cpu.SF != cpu.OF
-all_exec();
-#undef JMPFLAG
+#define instr jna //0x0f 86
+//CF || ZF !!
+JCC_MAKER(eflags.eflags.CF || eflags.eflags.ZF)
 #undef instr
 
-#define instr jg
-#define JMPFLAG cpu.ZF == 0 && cpu.SF == cpu.OF
-all_exec();
-#undef JMPFLAG	
+#define instr ja //0x0f 87
+JCC_MAKER(!eflags.eflags.CF && !eflags.eflags.ZF)
 #undef instr
 
-#define instr jge
-#define JMPFLAG cpu.SF == cpu.OF
-all_exec();
-#undef JMPFLAG
+#define instr js //0x0f 88
+JCC_MAKER(eflags.eflags.SF)
 #undef instr
 
-#define instr jne
-#define JMPFLAG cpu.ZF == 0
-all_exec();
-#undef JMPFLAG
+#define instr jns //0x0f 89
+JCC_MAKER(!eflags.eflags.SF)
 #undef instr
 
-#define instr jns
-#define JMPFLAG cpu.SF == 0
-all_exec();
-#undef JMPFLAG
+#define instr jp //0x0f 8a
+JCC_MAKER(eflags.eflags.PF)
 #undef instr
 
-#define instr js
-#define JMPFLAG cpu.SF == 1
-all_exec();
-#undef JMPFLAG
+#define instr jpo //0x0f 8b
+JCC_MAKER(!eflags.eflags.PF)
 #undef instr
+
+#define instr jl //0x0f 8c
+JCC_MAKER(eflags.eflags.SF != eflags.eflags.OF)
+#undef instr
+
+#define instr jge //0x0f 8d
+JCC_MAKER(eflags.eflags.SF == eflags.eflags.OF)
+#undef instr
+
+#define instr jle //0x0f 8e
+//ZF || SF!=OF
+JCC_MAKER(eflags.eflags.ZF || (eflags.eflags.SF!=eflags.eflags.OF))
+#undef instr
+
+#define instr jg //0x0f 8f
+JCC_MAKER(!eflags.eflags.ZF && (eflags.eflags.SF==eflags.eflags.OF))
+#undef instr
+//make_instr_helper(si);
 
 #include "cpu/exec/template-end.h"
+
