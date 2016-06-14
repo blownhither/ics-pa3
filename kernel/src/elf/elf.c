@@ -45,7 +45,7 @@ uint32_t loader() {
 #ifdef IA32_PAGE 
 			paddr = mm_malloc(ph->p_vaddr, ph->p_memsz); 
 #endif
-
+ 
 #ifdef HAS_DEVICE
 			ide_read((void *)paddr, ELF_OFFSET_IN_DISK + ph->p_offset, ph->p_filesz);
 #else

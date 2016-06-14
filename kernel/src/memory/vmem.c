@@ -23,8 +23,8 @@ void create_video_mapping() {
 	pdir[0].val = make_pde(va_to_pa(ptable));
 	int i;
 	for(i = VMEM_ADDR; i < VMEM_ADDR + SCR_SIZE + PAGE_SIZE; i += PAGE_SIZE) {
-	ptable->val = make_pte(i);
-	ptable ++;
+		ptable->val = make_pte(i);
+		ptable ++;
 	}
 	
 }
