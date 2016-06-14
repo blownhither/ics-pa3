@@ -61,7 +61,7 @@ int fs_read(int fd, void *buf, int len) {
 	if(!state_array[fd].opened) return -1;
 	int t = file_table[fd-3].size - state_array[fd].offset;
 	len = len>t? t : len;
-	ide_read(buf, state_array[fd].offset, len);
+	ide_read(buf, file_table[fd-3].disk_offset + state_array[fd].offset, len);
 	state_array[fd].offset += len;
 	return len;	
 }
