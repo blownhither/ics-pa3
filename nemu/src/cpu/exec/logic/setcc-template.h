@@ -1,85 +1,40 @@
 #include "cpu/exec/template-start.h"
 
-#define if_exec() OPERAND_W(op_src, 1);
+#define instr setcc
 
-#define else_exec() OPERAND_W(op_src, 0)
+static void do_execute () {
+	
+	uint8_t condition = instr_fetch(cpu.eip+1,1), ans;
+	//printf("%x",condition);
+	switch(condition){
+		case 0x90: ans = eflags.eflags.OF;break;
+		case 0x91: ans = !eflags.eflags.OF;break;
+		case 0x92: ans = eflags.eflags.CF;break;
+		case 0x93: ans = !eflags.eflags.CF;break;
+		case 0x94: ans = eflags.eflags.ZF;break;
+		case 0x95: ans = !eflags.eflags.ZF;break;
+		case 0x96: ans = (eflags.eflags.CF || eflags.eflags.ZF);break;
+		case 0x97: ans = !(eflags.eflags.CF || eflags.eflags.ZF);break;
+		case 0x98: ans = eflags.eflags.SF;break;
+		case 0x99: ans = !eflags.eflags.SF;break;
+		case 0x9a: ans = eflags.eflags.PF;break;
+		case 0x9b: ans = !eflags.eflags.PF;break;
+		case 0x9c: ans = (eflags.eflags.OF != eflags.eflags.SF);break;
+		case 0x9d: ans = (eflags.eflags.OF == eflags.eflags.SF);break;
+		case 0x9e: ans = (eflags.eflags.ZF || eflags.eflags.SF!=eflags.eflags.OF);break;
+		case 0x9f: ans = (!eflags.eflags.ZF && eflags.eflags.SF==eflags.eflags.OF);break;
+		 //ans = !eflags.eflags.OF;break;
+		default: panic("exception in setcc!\n");
+		
+	}
+	OPERAND_W(op_src,ans);
+	//printf("%s,%d\n",op_src->str, ans);
+	/* There is no need to update EFLAGS, since no other instructions 
+	 * in PA will test the flags updated by this instruction.
+	 */
 
-#define all_exec() static void do_execute() {\
-				       if(SETFLAG) if_exec() else else_exec();\
-					   print_asm_template1();\
-				   }\
-				   make_instr_helper(rm)
+	print_asm("setcc");
+}
 
-#define instr seta
-#define SETFLAG cpu.CF == 0 && cpu.ZF == 0
-all_exec();
-#undef SETFLAG
-#undef instr
-
-#define instr setae
-#define SETFLAG cpu.CF == 0
-all_exec();
-#undef SETFLAG
-#undef instr
-
-#define instr setb
-#define SETFLAG cpu.CF == 1
-all_exec();
-#undef SETFLAG
-#undef instr
-
-#define instr sete
-#define SETFLAG cpu.ZF == 1
-all_exec();
-#undef SETFLAG
-#undef instr
-
-#define instr setbe
-#define SETFLAG cpu.ZF == 1 || cpu.CF == 1
-all_exec();
-#undef SETFLAG
-#undef instr
-
-#define instr setl
-#define SETFLAG cpu.SF != cpu.OF
-all_exec();
-#undef SETFLAG
-#undef instr
-
-#define instr setle
-#define SETFLAG cpu.ZF == 1 || cpu.SF != cpu.OF
-all_exec();
-#undef SETFLAG
-#undef instr
-
-#define instr setg
-#define SETFLAG cpu.ZF == 0 && cpu.SF == cpu.OF
-all_exec();
-#undef SETFLAG	
-#undef instr
-
-#define instr setge
-#define SETFLAG cpu.SF == cpu.OF
-all_exec();
-#undef SETFLAG
-#undef instr
-
-#define instr setne
-#define SETFLAG cpu.ZF == 0
-all_exec();
-#undef SETFLAG
-#undef instr
-
-#define instr setns
-#define SETFLAG cpu.SF == 0
-all_exec();
-#undef SETFLAG
-#undef instr
-
-#define instr sets
-#define SETFLAG cpu.SF == 1
-all_exec();
-#undef SETFLAG
-#undef instr
-
+make_instr_helper(rm)
 #include "cpu/exec/template-end.h"

@@ -1,33 +1,55 @@
 #include "cpu/exec/template-start.h"
 
-#define instr jmp
+//relative jump
+#define instr jmpr	
+static void do_execute(){
+    cpu.eip += op_src->val;    
+	print_asm("jmp 0x%x <offset = 0x%x\n>",cpu.eip+1+DATA_BYTE,op_src->val);
+    return ;
+}
 
+make_instr_helper(si);
+#undef instr
 
-static void do_execute() {
-	int len = instr_len();
-	if(op_src->type == OP_TYPE_IMM) {
-		cpu.eip += op_src->val;
-		snprintf(op_src->str, OP_STR_SIZE, "$0x%x", cpu.eip + len + 1);
-	} else {
-		cpu.eip = op_src->val - len - 1;
-	}
+/*
+//direct jump
+#define instr jmp	
+static void do_execute(){
+    cpu.eip = op_src->val - op_src->size - 1 - (ops_decoded.is_data_size_16?1:0);	//TODO: check 2    
+
+	Log("in jmp_rm, eip=0x%x\n",cpu.eip);
+
 	print_asm_template1();
+    return ;
+}
+make_instr_helper(rm);
+#undef instr
+*/
+extern void true_callback();
+
+make_helper(concat(jmp_rm_, SUFFIX)) {
+#ifdef MZYDEBUG
+	Log("eip=0x%x to ",eip);
+#endif
+	idex(eip, concat(decode_rm_, SUFFIX), true_callback);
+	cpu.eip = op_src->val;
+#ifdef MZYDEBUG
+	Log("0x%x\n",cpu.eip);
+#endif
+	print_asm("jmp rm");
+	return 0;
 }
 
-make_instr_helper(si)
-make_instr_helper(rm)
+/*
+#define make_instr_helper(type) \
+	make_helper(concat5(instr, _, type, _, SUFFIX)) {
+		return idex(eip, concat4(decode_, type, _, SUFFIX), do_execute);\
+	}
 
-void load_sreg(uint32_t);
+#define do_execute concat4(do_, instr, _, SUFFIX)
 
-make_helper(concat(ljmp_, SUFFIX)) {
-	swaddr_t addr = instr_fetch(eip + 1, 4);
-	uint16_t sreg = instr_fetch(eip + 5, 2);
-	cpu.cs = sreg;
-	load_sreg(R_CS);
-//	printf("%x\n", cpu.cs);
-	cpu.eip = addr - 7;
-	print_asm("ljmp" str(SUFFIX) " $0x%x,$0x%x", sreg, addr);
-	return 7;
-}
+idex: exec and return decoded_len+1
+*/
 
 #include "cpu/exec/template-end.h"
+

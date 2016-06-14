@@ -12,8 +12,9 @@
 #include "jmp-template.h"
 #undef DATA_BYTE
 
-/* for instruction encoding overloading */
-
-make_helper_v(jmp_si)
 make_helper_v(jmp_rm)
+make_helper_v(jmpr_si)
 
+void true_callback() {
+	return ;//do nothing
+}
