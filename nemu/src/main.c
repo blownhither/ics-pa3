@@ -15,11 +15,12 @@ int main(int argc, char *argv[]) {
 
 	/* Initialize the virtual computer system. */
 	restart();
- 	
- 	/* PA4.4 device */
+ /*	
+ 	//now put in init_monitor
+ 	//PA4.4 device
  	init_device();
  	init_sdl();
- 	
+ */
 	/* Receive commands from user. */
 	ui_mainloop();
 
