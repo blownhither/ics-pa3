@@ -11,6 +11,8 @@
 #define DEBUG
 #define LOG_FILE
 
+#define DEFICIENCY
+
 #include "debug.h"
 #include "macro.h"
 
