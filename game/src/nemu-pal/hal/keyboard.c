@@ -19,7 +19,7 @@ keyboard_event(void) {
 	/* TODO: Fetch the scancode and update the key states. */
 	int key_code = in_byte(0x60);	//might have +0x80 for release
 	int i = -1;
-	while (++i<NR_KEYS && keycode_array[i] != key_code*0x7f);
+	while (++i<NR_KEYS && keycode_array[i] != (key_code&0x7f));
 	if (i>=NR_KEYS) {
 		Log("Invalid keyboard code in keyboard_event\n");
 		assert(0);
