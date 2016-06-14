@@ -69,13 +69,21 @@ void hwaddr_write(hwaddr_t addr, size_t len, uint32_t data) {
 }
 
 #define limit 0x1000
+
 uint32_t lnaddr_read(lnaddr_t addr, size_t len) {
 	//assert(len==1 || len==2 || len==4);
+	hwaddr_t hwaddr;
 	if(!(cpu.cr0.PE && cpu.cr0.PG))
 		return hwaddr_read(addr, len);
 	if ( (addr & 0xfff) + len > limit ) { /*data cross the page boundary*/
 		/* this is a special case, you can handle it later. */
-		assert(0);
+		uint32_t off = addr & 0xfff;
+		//TODO:
+		hwaddr_t hwaddr2;
+		hwaddr = page_translate(addr);
+		hwaddr2 = page_translate(addr + limit - off);
+		return hwaddr_read(hwaddr, limit - off) + 
+			(hwaddr_read(hwaddr2, len - limit + off) << ((limit - off) * 8));
 	}
 	else {
 		//printf("do page_translate!");
@@ -87,7 +95,7 @@ uint32_t lnaddr_read(lnaddr_t addr, size_t len) {
 void lnaddr_write(lnaddr_t addr, size_t len, uint32_t data) {
 	if(!(cpu.cr0.PE && cpu.cr0.PG))
 		return hwaddr_write(addr, len, data);
-	if ( (addr & 0xfff) + len > limit ) { /*data cross the page boundary*/
+	if ( 0 ) { /*data cross the page boundary*/
 		/* this is a special case, you can handle it later. */
 		assert(0);
 	}
