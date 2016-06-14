@@ -1,5 +1,5 @@
 #include "common.h"
-#include "string.h"
+#include <string.h>
 
 typedef struct {
 	char *name;
@@ -38,52 +38,57 @@ typedef struct {
 	uint32_t offset;
 } Fstate;
 
-static Fstate state_array[NR_FILES + 3];	//including stdin, stdout, stderr as 0,1,2
+Fstate FD[NR_FILES + 3]; 
 
-static int find_filename(const char *s) {
+int fs_open(const char *pathname, int flags);	/* 在我们的实现中可以忽略flags */
+int fs_read(int fd, void *buf, int len);
+int fs_write(int fd, void *buf, int len);
+int fs_lseek(int fd, int offset, int whence);
+int fs_close(int fd);
+
+int fs_open(const char *pathname, int flags) {
 	int i;
-	for(i=0; i<NR_FILES; ++i) {
-		if(!strcmp(file_table[i+3].name, s)) 
-			return i + 3;
+//	Log("%s", pathname);
+	for(i = 0; i < NR_FILES; ++ i) if(strcmp(pathname, file_table[i].name) == 0) break;
+	assert(i < NR_FILES);
+	if(i < NR_FILES) {
+		FD[i + 3].opened = true;
+		FD[i + 3].offset = 0;//file_table[i].disk_offset;
+		return i + 3;
 	}
-	Log("Unmatched file name %s",s);
-	assert(0);
 	return -1;
 }
 
-int fs_open(const char *pathname, int flags) {	/* 在我们的实现中可以忽略flags */
-	int i = find_filename(pathname);
-	state_array[i].opened = true;
-	state_array[i].offset = 0;
-	return i;	//used as fd
-}
-int fs_read(int fd, void *buf, int len) {
-	//assert(state_array[i].opened == true);
-	if(!state_array[fd].opened) return -1;
-	int t = file_table[fd-3].size - state_array[fd].offset;
-	len = len>t? t : len;
-	ide_read(buf, file_table[fd-3].disk_offset + state_array[fd].offset, len);
-	state_array[fd].offset += len;
-	return len;	
+int fs_read(int fd, void *buf, int len){
+	if(!FD[fd].opened) return -1;
+//	assert(FD[fd].offset + len <= file_table[fd-3].size);
+	int remain = file_table[fd-3].size - FD[fd].offset;
+	if(remain < len) len = remain;
+	ide_read(buf, file_table[fd-3].disk_offset + FD[fd].offset, len);
+	FD[fd].offset += len;
+	return len;
+	if(strlen(buf) == 0) return -1; else return strlen(buf);
 }
 
 int fs_write(int fd, void *buf, int len) {
-	if(!state_array[fd].opened) return -1;
-	assert(state_array[fd].offset + len < file_table[fd - 3].size);
-	ide_write(buf, file_table[fd-3].disk_offset + state_array[fd].offset, len);
-	state_array[fd].offset += len;
-	return len;	
+	if(!FD[fd].opened) return -1;
+	assert(FD[fd].offset + len < file_table[fd-3].size);
+	ide_write(buf, FD[fd].offset, len);
+	FD[fd].offset += len;
+	return len;
 }
+
 int fs_lseek(int fd, int offset, int whence) {
-	switch(whence) {
-		case SEEK_SET: state_array[fd].offset = offset; break;
-		case SEEK_CUR: state_array[fd].offset += offset; break;
-		case SEEK_END: state_array[fd].offset = file_table[fd-3].size + offset; 
-			break;
+	switch (whence) {
+		case SEEK_SET : FD[fd].offset = offset; break;
+		case SEEK_CUR : FD[fd].offset += offset; break;
+		case SEEK_END : FD[fd].offset = file_table[fd-3].size + offset; break;
+		default : assert(0);
 	}
-	return state_array[fd].offset;
+	return FD[fd].offset;
 }
+
 int fs_close(int fd) {
-	state_array[fd].opened = false;
+	FD[fd].opened = false;
 	return 0;
 }
