@@ -7,19 +7,7 @@ CPU_state cpu;
 const char *regsl[] = {"eax", "ecx", "edx", "ebx", "esp", "ebp", "esi", "edi"};
 const char *regsw[] = {"ax", "cx", "dx", "bx", "sp", "bp", "si", "di"};
 const char *regsb[] = {"al", "cl", "dl", "bl", "ah", "ch", "dh", "bh"};
-const char *sregs[] = {"es", "cs", "ss", "ds", "fs", "gs"};
-
-bool parity_check(uint32_t a){
-	//return 1 when there are even bits of '1' 
-	uint32_t pf_temp = (a >> 16) ^ a;  
-	pf_temp = (a >> 8) ^ a;  
-	pf_temp = (a >> 4) ^ a;  
-	pf_temp = (a >> 2) ^ a; 
-	pf_temp = ((a >> 1) ^ a) & 1;  
-	return !pf_temp; 
-}
-//TODO: add more types of check
-
+const char *sregs[] = {"es", "cs", "ss", "ds"};
 
 void reg_test() {
 	srand(time(0));

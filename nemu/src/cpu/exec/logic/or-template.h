@@ -3,14 +3,13 @@
 #define instr or
 
 static void do_execute () {
-	DATA_TYPE ans = op_dest->val | op_src->val;
-	OPERAND_W(op_dest, ans);
-	eflags.eflags.ZF = !ans;
-	eflags.eflags.SF = MSB(ans);
-	eflags.eflags.OF = 0;
-	extern bool parity_check(uint32_t ); 
-	eflags.eflags.PF = parity_check(ans);
-	eflags.eflags.CF = 0;
+	DATA_TYPE result = op_dest->val | op_src->val;
+	OPERAND_W(op_dest, result);
+
+	/* TODO: Update EFLAGS. */
+	//panic("please implement me");
+	cpu.CF = cpu.OF = 0;
+	Updata_EFLAGS(result);
 	print_asm_template2();
 }
 

@@ -10,10 +10,9 @@ void load_elf_tables(int, char *[]);
 void init_regex();
 void init_wp_list();
 void init_ddr3();
-void init_L2_cache();
-void init_L1_cache();
-void init_tlb();
-
+void init_cache();
+void init_reg();
+void init_seg();
 #ifdef HAS_DEVICE
 void init_device();
 void init_sdl();
@@ -48,9 +47,9 @@ void init_monitor(int argc, char *argv[]) {
 
 #ifdef HAS_DEVICE
 	init_device();
+
 	init_sdl();
 #endif
-
 	/* Display welcome message. */
 	welcome();
 }
@@ -87,22 +86,13 @@ static void load_entry() {
 	fclose(fp);
 }
 
-void init_eflags(){
-	eflags.eflags_l = 0x2; 
-	return ;  
-}
-
 void restart() {
 	/* Perform some initialization to restart a program */
 #ifdef USE_RAMDISK
 	/* Read the file with name `argv[1]' into ramdisk. */
 	init_ramdisk();
 #endif
-	cpu.cr0.PE = 0;	//real mode
-	cpu.cr0.PG = 0;	//no paging
-	cpu.desc_cache[CS_NUM].base = 0;
-	cpu.desc_cache[CS_NUM].limit = 0xffffffff;
-	init_eflags(); 
+
 	/* Read the entry code into memory. */
 	load_entry();
 
@@ -111,7 +101,11 @@ void restart() {
 
 	/* Initialize DRAM. */
 	init_ddr3();
-	init_L2_cache();
-	init_L1_cache();
-	init_tlb();
+
+	/* Initialize cache. */
+	init_cache();
+
+	init_reg();
+
+	init_seg();
 }

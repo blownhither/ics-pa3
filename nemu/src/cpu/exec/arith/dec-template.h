@@ -7,13 +7,10 @@ static void do_execute () {
 	OPERAND_W(op_src, result);
 
 	/* TODO: Update EFLAGS. */
-	eflags.eflags.ZF = !result;
-	eflags.eflags.SF = MSB(result);
-	eflags.eflags.OF = (op_src->val < result);
-	extern bool parity_check(uint32_t ); 
-	eflags.eflags.PF = parity_check(result);
-	eflags.eflags.CF = (result==-1);
-
+//	panic("please implement me");
+	if(MSB(op_src->val) == 1 && MSB(result) != MSB(op_src->val))
+		cpu.OF = 1; else cpu.OF = 0;
+	Updata_EFLAGS(result);
 	print_asm_template1();
 }
 
