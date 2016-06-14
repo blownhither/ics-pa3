@@ -53,7 +53,7 @@ static int find_filename(const char *s) {
 
 int fs_open(const char *pathname, int flags) {	/* 在我们的实现中可以忽略flags */
 	int i = find_filename(pathname);
-	state_array[i].opened = true;
+	state_array[i].opened = true;	//i is the right place, set in find_filename
 	state_array[i].offset = 0;
 	return i;	//used as fd
 }
