@@ -1,141 +1,104 @@
 #include "monitor/watchpoint.h"
 #include "monitor/expr.h"
-#include "monitor/monitor.h"
-#include "nemu.h"
+
 #define NR_WP 32
 
 static WP wp_list[NR_WP];
-static WP aux_wp_head; 
 static WP *head, *free_;
-int top_watchpoint_NO=1; 
-//initilazation called in ui_mainloop(); 
+
 void init_wp_list() {
 	int i;
-	for(i = 0; i < NR_WP - 1; i++) {
+	for(i = 0; i < NR_WP; i ++) {
 		wp_list[i].NO = i;
 		wp_list[i].next = &wp_list[i + 1];
-		wp_list[i+1].last = &wp_list[i]; 
 	}
 	wp_list[NR_WP - 1].next = NULL;
-	head = &aux_wp_head;
-	head->next=NULL; 
-	head->last=NULL; 
-	free_ = &wp_list[0];
-	return; 
+
+	head = NULL;
+	free_ = wp_list;
 }
 
-WP* new_wp(void){
-	if(free_ == NULL ){
-#undef MZYDEBUG
-#ifdef MZYDEBUG
-		printf("MZYDEBUG free_ == NULL\n"); 
-#endif
-		return NULL; 
+extern bool flag;
+
+void new_wp(char *args) {
+	WP *new_ = free_;
+	if (head == NULL) {
+		head = new_;
+		new_->NO = 1;
+	} else {
+		WP *tail = head;
+		while (tail->next != NULL) tail = tail->next;
+		tail->next = new_;
+		new_->NO = tail->NO + 1;
 	}
-	WP *new_free_ = free_->next;
-	if(new_free_!=NULL)
-		new_free_->last = NULL;//TODO 
-	free_->next  = head->next;
-	if(head->next!=NULL)
-		head->next->last = free_;
-	head->next = free_;
-	free_->last = head; 
-	free_ = new_free_; 
-	return head->next; 
-
+	WP *nex = free_->next;
+	new_->next = NULL;
+	free_ = nex;
+	strcpy(new_->str, args);
+	new_->str[strlen(args)] = '\0';
+	new_->last_value = expr(args, &flag);
 }
 
-void free_wp(WP *wp){
-	if(wp->last!=NULL)
-		wp->last->next = wp->next;
-	if(wp->next!=NULL)
-		wp->next->last = wp->last; 
-	wp->next = free_; 
-	free_->last = wp; 
-	free_ = wp; 
-	return; 
-}
+void print_wp(int op);
 
-extern uint32_t expr_cmd_x(char* expr ,bool *success); 
-
-WP *get_new_wp(char *expr){
-	WP* new = new_wp(); 
-	if(new==NULL){
-		return NULL;	
-	} 
-	new->NO = ++top_watchpoint_NO; 
-	bool success=true;
-	uint32_t temp= expr_cmd_x(expr , &success);  
-	if(!success)panic("Exception: invalid expression for get_new_wp()\n"); 
-	new->old_value = temp; 
-	strcpy(new->expr , expr);
-#ifdef MZYDEBUG
-	printf("MZYDEBUG expr recorded is %s from %s\n" , new->expr , expr); 
-#endif
-	printf("Watchpoint %d: %s\n" , top_watchpoint_NO , expr); 
-	return new;
-}
-
-void delete_wp(int num_2_delete){
-	int found=0; 
-	WP* temp; 
-	if(head->next==NULL){
-		printf("Empty watchpoint list\n"); 
-		return; 
+void free_wp(int n) {
+	WP *wp = head;
+	if(head == NULL) {
+		print_wp(0);
+		return;
 	}
-	for(temp=head->next; temp!=NULL; temp=temp->next){
-		if(temp->NO==num_2_delete){
-			free_wp(temp);
-			found=1;
-			break; 
+	while (n -- && wp->next != NULL) wp = wp->next;
+	WP *tail = free_;
+	if(free_ == NULL) {
+		free_ = wp;
+	} else {
+		while (tail->next != NULL) tail = tail->next;
+		tail->next = wp;
+	}
+	WP *p = head;
+	if (p != wp) {
+		while (p->next != wp) p = p->next;
+		p->next = wp->next;
+		wp->next = NULL;
+		p = p->next;
+	} else {
+		head = head->next;
+		wp->next = NULL;
+		p = head;
+	}
+	while (p != NULL) {
+		p->NO --;
+		p = p->next;
+	}
+}
+
+void check_wp(int *nemu_state) {
+	WP *wp = head;
+	int value = 0;
+	while(wp != NULL) {
+		value = expr(wp->str, &flag);
+		if (value != wp->last_value) {
+			printf("The \"%s\"'s value is changed!\n",wp->str);
+			wp->last_value = value;
+			*nemu_state = 0;
+		}
+		wp = wp->next;
+	}
+	if(*nemu_state == 0)print_wp(0);
+}
+
+#define DELETE 1
+
+void print_wp(int op) {
+	if (head == NULL) {
+		if (op != DELETE) printf("There is no watchpoint!\n");
+	} else {
+		WP *p = head;
+		while (p != NULL) {
+			printf(p->str[0] == '$'?
+					"#%d: %s = 0x%x\n":"#%d: %s = %d\n", p->NO, p->str, p->last_value);
+			p = p->next;
 		}
 	}
-	if(!found){
-		printf("No watchpoint number %d\n" , num_2_delete); 
-	}
-	return; 
 }
 
-void print_watchpoint_list(){
-	if(head->next==NULL){
-		printf("Empty watchpoint list\n"); 
-		return; 
-	}
-	WP* temp;
-	int count=0; 
-	for(temp=head->next; temp!=NULL; temp=temp->next){
-		printf("%d    watchpoint\t%s\n\tvalue %d  0x%x\n" , temp->NO , temp->expr , temp->old_value , temp->old_value); 	
-		count++; 
-	}
-	printf("\t%d watchpoint(s) active\n" , count); 
-	return; 
-}
-/* TODO: Implement the functionality of watchpoint */
-//unsigned int monitor_get_eip32(); 
-bool check_watchpoints(){
-	if(head->next==NULL)
-		return false; 
-	WP *temp;
-	int found=0;
-	bool success=true; 
-	for(temp=head->next; temp!=NULL; temp=temp->next){
-		uint32_t new_value = expr_cmd_x(temp->expr , &success);
-		//printf("expr is %s\n" , temp->expr); 
-		if(!success){
-			printf("Watchpoint %d in an invalid state\n" , temp->NO); 
-			continue; 
-		}
-		if(new_value!=temp->old_value){
-			printf("Watchpoint %d: %s\n\tOld value = %u\t0x%x\n\tNew value = %u\t0x%x\n" , temp->NO , temp->expr ,  temp->old_value  , temp->old_value, new_value , new_value); 
-			temp->old_value = new_value;
-			found=1; 
-		}
-	}
-	if(found){
-		printf("0x%x in nemu\n" , cpu.eip);
-	}
-#ifdef MZYDEBUG
-	printf("MZYDEBUG free_ is %p" , free_); 
-#endif
-	return found;
-}

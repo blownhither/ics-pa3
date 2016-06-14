@@ -4,8 +4,6 @@
 #include <stdio.h>
 #include <assert.h>
 
-//volatile static int dummy;
-
 extern FILE* log_fp;
 
 #ifdef LOG_FILE

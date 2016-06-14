@@ -15,5 +15,3 @@ Operands ops_decoded;
 #define DATA_BYTE 4
 #include "decode-template.h"
 #undef DATA_BYTE
-
-
