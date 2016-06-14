@@ -5,7 +5,6 @@ make_helper(exec);
 make_helper(rep) {
 	int len;
 	int count = 0;
-	bool repne_flag = (instr_fetch(eip,1)==0xf2);
 	if(instr_fetch(eip + 1, 1) == 0xc3) {
 		/* repz ret */
 		exec(eip + 1);
@@ -14,16 +13,8 @@ make_helper(rep) {
 	else {
 		while(cpu.ecx) {
 			exec(eip + 1);
-			//printf("rep executing opcode %x, ecx=%d\n", swaddr_read(eip+1,1), cpu.ecx);
 			count ++;
 			cpu.ecx --;
-/*
-			if(instr_fetch(eip,1) == 0xab || eflags.eflags.ZF) {
-				//printf("ZF!\n");			
-				break;
-
-			}
-*/
 			assert(ops_decoded.opcode == 0xa4	// movsb
 				|| ops_decoded.opcode == 0xa5	// movsw
 				|| ops_decoded.opcode == 0xaa	// stosb
@@ -35,22 +26,7 @@ make_helper(rep) {
 				);
 
 			/* TODO: Jump out of the while loop if necessary. */
-			
-			//REPE
-			if(!repne_flag && !eflags.eflags.ZF && 
-				(  ops_decoded.opcode == 0xa6 
-				|| ops_decoded.opcode == 0xa7 
-				|| ops_decoded.opcode == 0xae 
-				|| ops_decoded.opcode == 0xaf )
-			) break;
-				
-			//REPNE
-			if(repne_flag && eflags.eflags.ZF && 
-				(  ops_decoded.opcode == 0xa6 
-				|| ops_decoded.opcode == 0xa7 
-				|| ops_decoded.opcode == 0xae 
-				|| ops_decoded.opcode == 0xaf )
-			) break;
+
 		}
 		len = 1;
 	}
@@ -60,6 +36,5 @@ make_helper(rep) {
 	sprintf(temp, "rep %s", assembly);
 	sprintf(assembly, "%s[cnt = %d]", temp, count);
 #endif
-	
 	return len + 1;
 }
