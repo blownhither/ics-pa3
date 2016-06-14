@@ -54,6 +54,7 @@ static int find_filename(const char *s) {
 int fs_open(const char *pathname, int flags) {	/* 在我们的实现中可以忽略flags */
 	int i = find_filename(pathname);
 	state_array[i].opened = true;
+	state_array[i].offset = 0;
 	return i;	//used as fd
 }
 int fs_read(int fd, void *buf, int len) {
@@ -69,7 +70,7 @@ int fs_read(int fd, void *buf, int len) {
 int fs_write(int fd, void *buf, int len) {
 	if(!state_array[fd].opened) return -1;
 	assert(state_array[fd].offset + len < file_table[fd - 3].size);
-	ide_write(buf, state_array[fd].offset, len);
+	ide_write(buf, file_table[fd-3].disk_offset + state_array[fd].offset, len);
 	state_array[fd].offset += len;
 	return len;	
 }
