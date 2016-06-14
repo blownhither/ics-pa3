@@ -6,6 +6,6 @@ make_helper(iret) {
 	load_desc_cache(CS_NUM);
 	eflags.eflags_l = pop_stack_32();
 	print_asm("iret"); 
-	Log("cpu.eip=0x%x", cpu.eip);
+	//Log("cpu.eip=0x%x", cpu.eip);
 	return 1;
 }
