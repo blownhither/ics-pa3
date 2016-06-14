@@ -30,7 +30,7 @@ static void do_execute(){
 	cpu.esp -= 4;
 	int len = get_instr_len();
 	swaddr_write(cpu.esp, 4, cpu.eip + 1 + len);
-	Log("call rm push 0x%x, len=%d", cpu.eip+1+len,len);
+	if(len!=1)Log("call rm push 0x%x, len=%d", cpu.eip+1+len,len);
 #if DATA_BYTE == 2
 	Log("call rm data_byte == 2");
 	cpu.eip = op_src->val - len - 1; 
