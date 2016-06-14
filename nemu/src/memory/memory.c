@@ -75,7 +75,7 @@ uint32_t lnaddr_read(lnaddr_t addr, size_t len) {
 	hwaddr_t hwaddr;
 	if(!(cpu.cr0.PE && cpu.cr0.PG))
 		return hwaddr_read(addr, len);
-	if ( (addr & 0xfff) + len > limit ) { /*data cross the page boundary*/
+	if ( 0 ) { /*data cross the page boundary*/
 		/* this is a special case, you can handle it later. */
 		Log("Cross page read at 0x%x",addr);
 		uint32_t off = addr & 0xfff;
