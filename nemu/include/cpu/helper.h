@@ -23,7 +23,10 @@ static inline uint32_t instr_fetch(swaddr_t addr, size_t len) {
 }
 
 static int len;
-
+/* Thanks to akuxcw for inspiratoin!*/
+static inline int get_instr_len(){
+	return len;
+}
 /* Instruction Decode and EXecute */
 static inline int idex(swaddr_t eip, int (*decode)(swaddr_t), void (*execute) (void)) {
 	/* eip is pointing to the opcode */
@@ -33,10 +36,9 @@ static inline int idex(swaddr_t eip, int (*decode)(swaddr_t), void (*execute) (v
 	return len + 1;	// "1" for opcode
 }
 
-/* Thanks to akuxcw for inspiratoin!*/
-static inline int get_instr_len(){
-	return len;
-}
+
+
+
 
 static inline void push_stack_32(uint32_t val){
 	cpu.esp -= 4;
